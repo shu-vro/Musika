@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="keywords" content="Document" />
+        <meta name="description" content="Your Description..." />
+        <meta property="og:title" content="Musika" />
+        <meta
+            property="og:description"
+            content="Play your favorite music in the smart web application."
+        />
+        <meta property="og:image" content="resources/img/bg.jpg" />
+        <title>Document</title>
+        <link rel="stylesheet" href="resources/css/style.css" />
+        <link
+            rel="shortcut icon"
+            href="resources/img/favicon.ico"
+            type="image/x-icon"
+        />
+    </head>
+    <body>
+        <nav class="navigation">
+            <a href="#" class="logo ripple">Musika</a>
+            <input
+                type="file"
+                id="input_file"
+                accept="audio/*"
+                hidden
+                multiple
+            />
+            <ul>
+                <li class="ripple">
+                    <i class="icon fas fa-music"></i> <span>Playing</span>
+                </li>
+                <li class="ripple active">
+                    <i class="icon fas fa-stream"></i> <span>Play List</span>
+                </li>
+                <li class="ripple">
+                    <label for="input_file"
+                        ><i class="icon fas fa-book-medical"></i>
+                        <span>Add Songs</span></label
+                    >
+                </li>
+            </ul>
+            <i class="closeButton fas fa-arrow-alt-circle-left"></i>
+        </nav>
+
+        <div class="penegration">
+            <div class="music-title">
+                <div class="image">
+                    <img src="resources/img/disk.png" alt="Music" />
+                </div>
+                <div class="title">
+                    <h2>
+                        <span></span>
+                    </h2>
+                    <span>Unknown Artist</span>
+                </div>
+            </div>
+            <div class="controls">
+                <div class="progress-container">
+                    <input
+                        type="range"
+                        class="progress"
+                        min="0"
+                        max="100"
+                        value="0"
+                    />
+                    <div class="value-of-range">
+                        <div class="value">0</div>
+                    </div>
+                </div>
+                <div class="main-controls">
+                    <i
+                        class="ripple control-button prev fas fa-step-backward"
+                    ></i>
+                    <i class="ripple control-button play fas fa-play"></i>
+                    <i
+                        class="ripple control-button next fas fa-step-forward"
+                    ></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="music-list on">
+            <i class="play-floating-button">
+                <i class="fas fa-pause"></i>
+            </i>
+            <h1>Songs:</h1>
+            <ul>
+                <li
+                    style="
+                        background: rgba(197, 197, 197, 0.281);
+                        backdrop-filter: blur(10px);
+                    "
+                >
+                    <a href="#" class="ripple"
+                        ><span>Title</span><span>Size</span
+                        ><span>Date Downloaded</span></a
+                    >
+                </li>
+            </ul>
+        </div>
+        <div class="AV-player">
+            <canvas></canvas>
+            <div class="more-controls">
+                <i class="ripple shuffle fas fa-random"></i>
+                <i class="ripple repeat fas fa-retweet"></i>
+                <i class="ripple volume fas fa-volume-up">
+                    <div class="value-of-range"></div>
+                    <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="100"
+                        class="volume-range"
+                    />
+                </i>
+                <i class="ripple list-music fas fa-list-ul"></i>
+            </div>
+        </div>
+        <audio src="resources/audio/userScore.mp3"></audio>
+        <script src="resources/js/main.js"></script>
+    </body>
+</html>

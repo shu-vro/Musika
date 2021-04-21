@@ -1,0 +1,683 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", "Gill Sans", "Gill Sans MT", Calibri,
+        "Trebuchet MS", sans-serif;
+    font-weight: 500;
+    background: url("../img/bg.jpg") no-repeat center center;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+    display: block;
+    border-right: 2px solid rgba(255, 255, 255, 0.1);
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 3;
+}
+
+nav.active {
+    width: 65px;
+}
+
+nav.active ul li {
+    height: 40px;
+    font-size: 25px;
+}
+
+nav.active ul li span {
+    opacity: 0;
+    visibility: hidden;
+    transition-delay: 0s;
+}
+
+nav ul li span {
+    transition-delay: 0.3s;
+}
+
+nav .logo {
+    position: relative;
+    width: 100%;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 20px 0;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: "Zen Dots", cursive;
+}
+
+nav ul {
+    position: relative;
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    position: relative;
+    padding: 15px 20px;
+    margin-top: 15px;
+    color: white;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.089);
+    backdrop-filter: blur(20px);
+    cursor: pointer;
+    line-height: 40px;
+    border-radius: 15px;
+}
+
+nav ul li.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: dodgerblue;
+}
+
+nav ul li label {
+    position: relative;
+    display: block;
+    color: white;
+    cursor: pointer;
+}
+
+nav .closeButton {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    font-size: 35px;
+    color: white;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+nav .closeButton.active {
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+nav .closeButton::after {
+    content: "";
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    right: -7px;
+    bottom: -7px;
+    z-index: -1;
+    border-radius: 50%;
+    background: linear-gradient(-45deg, indigo, aqua);
+}
+
+nav li .icon {
+    width: 30px;
+    height: 30px;
+}
+
+.ripple {
+    overflow: hidden;
+}
+
+.ripple .rippled {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    user-select: none;
+    border-radius: 50%;
+    background: #fff;
+    animation: ripples 0.5s linear 0s infinite;
+}
+
+@keyframes ripples {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0.5;
+    }
+    100% {
+        width: 500px;
+        height: 500px;
+        opacity: 0;
+    }
+}
+
+.penegration {
+    position: fixed;
+    bottom: 0;
+    left: 200px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.151);
+    backdrop-filter: blur(10px);
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: calc(100% - 200px);
+    color: white;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    z-index: 3;
+}
+
+.penegration.active {
+    left: 65px;
+    width: calc(100% - 65px);
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.penegration .music-title {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.151);
+    backdrop-filter: blur(5px);
+    padding-right: 30px;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+}
+
+.penegration .music-title .image {
+    position: relative;
+    width: 90px;
+    height: 90px;
+}
+
+.penegration .music-title .image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.penegration .title h2 {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    height: 30px;
+    width: 150px;
+}
+
+.penegration .title h2 span {
+    position: relative;
+    white-space: nowrap;
+}
+
+.penegration .title h2.scroll span {
+    animation: title 10s linear 0s infinite forwards;
+}
+
+@keyframes title {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: -300%;
+    }
+}
+
+.penegration .controls {
+    position: relative;
+    height: 100%;
+    width: calc(100% - 300px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.penegration .controls .progress-container {
+    position: relative;
+    width: 90%;
+}
+
+.penegration .controls .progress {
+    position: relative;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 50px;
+    display: block;
+    background: #ccc;
+    margin-bottom: 20px;
+    outline: none;
+    overflow: hidden;
+    transition: 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.value-of-range {
+    position: absolute;
+    top: -130%;
+    border: 2px solid orangered;
+    transform: rotate(135deg) scale(0);
+    border-radius: 100px 0 100px 100px;
+    background: #fff;
+    color: orangered;
+    width: 35px;
+    height: 35px;
+    transition: transform 0.3s ease;
+}
+
+.progress:hover ~ .value-of-range {
+    transform: rotate(135deg) scale(1);
+}
+
+.value-of-range .value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-135deg);
+    text-align: center;
+}
+
+.penegration .controls .progress:hover {
+    height: 15px;
+}
+
+.penegration .controls .progress::-webkit-slider-thumb {
+    appearance: none;
+    height: 15px;
+    width: 15px;
+    background: dodgerblue;
+    border-radius: 50%;
+    cursor: ew-resize;
+    box-shadow: -1007.5px 0 0 1000px dodgerblue;
+}
+
+.penegration .controls .control-button {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    background: rgba(255, 255, 255, 0.164);
+}
+
+/* MUSIC LIST */
+.music-list {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 200px);
+    height: calc(100% - 100px);
+    background: rgba(0, 0, 0, 0.582);
+    backdrop-filter: blur(25px);
+    color: white;
+    overflow-y: scroll;
+    visibility: hidden;
+    transform: scale(0);
+    opacity: 0;
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.music-list.on {
+    visibility: visible;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.music-list::-webkit-scrollbar-thumb {
+    background-color: rgb(212, 0, 255);
+    background-image: -webkit-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.5) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0.5) 75%,
+        transparent 75%,
+        transparent
+    );
+    border-radius: 100px;
+}
+
+.music-list::-webkit-scrollbar {
+    background: transparent;
+    width: 10px;
+}
+
+.music-list h1 {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    background: rgba(139, 139, 139, 0.596);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.music-list ul {
+    position: relative;
+    padding: 0;
+    width: 100%;
+    list-style: none;
+}
+
+.music-list ul li {
+    color: #ccc;
+}
+
+.music-list ul li.playing {
+    color: #ff3b3b;
+}
+
+.music-list ul li a {
+    position: relative;
+    width: 90%;
+    margin: 15px auto;
+    height: 55px;
+    border-radius: 15px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    font-size: 20px;
+    color: inherit;
+}
+
+.music-list ul li a span {
+    margin: 0 20px;
+    overflow: hidden;
+    word-break: keep-all;
+    width: 25%;
+    font-size: 15px;
+}
+
+.music-list ul li a span:first-child {
+    font-size: 18px;
+    width: 50%;
+}
+
+.music-list .play-floating-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 30px;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    box-shadow: 8px 8px 15px black;
+    user-select: none;
+    pointer-events: none;
+    transition: 0.1s linear;
+}
+
+.music-list .play-floating-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2.5px dashed white;
+    animation: rotate360 5s linear 0s infinite forwards;
+}
+
+@keyframes rotate360 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.music-list .play-floating-button .fas {
+    transform: rotate(-45deg);
+}
+
+.music-list .play-floating-button.moving {
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+}
+
+.music-list {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 200px);
+    height: calc(100% - 100px);
+    background: rgba(0, 0, 0, 0.582);
+    backdrop-filter: blur(25px);
+    color: white;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.music-list.active,
+.AV-player.active {
+    width: calc(100% - 65px);
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.AV-player {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 200px);
+    height: calc(100% - 100px);
+    background: rgba(0, 0, 0, 0.582);
+    backdrop-filter: blur(25px);
+    color: white;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    z-index: 2;
+    transform-origin: center center;
+    visibility: hidden;
+    transform: scale(2);
+    opacity: 0;
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.AV-player.on {
+    visibility: visible;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.AV-player canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.AV-player .more-controls {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    height: 60px;
+    transform: translateX(-50%);
+    display: flex;
+    z-index: 2;
+}
+
+.AV-player .more-controls i {
+    position: relative;
+    flex-basis: 100%;
+    line-height: 60px;
+    font-size: 25px;
+    cursor: pointer;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-left: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+}
+
+.AV-player .more-controls .volume:hover .volume-range {
+    width: 100px;
+}
+
+.AV-player .more-controls .volume-range {
+    position: relative;
+    appearance: none;
+    width: 0px;
+    height: 8px;
+    border-radius: 50px;
+    display: inline-block;
+    background: #ccc;
+    outline: none;
+    overflow: hidden;
+    transition: 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.AV-player .more-controls .volume-range:hover {
+    height: 15px;
+}
+
+.AV-player .more-controls .volume-range::-webkit-slider-thumb {
+    appearance: none;
+    height: 15px;
+    width: 15px;
+    background: dodgerblue;
+    border-radius: 50%;
+    cursor: ew-resize;
+    box-shadow: -1007.5px 0 0 1000px dodgerblue;
+}
+
+.AV-player .more-controls .shuffle.active {
+    color: dodgerblue;
+}
+
+@media (max-width: 687px) {
+    nav {
+        top: inherit;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 150px;
+        border-top: 2px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    nav .logo {
+        position: absolute;
+        width: 200px;
+        height: 100px;
+        display: inline-block;
+        padding: 10px;
+        font-size: 1.5rem;
+    }
+
+    nav .closeButton {
+        display: none;
+    }
+
+    nav ul {
+        position: absolute;
+        bottom: 0;
+        margin: auto;
+        width: 100%;
+        display: flex;
+    }
+
+    nav ul > * {
+        flex-basis: 100%;
+    }
+
+    nav ul li {
+        position: relative;
+        padding: 15px 20px;
+        display: inline-block;
+        margin-top: 15px;
+        color: white;
+        cursor: pointer;
+        line-height: 40px;
+        text-align: center;
+    }
+
+    nav ul li.active::before {
+        content: "";
+        position: absolute;
+        top: inherit;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: dodgerblue;
+    }
+
+    nav ul li span {
+        display: block;
+        font-size: 15px;
+    }
+
+    .penegration {
+        bottom: 120px;
+        left: 0;
+        width: 100vw;
+        z-index: 3;
+    }
+
+    .music-list,
+    .AV-player {
+        width: 100%;
+        height: calc(100% - 230px);
+    }
+
+    .penegration .controls .control-button {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .penegration .music-title {
+        width: 140px;
+    }
+    .penegration .title h2 {
+        position: relative;
+        margin: 0;
+        overflow: hidden;
+        height: 30px;
+        width: 80px;
+    }
+
+    .penegration .controls {
+        width: calc(100% - 100px);
+    }
+}
+
+@media (max-width: 365px) {
+    nav ul li span {
+        display: none;
+    }
+}
