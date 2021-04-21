@@ -41,6 +41,10 @@ ripple_buttons.forEach((btn) => {
     });
 });
 
+if (music_array == []) {
+    alert("Upload Some Audio Now!");
+}
+
 // DRAGGING THE SLIDER AND THE TIME.
 function changeCurrentTime() {
     let minute = (progress.value / 60).toFixed(0);
