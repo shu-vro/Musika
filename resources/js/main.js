@@ -3,8 +3,8 @@ let ripple_buttons = document.querySelectorAll(".ripple"),
     nav_links = document.querySelectorAll("nav ul li"),
     closeButton = document.querySelector(".closeButton"),
     navigation = document.querySelector(".navigation"),
-    penegration = document.querySelector(".penegration"),
-    music_title = document.querySelector(".penegration .title h2"),
+    pagination = document.querySelector(".pagination"),
+    music_title = document.querySelector(".pagination .title h2"),
     music_list = document.querySelector(".music-list"),
     play_floating_button = document.querySelector(".play-floating-button"),
     AV_player = document.querySelector(".AV-player"),
@@ -20,7 +20,7 @@ let ripple_buttons = document.querySelectorAll(".ripple"),
     next_btn = document.querySelector(".next"),
     shuffle_btn = document.querySelector(".shuffle"),
     music_array = [],
-    backup_music_array = []; // Used for rearanging the music array after shuffling.
+    backup_music_array = []; // Used for rearranging the music array after shuffling.
 
 // RIPPLE BUTTON
 ripple_buttons.forEach((btn) => {
@@ -103,13 +103,13 @@ closeButton.addEventListener("click", () => {
     if (closeButton.classList.contains("active")) {
         closeButton.classList.remove("active");
         navigation.classList.remove("active");
-        penegration.classList.remove("active");
+        pagination.classList.remove("active");
         music_list.classList.remove("active");
         AV_player.classList.remove("active");
     } else {
         closeButton.classList.add("active");
         navigation.classList.add("active");
-        penegration.classList.add("active");
+        pagination.classList.add("active");
         music_list.classList.add("active");
         AV_player.classList.add("active");
     }
@@ -225,7 +225,7 @@ input_file.addEventListener("change", () => {
     }, 500);
 });
 
-// PENEGRATION FUNCTION
+// pagination FUNCTION
 function LoadMusic(music_index) {
     music_title.querySelector("span").textContent = music_array[music_index][0];
     audio.src = music_array[music_index][3];

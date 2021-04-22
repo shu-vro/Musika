@@ -163,7 +163,7 @@ nav li .icon {
     }
 }
 
-.penegration {
+.pagination {
     position: fixed;
     bottom: 0;
     left: 200px;
@@ -182,13 +182,13 @@ nav li .icon {
     z-index: 3;
 }
 
-.penegration.active {
+.pagination.active {
     left: 65px;
     width: calc(100% - 65px);
     transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.penegration .music-title {
+.pagination .music-title {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -199,13 +199,13 @@ nav li .icon {
     border-bottom-right-radius: 100px;
 }
 
-.penegration .music-title .image {
+.pagination .music-title .image {
     position: relative;
     width: 90px;
     height: 90px;
 }
 
-.penegration .music-title .image img {
+.pagination .music-title .image img {
     position: absolute;
     top: 0;
     left: 0;
@@ -214,20 +214,21 @@ nav li .icon {
     object-fit: contain;
 }
 
-.penegration .title h2 {
+.pagination .title h2 {
     position: relative;
     margin: 0;
     overflow: hidden;
     height: 30px;
     width: 150px;
+    white-space: nowrap;
 }
 
-.penegration .title h2 span {
+.pagination .title h2 span {
     position: relative;
     white-space: nowrap;
 }
 
-.penegration .title h2.scroll span {
+.pagination .title h2.scroll span {
     animation: title 10s linear 0s infinite forwards;
 }
 
@@ -240,7 +241,7 @@ nav li .icon {
     }
 }
 
-.penegration .controls {
+.pagination .controls {
     position: relative;
     height: 100%;
     width: calc(100% - 300px);
@@ -250,12 +251,12 @@ nav li .icon {
     flex-direction: column;
 }
 
-.penegration .controls .progress-container {
+.pagination .controls .progress-container {
     position: relative;
     width: 90%;
 }
 
-.penegration .controls .progress {
+.pagination .controls .progress {
     position: relative;
     appearance: none;
     width: 100%;
@@ -294,11 +295,11 @@ nav li .icon {
     text-align: center;
 }
 
-.penegration .controls .progress:hover {
+.pagination .controls .progress:hover {
     height: 15px;
 }
 
-.penegration .controls .progress::-webkit-slider-thumb {
+.pagination .controls .progress::-webkit-slider-thumb {
     appearance: none;
     height: 15px;
     width: 15px;
@@ -308,7 +309,7 @@ nav li .icon {
     box-shadow: -1007.5px 0 0 1000px dodgerblue;
 }
 
-.penegration .controls .control-button {
+.pagination .controls .control-button {
     position: relative;
     width: 50px;
     height: 50px;
@@ -399,6 +400,7 @@ nav li .icon {
     align-items: center;
     text-decoration: none;
     font-size: 20px;
+    white-space: nowrap;
     color: inherit;
 }
 
@@ -641,7 +643,7 @@ nav li .icon {
         font-size: 15px;
     }
 
-    .penegration {
+    .pagination {
         bottom: 120px;
         left: 0;
         width: 100vw;
@@ -651,19 +653,19 @@ nav li .icon {
     .music-list,
     .AV-player {
         width: 100%;
-        height: calc(100% - 230px);
+        height: calc(100% - 225px);
     }
 
-    .penegration .controls .control-button {
+    .pagination .controls .control-button {
         width: 40px;
         height: 40px;
         line-height: 40px;
     }
 
-    .penegration .music-title {
+    .pagination .music-title {
         width: 140px;
     }
-    .penegration .title h2 {
+    .pagination .title h2 {
         position: relative;
         margin: 0;
         overflow: hidden;
@@ -671,7 +673,7 @@ nav li .icon {
         width: 80px;
     }
 
-    .penegration .controls {
+    .pagination .controls {
         width: calc(100% - 100px);
     }
 }
@@ -679,5 +681,72 @@ nav li .icon {
 @media (max-width: 365px) {
     nav ul li span {
         display: none;
+    }
+
+    .pagination {
+        bottom: 78px;
+        justify-content: space-around;
+        flex-direction: column;
+    }
+
+    .music-list,
+    .AV-player {
+        width: 100%;
+        height: calc(100% - 183px);
+    }
+
+    .pagination .music-title {
+        width: 100%;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.05);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .pagination .music-title .image {
+        float: left;
+        width: 50px;
+        height: 50px;
+    }
+
+    .pagination .title h2 {
+        position: relative;
+        margin: 0;
+        font-size: 20px;
+        overflow: hidden;
+        height: 30px;
+        width: calc(100vw - 100px);
+    }
+
+    .pagination .title h2.scroll span {
+        animation: none;
+    }
+
+    .pagination .controls .progress-container {
+        position: relative;
+        width: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pagination .controls .progress {
+        margin-bottom: 10px;
+    }
+
+    .pagination .controls .main-controls {
+        position: relative;
+        width: 100vw;
+        text-align: center;
+    }
+
+    .AV-player .more-controls {
+        height: 30px;
+    }
+
+    .AV-player .more-controls i {
+        line-height: 30px;
+        font-size: 18px;
     }
 }
