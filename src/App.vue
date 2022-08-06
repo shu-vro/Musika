@@ -1,17 +1,41 @@
 <template>
-    <NavBar />
-    <PagiNation />
-    <MainBody />
+    <navigation-panel></navigation-panel>
+    <control-panel></control-panel>
+    <main-body></main-body>
 </template>
 
 <script lang="ts" setup>
-import NavBar from "@/components/NavBar.vue";
-import PagiNation from "@/components/PagiNation.vue";
+import NavigationPanel from "@/components/Navigation/navigation-panel.vue";
+import ControlPanel from "@/components/control-panel.vue";
 import MainBody from "@/components/MainBody.vue";
+</script>
+
+<script lang="ts">
+export default {
+    mounted() {
+        let ripples = document.querySelectorAll<HTMLElement>(".ripple");
+        ripples.forEach(r => {
+            let parentX = r.getBoundingClientRect().x;
+            let parentY = r.getBoundingClientRect().y;
+
+            let parentWidth = r.getBoundingClientRect().width;
+            let parentHeight = r.getBoundingClientRect().height;
+            let size = Math.hypot(parentWidth, parentHeight) * 2;
+            r.style.setProperty('--size', size + 'px');
+            r.addEventListener('mousemove', (e: MouseEvent) => {
+                let x = e.clientX - parentX;
+                let y = e.clientY - parentY;
+                r.style.setProperty('--x', x + 'px');
+                r.style.setProperty('--y', y + 'px');
+            });
+        });
+    },
+}
 </script>
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 html {
     scroll-behavior: smooth;
 }
@@ -22,5 +46,36 @@ body {
     box-sizing: border-box;
     font-family: "Montserrat", "Gill Sans", "Gill Sans MT", Calibri,
         "Trebuchet MS", sans-serif;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background: url("assets/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    --theme: dodgerblue;
+}
+
+.ripple {
+    overflow: hidden;
+    position: relative;
+
+    &::before {
+        $seconds: .25s;
+        content: '';
+        position: absolute;
+        top: var(--y);
+        left: var(--x);
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        width: 0;
+        height: 0;
+        background: rgba($color: #ffffff, $alpha: .3);
+        z-index: -1;
+        transition: width $seconds ease-out, height $seconds ease-out;
+    }
+
+    &:hover::before {
+        width: var(--size);
+        height: var(--size);
+    }
 }
 </style>

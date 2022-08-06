@@ -1,0 +1,224 @@
+<template lang="html">
+    <div class="nav" :class="{ shrink: shrink }">
+        <a href="/" class="logo">MUSIKA</a>
+        <input type="file" id="input_file" accept="audio/*" hidden multiple />
+        <button class="closeButton" @click="handleClose">
+            <hamburger-button :class="{ opened: shrink }"></hamburger-button>
+        </button>
+        <ul>
+            <li class="ripple">
+                <v-icon name="bi-music-note-list" scale="1.5"></v-icon>
+                <span>Playing</span>
+            </li>
+            <li class="ripple active">
+                <v-icon name="gi-bookshelf" scale="1.5"></v-icon>
+                <span>Play List</span>
+            </li>
+            <li class="ripple">
+                <label for="input_file">
+                    <v-icon name="co-playlist-add" scale="1.5"></v-icon>
+                    <span>Add Songs</span>
+                </label>
+            </li>
+        </ul>
+    </div>
+</template>
+<script setup lang="ts">
+import { ref } from "vue";
+import hamburgerButton from "./hamburger-button.vue";
+
+const shrink = ref(false);
+
+function handleClose() {
+    shrink.value = !shrink.value;
+}
+</script>
+<style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
+
+div.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+    display: block;
+    overflow: hidden;
+    border-right: 2px solid rgba(255, 255, 255, 0.1);
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 3;
+
+    .closeButton {
+        border: none;
+        background: none;
+        outline: none;
+        cursor: pointer;
+        color: white;
+        width: 60px;
+    }
+
+    &.shrink {
+        width: 65px;
+
+        & ul {
+            li {
+                height: 40px;
+                font-size: 25px;
+
+                span {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .logo {
+        position: relative;
+        width: 100%;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 20px 0;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        font-family: "Zen Dots", cursive;
+    }
+
+    ul {
+        position: relative;
+        list-style: none;
+        padding: 0;
+
+        li {
+            position: relative;
+            padding: 10px;
+            margin-top: 15px;
+            color: white;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.089);
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+            line-height: 40px;
+            border-radius: 15px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+
+            span {
+                margin-left: 10px;
+                transition-delay: 0.3s;
+                display: inline-block;
+                text-overflow: ellipsis;
+                // width: 200px;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
+            label {
+                position: relative;
+                display: block;
+                color: white;
+                cursor: pointer;
+                display: flex;
+                justify-content: left;
+                align-items: center;
+            }
+
+            &.active::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 6px;
+                height: 100%;
+                background: var(--theme);
+            }
+        }
+    }
+}
+
+@media (max-width: 687px) {
+    div.nav {
+        top: inherit;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        border: none;
+        background: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        .logo {
+            display: none;
+        }
+
+        .closeButton {
+            display: none;
+        }
+
+        ul {
+            position: absolute;
+            bottom: 0;
+            margin: auto;
+            width: 100%;
+            height: 80px;
+            display: flex;
+
+            &>* {
+                flex-basis: 100%;
+            }
+
+            li {
+                position: relative;
+                padding: 0;
+                display: inline-block;
+                color: white;
+                cursor: pointer;
+                line-height: 40px;
+                text-align: center;
+                border-radius: 15px;
+                margin: 0;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+
+                &.active::after {
+                    content: "";
+                    position: absolute;
+                    top: inherit;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 6px;
+                    background: var(--theme);
+                }
+
+                span {
+                    display: block;
+                    font-size: 15px;
+                    margin: 0;
+                }
+
+                label {
+                    flex-direction: column;
+                    line-height: 40px;
+                    display: block;
+                    margin: auto 0;
+
+                    span {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+</style>
