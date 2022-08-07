@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="nav" :class="{ shrink: shrink }">
         <a href="/" class="logo">MUSIKA</a>
-        <input type="file" id="input_file" accept="audio/*" hidden multiple />
+        <input type="file" accept="audio/*" ref="input_file" hidden multiple />
         <button class="closeButton" @click="handleClose">
             <hamburger-button :class="{ opened: shrink }"></hamburger-button>
         </button>
@@ -14,11 +14,9 @@
                 <v-icon name="gi-bookshelf" scale="1.5"></v-icon>
                 <span>Play List</span>
             </li>
-            <li class="ripple">
-                <label for="input_file">
-                    <v-icon name="co-playlist-add" scale="1.5"></v-icon>
-                    <span>Add Songs</span>
-                </label>
+            <li class="ripple" @click="handlePickFile">
+                <v-icon name="co-playlist-add" scale="1.5"></v-icon>
+                <span>Add Songs</span>
             </li>
         </ul>
     </div>
@@ -28,9 +26,14 @@ import { ref } from "vue";
 import hamburgerButton from "./hamburger-button.vue";
 
 const shrink = ref(false);
+const input_file = ref<HTMLInputElement>()
 
 function handleClose() {
     shrink.value = !shrink.value;
+}
+
+function handlePickFile() {
+    input_file.value?.click();
 }
 </script>
 <style lang="scss" scoped>
@@ -85,6 +88,11 @@ div.nav {
         font-size: 2rem;
         font-weight: bold;
         font-family: "Zen Dots", cursive;
+        background: linear-gradient(90deg, #ff0077, #333399);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
     }
 
     ul {
@@ -118,16 +126,6 @@ div.nav {
                 // width: 200px;
                 white-space: nowrap;
                 overflow: hidden;
-            }
-
-            label {
-                position: relative;
-                display: block;
-                color: white;
-                cursor: pointer;
-                display: flex;
-                justify-content: left;
-                align-items: center;
             }
 
             &.active::after {
@@ -205,17 +203,6 @@ div.nav {
                     display: block;
                     font-size: 15px;
                     margin: 0;
-                }
-
-                label {
-                    flex-direction: column;
-                    line-height: 40px;
-                    display: block;
-                    margin: auto 0;
-
-                    span {
-                        width: 100%;
-                    }
                 }
             }
         }

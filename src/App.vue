@@ -6,11 +6,12 @@
 
 <script lang="ts" setup>
 import NavigationPanel from "@/components/Navigation/navigation-panel.vue";
-import ControlPanel from "@/components/control-panel.vue";
+import ControlPanel from "@/components/Control/control-panel.vue";
 import MainBody from "@/components/MainBody.vue";
 </script>
 
 <script lang="ts">
+
 export default {
     mounted() {
         let ripples = document.querySelectorAll<HTMLElement>(".ripple");
@@ -28,6 +29,16 @@ export default {
                 r.style.setProperty('--x', x + 'px');
                 r.style.setProperty('--y', y + 'px');
             });
+
+            r.addEventListener('click', (e: MouseEvent) => {
+                let span = document.createElement('span');
+                span.classList.add('ripple-effect');
+                r.appendChild(span);
+
+                setTimeout(() => {
+                    span.remove();
+                }, 250);
+            })
         });
     },
 }
@@ -52,6 +63,7 @@ body {
     background: url("assets/bg.jpg") no-repeat center center fixed;
     background-size: cover;
     --theme: dodgerblue;
+    color: #f2f4f7;
 }
 
 .ripple {
@@ -76,6 +88,32 @@ body {
     &:hover::before {
         width: var(--size);
         height: var(--size);
+    }
+
+    .ripple-effect {
+        position: absolute;
+        top: var(--y);
+        left: var(--x);
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba($color: #ffffff, $alpha: .5);
+        animation: ripple 250ms linear 0s 1 forwards;
+
+        @keyframes ripple {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                width: var(--size);
+                height: var(--size);
+                opacity: 0;
+            }
+        }
     }
 }
 </style>
