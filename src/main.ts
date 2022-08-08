@@ -12,6 +12,8 @@ import {
     FaBars,
     BiHeart,
     BiHeartFill,
+    BiShuffle,
+    RiRepeat2Fill
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -23,7 +25,9 @@ addIcons(
     GiBookshelf,
     FaBars,
     BiHeart,
-    BiHeartFill
+    BiHeartFill,
+    BiShuffle,
+    RiRepeat2Fill
 );
 const app = createApp(App);
 app.component("v-icon", OhVueIcon);

@@ -8,40 +8,36 @@
 import NavigationPanel from "@/components/Navigation/navigation-panel.vue";
 import ControlPanel from "@/components/Control/control-panel.vue";
 import MainBody from "@/components/MainBody.vue";
-</script>
+import { onMounted } from "vue";
 
-<script lang="ts">
+onMounted(() => {
+    let ripples = document.querySelectorAll<HTMLElement>(".ripple");
+    ripples.forEach(r => {
+        let parentX = r.getBoundingClientRect().x;
+        let parentY = r.getBoundingClientRect().y;
 
-export default {
-    mounted() {
-        let ripples = document.querySelectorAll<HTMLElement>(".ripple");
-        ripples.forEach(r => {
-            let parentX = r.getBoundingClientRect().x;
-            let parentY = r.getBoundingClientRect().y;
-
-            let parentWidth = r.getBoundingClientRect().width;
-            let parentHeight = r.getBoundingClientRect().height;
-            let size = Math.hypot(parentWidth, parentHeight) * 2;
-            r.style.setProperty('--size', size + 'px');
-            r.addEventListener('mousemove', (e: MouseEvent) => {
-                let x = e.clientX - parentX;
-                let y = e.clientY - parentY;
-                r.style.setProperty('--x', x + 'px');
-                r.style.setProperty('--y', y + 'px');
-            });
-
-            r.addEventListener('click', (e: MouseEvent) => {
-                let span = document.createElement('span');
-                span.classList.add('ripple-effect');
-                r.appendChild(span);
-
-                setTimeout(() => {
-                    span.remove();
-                }, 250);
-            })
+        let parentWidth = r.getBoundingClientRect().width;
+        let parentHeight = r.getBoundingClientRect().height;
+        let size = Math.hypot(parentWidth, parentHeight) * 2;
+        r.style.setProperty('--size', size + 'px');
+        r.addEventListener('mousemove', (e: MouseEvent) => {
+            let x = e.clientX - parentX;
+            let y = e.clientY - parentY;
+            r.style.setProperty('--x', x + 'px');
+            r.style.setProperty('--y', y + 'px');
         });
-    },
-}
+
+        r.addEventListener('click', (e: MouseEvent) => {
+            let span = document.createElement('span');
+            span.classList.add('ripple-effect');
+            r.appendChild(span);
+
+            setTimeout(() => {
+                span.remove();
+            }, 250);
+        })
+    });
+});
 </script>
 
 <style lang="scss">
@@ -64,6 +60,7 @@ body {
     background-size: cover;
     --theme: dodgerblue;
     color: #f2f4f7;
+    accent-color: var(--theme);
 }
 
 .ripple {
@@ -115,5 +112,12 @@ body {
             }
         }
     }
+}
+
+button {
+    cursor: pointer;
+    background: none;
+    color: inherit;
+    border: none;
 }
 </style>
