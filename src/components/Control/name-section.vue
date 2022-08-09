@@ -1,6 +1,6 @@
 <template
 >
-    <div>
+    <div class="name-section">
         <img :src=trackImage alt="">
         <div class="details">
             <h3>{{ trackName }}</h3>
@@ -32,7 +32,7 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-div {
+.name-section {
     display: flex;
     align-items: center;
 

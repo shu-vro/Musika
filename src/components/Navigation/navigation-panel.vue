@@ -64,10 +64,9 @@ div.nav {
     &.shrink {
         width: 65px;
 
-        & ul {
+        ul {
             li {
                 height: 40px;
-                font-size: 25px;
 
                 span {
                     display: none;
@@ -104,7 +103,6 @@ div.nav {
             position: relative;
             padding: 10px;
             margin-top: 15px;
-            color: white;
             border-top: 2px solid rgba(255, 255, 255, 0.2);
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.089);
@@ -146,7 +144,7 @@ div.nav {
         top: inherit;
         bottom: 0;
         left: 0;
-        width: 100%;
+        width: 100% !important;
         height: 80px;
         border: none;
         background: transparent;
@@ -154,6 +152,20 @@ div.nav {
         justify-content: center;
         align-items: center;
         flex-direction: column;
+
+        &.shrink {
+            width: 100%;
+
+            ul {
+                li {
+                    height: 100%;
+
+                    span {
+                        display: block;
+                    }
+                }
+            }
+        }
 
         .logo {
             display: none;
@@ -171,7 +183,7 @@ div.nav {
             height: 80px;
             display: flex;
 
-            &>* {
+            & > * {
                 flex-basis: 100%;
             }
 

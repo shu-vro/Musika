@@ -19,23 +19,27 @@ onMounted(() => {
         let parentWidth = r.getBoundingClientRect().width;
         let parentHeight = r.getBoundingClientRect().height;
         let size = Math.hypot(parentWidth, parentHeight) * 2;
-        r.style.setProperty('--size', size + 'px');
-        r.addEventListener('mousemove', (e: MouseEvent) => {
+        r.style.setProperty("--size", size + "px");
+        r.addEventListener("mousemove", (e: MouseEvent) => {
             let x = e.clientX - parentX;
             let y = e.clientY - parentY;
-            r.style.setProperty('--x', x + 'px');
-            r.style.setProperty('--y', y + 'px');
+            r.style.setProperty("--x", x + "px");
+            r.style.setProperty("--y", y + "px");
         });
 
-        r.addEventListener('click', (e: MouseEvent) => {
-            let span = document.createElement('span');
-            span.classList.add('ripple-effect');
+        r.addEventListener("click", (e: MouseEvent) => {
+            let x = e.clientX - parentX;
+            let y = e.clientY - parentY;
+            r.style.setProperty("--x", x + "px");
+            r.style.setProperty("--y", y + "px");
+            let span = document.createElement("span");
+            span.classList.add("ripple-effect");
             r.appendChild(span);
 
             setTimeout(() => {
                 span.remove();
             }, 250);
-        })
+        });
     });
 });
 </script>
@@ -59,7 +63,8 @@ body {
     background: url("assets/bg.jpg") no-repeat center center fixed;
     background-size: cover;
     --theme: dodgerblue;
-    color: #f2f4f7;
+    --color: #f2f4f7;
+    color: var(--color);
     accent-color: var(--theme);
 }
 
@@ -68,8 +73,8 @@ body {
     position: relative;
 
     &::before {
-        $seconds: .25s;
-        content: '';
+        $seconds: 0.25s;
+        content: "";
         position: absolute;
         top: var(--y);
         left: var(--x);
@@ -77,7 +82,7 @@ body {
         border-radius: 50%;
         width: 0;
         height: 0;
-        background: rgba($color: #ffffff, $alpha: .3);
+        background: rgba($color: #ffffff, $alpha: 0.3);
         z-index: -1;
         transition: width $seconds ease-out, height $seconds ease-out;
     }
@@ -95,7 +100,7 @@ body {
         width: 0;
         height: 0;
         border-radius: 50%;
-        background: rgba($color: #ffffff, $alpha: .5);
+        background: rgba($color: #ffffff, $alpha: 0.5);
         animation: ripple 250ms linear 0s 1 forwards;
 
         @keyframes ripple {

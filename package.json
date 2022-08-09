@@ -13,6 +13,7 @@
     "dependencies": {
         "core-js": "^3.8.3",
         "jsmediatags": "^3.9.7",
+        "lyrics-finder": "^21.7.0",
         "oh-vue-icons": "^1.0.0-rc3",
         "register-service-worker": "^1.7.2",
         "vue": "^3.2.13"

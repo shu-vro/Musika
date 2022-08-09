@@ -25,4 +25,13 @@ import VolumeSection from "./volume-section.vue";
     justify-content: space-between;
     align-items: center;
 }
+
+@media (max-width: 687px) {
+    .controls {
+        bottom: 80px;
+    }
+    div.name-section {
+        display: none;
+    }
+}
 </style>

@@ -13,7 +13,10 @@ import {
     BiHeart,
     BiHeartFill,
     BiShuffle,
-    RiRepeat2Fill
+    RiRepeat2Fill,
+    BiVolumeUpFill,
+    IoPause,
+    MdLyricsOutlined,
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -27,7 +30,10 @@ addIcons(
     BiHeart,
     BiHeartFill,
     BiShuffle,
-    RiRepeat2Fill
+    RiRepeat2Fill,
+    BiVolumeUpFill,
+    IoPause,
+    MdLyricsOutlined,
 );
 const app = createApp(App);
 app.component("v-icon", OhVueIcon);

@@ -1,39 +1,44 @@
 <template>
     <div class="control-section">
         <div class="control-buttons">
+            <button class="ripple button repeat">
+                <v-icon :name="RiRepeat2Fill.name" scale="1.5"></v-icon>
+            </button>
+            <button class="ripple button prev">
+                <v-icon :name="MdSkippreviousRound.name" scale="1.5"></v-icon>
+            </button>
+            <button class="ripple button play">
+                <v-icon :name="paused ? BiPlayFill.name : IoPause.name" scale="3" @click="toggleMusicState"></v-icon>
+            </button>
+            <button class="ripple button next">
+                <v-icon :name="MdSkipnextRound.name" scale="1.5"></v-icon>
+            </button>
 
-            <button class="button repeat">
-                <v-icon :name=RiRepeat2Fill.name scale="1.5"></v-icon>
-            </button>
-            <button class="button prev">
-                <v-icon :name=MdSkippreviousRound.name scale="1.5"></v-icon>
-            </button>
-            <button class="button play">
-                <v-icon :name=BiPlayFill.name scale="3"></v-icon>
-            </button>
-            <button class="button next">
-                <v-icon :name=MdSkipnextRound.name scale="1.5"></v-icon>
-            </button>
-
-            <button class="button shuffle">
-                <v-icon :name=BiShuffle.name scale="1.5"></v-icon>
+            <button class="ripple button shuffle">
+                <v-icon :name="BiShuffle.name" scale="1.5"></v-icon>
             </button>
         </div>
         <div class="ladder">
             <span>0:30</span>
-            <input
-                type="range"
-                class="progress"
-                min="0"
-                max="100"
-                value="0" 
-            />
+            <input type="range" class="progress" min="0" max="100" value="0" />
             <span>3:00</span>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-import {MdSkippreviousRound, MdSkipnextRound, BiPlayFill, BiShuffle, RiRepeat2Fill} from 'oh-vue-icons/icons'
+import {
+    MdSkippreviousRound,
+    MdSkipnextRound,
+    BiPlayFill,
+    BiShuffle,
+    RiRepeat2Fill,
+    IoPause
+} from "oh-vue-icons/icons";
+import {ref} from 'vue'
+let paused = ref(true);
+function toggleMusicState() {
+    paused.value= !paused.value;
+}
 </script>
 
 <style lang="scss" scoped>
@@ -51,15 +56,18 @@ import {MdSkippreviousRound, MdSkipnextRound, BiPlayFill, BiShuffle, RiRepeat2Fi
         @include flex-center();
         flex-direction: row;
 
-        button {
+        .button {
             outline: var(--theme);
-        }    
+            border-radius: 50%;
+            padding: 5px;
+            margin: 2px 5px;
+        }
     }
 
     .ladder {
         @include flex-center();
         flex-direction: row;
-        width: 100%;
+        width: min(100%, 550px);
 
         span {
             margin: 0 10px;
@@ -72,25 +80,35 @@ import {MdSkippreviousRound, MdSkipnextRound, BiPlayFill, BiShuffle, RiRepeat2Fi
             height: 8px;
             border-radius: 50px;
             display: block;
-            background: #ccc;
+            background: var(--color);
             outline: none;
             overflow: hidden;
             transition: 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-            &::-webkit-slider-thumb{
+            &::-webkit-slider-thumb {
                 appearance: none;
                 height: 15px;
                 width: 15px;
-                background: dodgerblue;
+                background: var(--theme);
                 border-radius: 50%;
                 cursor: ew-resize;
-                box-shadow: -1007.5px 0 0 1000px dodgerblue;
+                box-shadow: -1007.5px 0 0 1000px var(--theme);
             }
 
             &:hover {
                 height: 15px;
             }
+        }
+    }
+}
 
+@media (max-width: 367px) {
+    .control-section {
+        .control-buttons {
+            .button {
+                padding: 1px;
+                margin: 0;
+            }
         }
     }
 }
