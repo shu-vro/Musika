@@ -27,7 +27,7 @@ onMounted(() => {
             r.style.setProperty("--y", y + "px");
         });
 
-        r.addEventListener("click", (e: MouseEvent) => {
+        r.addEventListener("mousedown", (e: MouseEvent) => {
             let x = e.clientX - parentX;
             let y = e.clientY - parentY;
             r.style.setProperty("--x", x + "px");
@@ -38,7 +38,7 @@ onMounted(() => {
 
             setTimeout(() => {
                 span.remove();
-            }, 250);
+            }, 500);
         });
     });
 });
@@ -82,7 +82,7 @@ body {
         border-radius: 50%;
         width: 0;
         height: 0;
-        background: rgba($color: #ffffff, $alpha: 0.3);
+        background: rgba($color: #ffffff, $alpha: 0.2);
         z-index: -1;
         transition: width $seconds ease-out, height $seconds ease-out;
     }
@@ -101,13 +101,19 @@ body {
         height: 0;
         border-radius: 50%;
         background: rgba($color: #ffffff, $alpha: 0.5);
-        animation: ripple 250ms linear 0s 1 forwards;
+        animation: ripple 500ms linear 0s 1 forwards;
 
         @keyframes ripple {
             0% {
                 width: 0;
                 height: 0;
                 opacity: 1;
+            }
+
+            50% {
+                width: var(--size);
+                height: var(--size);
+                opacity: .5;
             }
 
             100% {

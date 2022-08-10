@@ -1,14 +1,14 @@
 <template>
     <div class="control-section">
         <div class="control-buttons">
-            <button class="ripple button repeat">
+            <button class="ripple button repeat" v-tooltip="'This button deletes our universe'">
                 <v-icon :name="RiRepeat2Fill.name" scale="1.5"></v-icon>
             </button>
             <button class="ripple button prev">
                 <v-icon :name="MdSkippreviousRound.name" scale="1.5"></v-icon>
             </button>
-            <button class="ripple button play">
-                <v-icon :name="paused ? BiPlayFill.name : IoPause.name" scale="3" @click="toggleMusicState"></v-icon>
+            <button class="ripple button play" @click="toggleMusicState">
+                <v-icon :name="paused ? BiPlayFill.name : IoPause.name" scale="3"></v-icon>
             </button>
             <button class="ripple button next">
                 <v-icon :name="MdSkipnextRound.name" scale="1.5"></v-icon>
