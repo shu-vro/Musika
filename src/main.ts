@@ -35,10 +35,6 @@ addIcons(
     IoPause,
     MdLyricsOutlined
 );
-// @ts-ignore
-import vTooltip from './assets/tooltip.js'
-import './assets/tooltip.css'
 const app = createApp(App);
-app.directive("tooltip", vTooltip);
 app.component("v-icon", OhVueIcon);
 app.mount("#app");
