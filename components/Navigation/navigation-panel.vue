@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
     <div class="nav" :class="{ shrink: shrink }">
         <a href="/" class="logo">MUSIKA</a>
         <input type="file" accept="audio/*" ref="input_file" hidden multiple />
@@ -183,7 +183,7 @@ div.nav {
             height: 80px;
             display: flex;
 
-            & > * {
+            &>* {
                 flex-basis: 100%;
             }
 

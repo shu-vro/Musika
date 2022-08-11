@@ -1,7 +1,7 @@
-<template
->
+<template>
     <div class="name-section">
-        <img :src=trackImage alt="">
+
+        <img :src="'~/../../assets/disk.png'" alt="">
         <div class="details">
             <h3>{{ trackName }}</h3>
             <p>{{ artist }}</p>
@@ -12,6 +12,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 let lovedName = ref('bi-heart')
+
 defineProps({
     trackName: {
         type: String,
@@ -22,7 +23,7 @@ defineProps({
         default: "artist name",
     },
     trackImage: {
-        default: require(`../../assets/disk.png`),
+        default: '~/../../assets/disk.png',
     },
     loved: {
         type: Boolean,

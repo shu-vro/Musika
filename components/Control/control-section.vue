@@ -1,21 +1,21 @@
 <template>
     <div class="control-section">
         <div class="control-buttons">
-            <button class="ripple button repeat" v-tooltip="'This button deletes our universe'">
-                <v-icon :name="RiRepeat2Fill.name" scale="1.5"></v-icon>
+            <button class="ripple button repeat">
+                <!-- <v-icon :name="RiRepeat2Fill.name" scale="1.5"></v-icon> -->
             </button>
             <button class="ripple button prev">
-                <v-icon :name="MdSkippreviousRound.name" scale="1.5"></v-icon>
+                <!-- <v-icon :name="MdSkippreviousRound.name" scale="1.5"></v-icon> -->
             </button>
             <button class="ripple button play" @click="toggleMusicState">
-                <v-icon :name="paused ? BiPlayFill.name : IoPause.name" scale="3"></v-icon>
+                <!-- <v-icon :name="paused ? BiPlayFill.name : IoPause.name" scale="3"></v-icon> -->
             </button>
             <button class="ripple button next">
-                <v-icon :name="MdSkipnextRound.name" scale="1.5"></v-icon>
+                <!-- <v-icon :name="MdSkipnextRound.name" scale="1.5"></v-icon> -->
             </button>
 
             <button class="ripple button shuffle">
-                <v-icon :name="BiShuffle.name" scale="1.5"></v-icon>
+                <!-- <v-icon :name="BiShuffle.name" scale="1.5"></v-icon> -->
             </button>
         </div>
         <div class="ladder">
@@ -26,18 +26,18 @@
     </div>
 </template>
 <script lang="ts" setup>
-import {
-    MdSkippreviousRound,
-    MdSkipnextRound,
-    BiPlayFill,
-    BiShuffle,
-    RiRepeat2Fill,
-    IoPause
-} from "oh-vue-icons/icons";
-import {ref} from 'vue'
+// import {
+//     MdSkippreviousRound,
+//     MdSkipnextRound,
+//     BiPlayFill,
+//     BiShuffle,
+//     RiRepeat2Fill,
+//     IoPause
+// } from "oh-vue-icons/icons";
+import { ref } from 'vue'
 let paused = ref(true);
 function toggleMusicState() {
-    paused.value= !paused.value;
+    paused.value = !paused.value;
 }
 </script>
 
@@ -47,6 +47,7 @@ function toggleMusicState() {
     justify-content: center;
     align-items: center;
 }
+
 .control-section {
     @include flex-center();
     flex-direction: column;

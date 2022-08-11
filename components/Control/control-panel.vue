@@ -1,13 +1,12 @@
 <template>
     <div class="controls">
-        <name-section></name-section>
-        <control-section></control-section>
-        <volume-section></volume-section>
+        <name-section />
+        <control-section />
+        <volume-section />
     </div>
 </template>
 <script setup lang="ts">
 import NameSection from "./name-section.vue";
-import ControlSection from "./control-section.vue";
 import VolumeSection from "./volume-section.vue";
 </script>
 <style lang="scss" scoped>
@@ -30,6 +29,7 @@ import VolumeSection from "./volume-section.vue";
     .controls {
         bottom: 80px;
     }
+
     div.name-section {
         display: none;
     }
