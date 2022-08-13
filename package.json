@@ -9,11 +9,14 @@
         "preview": "nuxt preview"
     },
     "devDependencies": {
+        "@types/jsmediatags": "^3.9.3",
+        "@types/uuid": "^8.3.4",
         "nuxt": "3.0.0-rc.6",
         "sass": "^1.54.4"
     },
     "dependencies": {
         "jsmediatags": "^3.9.7",
-        "lyrics-finder": "^21.7.0"
+        "lyrics-finder": "^21.7.0",
+        "uuid": "^8.3.2"
     }
 }

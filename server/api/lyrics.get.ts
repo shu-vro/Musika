@@ -7,7 +7,6 @@ export default defineEventHandler(async event => {
     let lyrics = (await lf(song, artist)) || "No lyrics found";
     return {
         statusCode: 200,
-        api: "works",
         lyrics,
     };
 });

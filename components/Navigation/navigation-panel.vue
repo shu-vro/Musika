@@ -1,7 +1,7 @@
 <template>
     <div class="nav" :class="{ shrink: shrink }">
         <a href="/" class="logo">MUSIKA</a>
-        <input type="file" accept="audio/*" ref="input_file" hidden multiple />
+        <input type="file" accept="audio/*" ref="input_file" hidden multiple @change="handleChangeFiles" />
         <button class="closeButton" @click="handleClose">
             <hamburger-button :class="{ opened: shrink }"></hamburger-button>
         </button>
@@ -22,11 +22,58 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import hamburgerButton from "./hamburger-button.vue";
-
+let inputFiles = ref()
+let resolvedFiles = ref([])
+// @ts-ignore
+import jsmediatags from 'jsmediatags/dist/jsmediatags.min.js'
+// @ts-ignore
+import { v4 } from 'uuid'
 const shrink = ref(false);
 const input_file = ref<HTMLInputElement>()
+
+interface IRes {
+    id: any;
+    trackName: any;
+    artist: any;
+    loved: boolean;
+    genre: any;
+    path: string;
+    size: number;
+    picture: any;
+    album: any;
+    format: string;
+    lyrics: string;
+}
+
+watch(inputFiles, (current) => {
+    for (let i = 0; i < current.length; i++) {
+        const file: File = current[i];
+        jsmediatags.read(file, {
+            onSuccess: async function (media) {
+                let res: IRes = {
+                    id: v4(),
+                    trackName: media.tags.title || file.name,
+                    artist: media.tags.artist,
+                    loved: false,
+                    genre: media.tags.genre,
+                    path: "App Cache",
+                    size: file.size,
+                    picture: media.tags.picture,
+                    album: media.tags.album,
+                    format: file.type,
+                    lyrics: ''
+                }
+                res['lyrics'] = (await $fetch(`/api/lyrics?song=${res.trackName}&artist=${res.artist}`) as { lyrics: string, statusCode: number }).lyrics
+                resolvedFiles.value.push(res)
+            },
+            onError: function (error) {
+                console.log(error)
+            }
+        })
+    }
+})
 
 function handleClose() {
     shrink.value = !shrink.value;
@@ -34,6 +81,10 @@ function handleClose() {
 
 function handlePickFile() {
     input_file.value?.click();
+}
+
+function handleChangeFiles(e) {
+    inputFiles.value = e.target.files
 }
 </script>
 <style lang="scss" scoped>
