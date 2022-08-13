@@ -1,13 +1,11 @@
 <template>
     <div class="controls">
-        <name-section />
+        <control-name-section />
         <control-section />
-        <volume-section />
+        <control-volume-section />
     </div>
 </template>
 <script setup lang="ts">
-import NameSection from "./name-section.vue";
-import VolumeSection from "./volume-section.vue";
 </script>
 <style lang="scss" scoped>
 .controls {

@@ -2,15 +2,17 @@
     <div class="main-body">
         <h1>Songs</h1>
         <div class="songs">
-            <div class="song" v-for="song in songs" :key="song.id">
-                <div class="song-title">{{ song.trackName }}</div>
+            <div class="song ripple" v-for="song in songs" :key="song.id">
+                <marquee behavior="scroll" direction="left" class="song-title">{{ song.trackName }}</marquee>
                 <div class="song-artist">{{ song.artist }}</div>
             </div>
+
+            <main-body-extra-info />
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 let songs = ref([
     {
         id: 1,
@@ -19,7 +21,7 @@ let songs = ref([
         loved: false,
         genre: "Me",
         path: "App Cache",
-        track_length: "3:00",
+        trackLength: "3:00",
         album: "Some amazing album!",
         format: "audio/mp3",
     },
@@ -30,11 +32,11 @@ let songs = ref([
         loved: false,
         genre: "Me",
         path: "App Cache",
-        track_length: "3:00",
+        trackLength: "3:00",
         album: "Some amazing album!",
         format: "audio/mp3",
     },
-])
+]);
 </script>
 <style lang="scss" scoped>
 .main-body {
@@ -55,23 +57,29 @@ let songs = ref([
 
     .songs {
         position: relative;
-        width: $width;
-        height: $height;
+        width: calc(100% - 41px);
+        height: calc(100% - 75px);
         overflow-y: scroll;
-        // overflow-x: hidden;
-        padding: 0 20px;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        align-content: flex-start;
+        flex-wrap: wrap;
+        padding: 10px 20px;
 
         .song {
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             width: 150px;
-            height: 100px;
+            min-height: 100px;
             background: rgba(0, 0, 0, 40%);
             backdrop-filter: blur(10px);
             border-radius: 10px;
-            margin-bottom: 10px;
+            margin: 10px;
             padding: 0 20px;
             cursor: pointer;
 

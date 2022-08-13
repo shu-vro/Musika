@@ -1,9 +1,9 @@
 <template>
     <div class="name-section">
 
-        <img :src="'~/../../assets/disk.png'" alt="">
+        <img :src="trackImage || '../../assets/disk.png'" alt="">
         <div class="details">
-            <h3>{{ trackName }}</h3>
+            <marquee behavior="scroll" direction="left">{{ trackName }}</marquee>
             <p>{{ artist }}</p>
         </div>
         <v-icon :name=lovedName @mouseover="lovedName = `bi-heart-fill`" @mouseleave="lovedName = `bi-heart`"></v-icon>
@@ -23,7 +23,7 @@ defineProps({
         default: "artist name",
     },
     trackImage: {
-        default: '~/../../assets/disk.png',
+        type: String,
     },
     loved: {
         type: Boolean,
@@ -50,14 +50,8 @@ defineProps({
         align-items: flex-start;
         flex-direction: column;
 
-        h3 {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 200px;
-            font-size: 1.2rem;
-            font-weight: 500;
-            margin: 0;
+        marquee {
+            min-width: 150px;
         }
 
         p {
