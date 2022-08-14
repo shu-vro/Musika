@@ -2,20 +2,20 @@
     <div class="control-section">
         <div class="control-buttons">
             <button class="ripple button repeat">
-                <!-- <v-icon :name="RiRepeat2Fill.name" scale="1.5"></v-icon> -->
+                <v-icon name="ri-repeat-2-fill" scale="1.5"></v-icon>
             </button>
             <button class="ripple button prev">
-                <!-- <v-icon :name="MdSkippreviousRound.name" scale="1.5"></v-icon> -->
+                <v-icon name="md-skipprevious-round" scale="1.5"></v-icon>
             </button>
             <button class="ripple button play" @click="toggleMusicState">
-                <!-- <v-icon :name="paused ? BiPlayFill.name : IoPause.name" scale="3"></v-icon> -->
+                <v-icon :name="paused ? 'bi-play-fill' : 'io-pause'" scale="3"></v-icon>
             </button>
             <button class="ripple button next">
-                <!-- <v-icon :name="MdSkipnextRound.name" scale="1.5"></v-icon> -->
+                <v-icon name="md-skipnext-round" scale="1.5"></v-icon>
             </button>
 
             <button class="ripple button shuffle">
-                <!-- <v-icon :name="BiShuffle.name" scale="1.5"></v-icon> -->
+                <v-icon name="bi-shuffle" scale="1.5"></v-icon>
             </button>
         </div>
         <div class="ladder">
@@ -26,14 +26,6 @@
     </div>
 </template>
 <script lang="ts" setup>
-// import {
-//     MdSkippreviousRound,
-//     MdSkipnextRound,
-//     BiPlayFill,
-//     BiShuffle,
-//     RiRepeat2Fill,
-//     IoPause
-// } from "oh-vue-icons/icons";
 import { ref } from 'vue'
 let paused = ref(true);
 function toggleMusicState() {

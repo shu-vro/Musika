@@ -22,46 +22,31 @@
     </div>
 </template>
 <script setup lang="ts">
+import jsmediatags from 'jsmediatags/dist/jsmediatags.min.js'
+import { v4 } from 'uuid'
+import { IAudioMetadata, IArrayAudioMetaData } from '~/types/types'
 import { ref, watch } from "vue";
 import hamburgerButton from "./hamburger-button.vue";
 let inputFiles = ref()
-let resolvedFiles = ref([])
-// @ts-ignore
-import jsmediatags from 'jsmediatags/dist/jsmediatags.min.js'
-// @ts-ignore
-import { v4 } from 'uuid'
+let resolvedFiles = ref<IArrayAudioMetaData>([])
 const shrink = ref(false);
 const input_file = ref<HTMLInputElement>()
-
-interface IRes {
-    id: any;
-    trackName: any;
-    artist: any;
-    loved: boolean;
-    genre: any;
-    path: string;
-    size: number;
-    picture: any;
-    album: any;
-    format: string;
-    lyrics: string;
-}
 
 watch(inputFiles, (current) => {
     for (let i = 0; i < current.length; i++) {
         const file: File = current[i];
         jsmediatags.read(file, {
             onSuccess: async function (media) {
-                let res: IRes = {
+                let res: IAudioMetadata = {
                     id: v4(),
                     trackName: media.tags.title || file.name,
-                    artist: media.tags.artist,
+                    artist: media.tags.artist || 'Unknown',
                     loved: false,
-                    genre: media.tags.genre,
+                    genre: media.tags.genre || '',
                     path: "App Cache",
                     size: file.size,
-                    picture: media.tags.picture,
-                    album: media.tags.album,
+                    picture: media.tags.picture || '',
+                    album: media.tags.album || '',
                     format: file.type,
                     lyrics: ''
                 }

@@ -13,28 +13,33 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-let songs = ref([
+import { IArrayAudioMetaData } from '~/types/types'
+let songs = ref<IArrayAudioMetaData>([
     {
         id: 1,
         trackName: "Some amazing name!",
-        artist: "Some amazing artist!",
+        artist: 'Some amazing artist',
         loved: false,
         genre: "Me",
-        path: "App Cache",
-        trackLength: "3:00",
-        album: "Some amazing album!",
-        format: "audio/mp3",
+        path: "App cache",
+        size: 1000000,
+        picture: 'some image',
+        album: 'wonderful album',
+        format: 'audio/mp3',
+        lyrics: '',
     },
     {
         id: 2,
         trackName: "Some amazing name!",
-        artist: "Some amazing artist!",
+        artist: 'Some amazing artist',
         loved: false,
         genre: "Me",
-        path: "App Cache",
-        trackLength: "3:00",
-        album: "Some amazing album!",
-        format: "audio/mp3",
+        path: "App cache",
+        size: 1000000,
+        picture: 'some image',
+        album: 'wonderful album',
+        format: 'audio/mp3',
+        lyrics: '',
     },
 ]);
 </script>
@@ -91,6 +96,13 @@ let songs = ref([
                 font-size: 0.9rem;
             }
         }
+    }
+}
+
+@media (max-width: 687px) {
+    .main-body {
+        width: 100%;
+        height: calc(100% - 180px);
     }
 }
 </style>

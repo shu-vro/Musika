@@ -17,6 +17,7 @@
     "dependencies": {
         "jsmediatags": "^3.9.7",
         "lyrics-finder": "^21.7.0",
+        "oh-vue-icons": "^1.0.0-rc3",
         "uuid": "^8.3.2"
     }
 }
