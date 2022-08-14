@@ -1,17 +1,14 @@
 <template>
     <div class="volume-section">
         <button>
-            <!-- <v-icon :name="MdLyricsOutlined.name" scale="1.5"></v-icon> -->
+            <v-icon name="md-lyrics-outlined" scale="1.2"></v-icon>
         </button>
         <button class="volume">
-            <!-- <v-icon :name="BiVolumeUpFill.name" scale="1.5"></v-icon> -->
+            <v-icon name="bi-volume-up-fill" scale="1.5"></v-icon>
             <input type="range" class="progress" min="0" max="100" value="0" />
         </button>
     </div>
 </template>
-<script lang="ts" setup>
-// import {BiVolumeUpFill, MdLyricsOutlined} from 'oh-vue-icons/icons'
-</script>
 
 <style lang="scss" scoped>
 @mixin flex-center() {
