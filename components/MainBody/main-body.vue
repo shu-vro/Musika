@@ -1,19 +1,7 @@
-<template>
-    <div class="main-body">
-        <h1>Songs</h1>
-        <div class="songs">
-            <div class="song ripple" v-for="song in songs" :key="song.id">
-                <marquee behavior="scroll" direction="left" class="song-title">{{ song.trackName }}</marquee>
-                <div class="song-artist">{{ song.artist }}</div>
-            </div>
-
-            <main-body-extra-info />
-        </div>
-    </div>
-</template>
 <script lang="ts" setup>
-import { ref } from "vue";
 import { IArrayAudioMetaData } from '~/types/types'
+import { useShrinkNavigation } from '~/stores/shrinkNavigation'
+const shrinkNavigation = useShrinkNavigation()
 let songs = ref<IArrayAudioMetaData>([
     {
         id: 1,
@@ -43,6 +31,20 @@ let songs = ref<IArrayAudioMetaData>([
     },
 ]);
 </script>
+<template>
+    <div class="main-body" :class="{ shrink: shrinkNavigation.shrink }">
+        <h1>Songs</h1>
+        <div class="songs">
+            <div class="song ripple" v-for="song in songs" :key="song.id">
+                <marquee behavior="scroll" direction="left" class="song-title">{{ song.trackName }}</marquee>
+                <div class="song-artist">{{ song.artist }}</div>
+            </div>
+
+            <main-body-extra-info />
+        </div>
+    </div>
+</template>
+
 <style lang="scss" scoped>
 .main-body {
     $width: calc(100% - 202px);
@@ -54,6 +56,11 @@ let songs = ref<IArrayAudioMetaData>([
     height: $height;
     background: rgba(0, 0, 0, 40%);
     backdrop-filter: blur(10px);
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &.shrink {
+        width: calc(100% - 62px);
+    }
 
     h1 {
         text-align: center;
@@ -101,7 +108,7 @@ let songs = ref<IArrayAudioMetaData>([
 
 @media (max-width: 687px) {
     .main-body {
-        width: 100%;
+        width: 100% !important;
         height: calc(100% - 180px);
     }
 }

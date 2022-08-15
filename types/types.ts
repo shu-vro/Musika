@@ -1,13 +1,13 @@
 export interface IAudioMetadata {
     id?: any;
-    trackName?: any;
-    artist?: any;
+    trackName?: string;
+    artist?: string;
     loved?: boolean;
-    genre?: any;
+    genre?: string;
     path?: string;
     size?: number;
     picture?: any;
-    album?: any;
+    album?: string;
     format?: string;
     lyrics?: string;
 }

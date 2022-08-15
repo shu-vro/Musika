@@ -10,7 +10,6 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
 let lovedName = ref('bi-heart')
 
 defineProps({

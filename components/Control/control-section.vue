@@ -26,7 +26,6 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
 let paused = ref(true);
 function toggleMusicState() {
     paused.value = !paused.value;

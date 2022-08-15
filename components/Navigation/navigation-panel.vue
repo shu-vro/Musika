@@ -1,9 +1,66 @@
+<script setup lang="ts">
+import jsmediatags from "jsmediatags/dist/jsmediatags.min.js";
+import { useShrinkNavigation } from "~/stores/shrinkNavigation";
+import { v4 } from "uuid";
+import { IAudioMetadata, IArrayAudioMetaData } from "~/types/types";
+import { ref, watch } from "vue";
+import hamburgerButton from "./hamburger-button.vue";
+let inputFiles = ref();
+let resolvedFiles = ref<IArrayAudioMetaData>([]);
+const shrinkNavigation = useShrinkNavigation();
+const input_file = ref<HTMLInputElement>();
+
+watch(inputFiles, current => {
+    for (let i = 0; i < current.length; i++) {
+        const file: File = current[i];
+        jsmediatags.read(file, {
+            onSuccess: async function (media) {
+                let res: IAudioMetadata = {
+                    id: v4(),
+                    trackName: media.tags.title || file.name,
+                    artist: media.tags.artist || "Unknown",
+                    loved: false,
+                    genre: media.tags.genre || "",
+                    path: "App Cache",
+                    size: file.size,
+                    picture: media.tags.picture || "",
+                    album: media.tags.album || "",
+                    format: file.type,
+                    lyrics: "",
+                };
+                res["lyrics"] = (
+                    (await $fetch(
+                        `/api/lyrics?song=${res.trackName}&artist=${res.artist}`
+                    )) as { lyrics: string; statusCode: number }
+                ).lyrics;
+                resolvedFiles.value.push(res);
+            },
+            onError: function (error) {
+                console.log(error);
+            },
+        });
+    }
+});
+
+function handleClose() {
+    shrinkNavigation.invert();
+}
+
+function handlePickFile() {
+    input_file.value?.click();
+}
+
+function handleChangeFiles(e) {
+    inputFiles.value = e.target.files;
+}
+</script>
+
 <template>
-    <div class="nav" :class="{ shrink: shrink }">
+    <div class="nav" :class="{ shrink: shrinkNavigation.shrink }">
         <a href="/" class="logo">MUSIKA</a>
         <input type="file" accept="audio/*" ref="input_file" hidden multiple @change="handleChangeFiles" />
         <button class="closeButton" @click="handleClose">
-            <hamburger-button :class="{ opened: shrink }"></hamburger-button>
+            <hamburger-button :class="{ opened: shrinkNavigation.shrink }"></hamburger-button>
         </button>
         <ul>
             <li class="ripple">
@@ -21,57 +78,6 @@
         </ul>
     </div>
 </template>
-<script setup lang="ts">
-import jsmediatags from 'jsmediatags/dist/jsmediatags.min.js'
-import { v4 } from 'uuid'
-import { IAudioMetadata, IArrayAudioMetaData } from '~/types/types'
-import { ref, watch } from "vue";
-import hamburgerButton from "./hamburger-button.vue";
-let inputFiles = ref()
-let resolvedFiles = ref<IArrayAudioMetaData>([])
-const shrink = ref(false);
-const input_file = ref<HTMLInputElement>()
-
-watch(inputFiles, (current) => {
-    for (let i = 0; i < current.length; i++) {
-        const file: File = current[i];
-        jsmediatags.read(file, {
-            onSuccess: async function (media) {
-                let res: IAudioMetadata = {
-                    id: v4(),
-                    trackName: media.tags.title || file.name,
-                    artist: media.tags.artist || 'Unknown',
-                    loved: false,
-                    genre: media.tags.genre || '',
-                    path: "App Cache",
-                    size: file.size,
-                    picture: media.tags.picture || '',
-                    album: media.tags.album || '',
-                    format: file.type,
-                    lyrics: ''
-                }
-                res['lyrics'] = (await $fetch(`/api/lyrics?song=${res.trackName}&artist=${res.artist}`) as { lyrics: string, statusCode: number }).lyrics
-                resolvedFiles.value.push(res)
-            },
-            onError: function (error) {
-                console.log(error)
-            }
-        })
-    }
-})
-
-function handleClose() {
-    shrink.value = !shrink.value;
-}
-
-function handlePickFile() {
-    input_file.value?.click();
-}
-
-function handleChangeFiles(e) {
-    inputFiles.value = e.target.files
-}
-</script>
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
 
@@ -127,7 +133,6 @@ div.nav {
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-
     }
 
     ul {

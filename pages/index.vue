@@ -1,4 +1,10 @@
 <template>
+
+    <Head>
+        <Title>
+            MUSIKA - Music for everyone
+        </Title>
+    </Head>
     <navigation-panel />
     <control-panel />
     <main-body />

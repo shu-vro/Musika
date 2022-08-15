@@ -1,71 +1,85 @@
-<template>
-    <div class="extra-info">
-        <table>
-            <tr>
-                <td>Track</td>
-                <td>{{ song.trackName }}</td>
-            </tr>
-            <tr>
-                <td>Artist</td>
-                <td>{{ song.artist }}</td>
-            </tr>
-            <tr>
-                <td>Album</td>
-                <td>{{ song.album }}</td>
-            </tr>
-            <tr>
-                <td>Genre</td>
-                <td>{{ song.genre }}</td>
-            </tr>
-            <tr>
-                <td>Track Length</td>
-                <td>{{ song.trackLength }}</td>
-            </tr>
-            <tr>
-                <td>Format</td>
-                <td>{{ song.format }}</td>
-            </tr>
-            <tr>
-                <td>Path</td>
-                <td>{{ song.path }}</td>
-            </tr>
-        </table>
-    </div>
-</template>
-
 <script lang="ts" setup>
 defineProps({
     song: {
         type: Object,
         default: {
-            trackName: "Track Name",
-            artist: "artist name",
-            trackImage: "https://i.imgur.com/0Z0Z0Z0.png",
+            id: 1,
+            trackName: "Some amazing name!",
+            artist: 'Some amazing artist',
             loved: false,
             genre: "Me",
-            path: "App Cache",
-            trackLength: "3:00",
-            album: "Some amazing album!",
-            format: "audio/mp3",
+            path: "App cache",
+            size: 1000000,
+            picture: 'some image',
+            album: 'wonderful album',
+            format: 'audio/mp3',
+            lyrics: '',
         },
     },
+});
+const info_panel = ref<HTMLDivElement>()
+const active = ref(false)
+onMounted(() => {
+    const parent = info_panel.value.parentElement
+    const allSongs = parent.querySelectorAll('.song')
 
+    function getPos(e: any) {
+        return e.type.includes('touch') ? e = e.touches[0] : e = e
+    }
+
+    function moving(e, parentX, parentY) {
+        if (!info_panel.value) return
+        let x = getPos(e).clientX - parentX;
+        let y = getPos(e).clientY - parentY;
+        info_panel.value.style.left = x + 'px'
+        info_panel.value.style.top = y + 'px'
+        active.value = true;
+    }
+
+    allSongs.forEach((song: HTMLDivElement) => {
+        let parentX = parent.getBoundingClientRect().x;
+        let parentY = parent.getBoundingClientRect().y;
+        song.addEventListener('mousemove', (e) => {
+            moving(e, parentX, parentY)
+        })
+        song.addEventListener('touchstart', (e) => {
+            moving(e, parentX, parentY)
+        })
+        song.addEventListener('mouseleave', () => active.value = false)
+        song.addEventListener('touchend', () => active.value = false)
+    });
 })
 </script>
+
+<template>
+    <div class="extra-info" :class="{ show: active }" ref="info_panel">
+        <table rules="all">
+            <tr v-for="(key, value) in song">
+                <td>{{ value }}</td>
+                <td>{{ key }}</td>
+            </tr>
+        </table>
+    </div>
+</template>
 
 <style lang="scss" scoped>
 .extra-info {
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, 40%);
+    background: rgb(52, 56, 68);
     opacity: 0;
     user-select: none;
     pointer-events: none;
-    transition: .25s ease;
+    padding: 5px 10px;
+    transition: opacity .25s ease-in-out;
 
     &.show {
         opacity: 1;
+    }
+
+    table {
+        border-color: white;
     }
 }
 </style>
