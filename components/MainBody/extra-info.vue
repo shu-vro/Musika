@@ -27,23 +27,22 @@ onMounted(() => {
         return e.type.includes('touch') ? e = e.touches[0] : e = e
     }
 
-    function moving(e, parentX, parentY) {
+    function moving(e: MouseEvent | TouchEvent) {
         if (!info_panel.value) return
-        let x = getPos(e).clientX - parentX;
-        let y = getPos(e).clientY - parentY;
+        let bigParentX = parent.parentElement.getBoundingClientRect().x
+        let x = getPos(e).pageX - bigParentX;
+        let y = getPos(e).pageY;
         info_panel.value.style.left = x + 'px'
         info_panel.value.style.top = y + 'px'
         active.value = true;
     }
 
     allSongs.forEach((song: HTMLDivElement) => {
-        let parentX = parent.getBoundingClientRect().x;
-        let parentY = parent.getBoundingClientRect().y;
         song.addEventListener('mousemove', (e) => {
-            moving(e, parentX, parentY)
+            moving(e)
         })
         song.addEventListener('touchstart', (e) => {
-            moving(e, parentX, parentY)
+            moving(e)
         })
         song.addEventListener('mouseleave', () => active.value = false)
         song.addEventListener('touchend', () => active.value = false)
@@ -64,7 +63,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .extra-info {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     background: rgb(52, 56, 68);
@@ -72,6 +71,7 @@ onMounted(() => {
     user-select: none;
     pointer-events: none;
     padding: 5px 10px;
+    border-radius: 5px;
     transition: opacity .25s ease-in-out;
 
     &.show {

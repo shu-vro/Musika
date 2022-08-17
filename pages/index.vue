@@ -11,19 +11,20 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
-
 onMounted(() => {
     let ripples = document.querySelectorAll<HTMLElement>(".ripple");
-    ripples.forEach(r => {
-        let parentX = r.getBoundingClientRect().x;
-        let parentY = r.getBoundingClientRect().y;
-
-        let parentWidth = r.getBoundingClientRect().width;
-        let parentHeight = r.getBoundingClientRect().height;
+    function setSize(el: HTMLElement) {
+        let parentWidth = el.getBoundingClientRect().width;
+        let parentHeight = el.getBoundingClientRect().height;
         let size = Math.hypot(parentWidth, parentHeight) * 2;
-        r.style.setProperty("--size", size + "px");
+        el.style.setProperty("--size", size + "px");
+    }
+    ripples.forEach(r => {
+        setSize(r)
         r.addEventListener("mousemove", (e: MouseEvent) => {
+            setSize(r)
+            let parentX = r.getBoundingClientRect().x;
+            let parentY = r.getBoundingClientRect().y;
             let x = e.clientX - parentX;
             let y = e.clientY - parentY;
             r.style.setProperty("--x", x + "px");
@@ -31,6 +32,8 @@ onMounted(() => {
         });
 
         r.addEventListener("mousedown", (e: MouseEvent) => {
+            let parentX = r.getBoundingClientRect().x;
+            let parentY = r.getBoundingClientRect().y;
             let x = e.clientX - parentX;
             let y = e.clientY - parentY;
             r.style.setProperty("--x", x + "px");

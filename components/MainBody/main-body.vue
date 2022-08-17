@@ -29,6 +29,19 @@ let songs = ref<IArrayAudioMetaData>([
         format: 'audio/mp3',
         lyrics: '',
     },
+    {
+        id: 3,
+        trackName: "Some amazing name!",
+        artist: 'Some amazing artist',
+        loved: false,
+        genre: "Me",
+        path: "App cache",
+        size: 1000000,
+        picture: 'some image',
+        album: 'wonderful album',
+        format: 'audio/mp3',
+        lyrics: '',
+    },
 ]);
 </script>
 <template>
@@ -36,11 +49,13 @@ let songs = ref<IArrayAudioMetaData>([
         <h1>Songs</h1>
         <div class="songs">
             <div class="song ripple" v-for="song in songs" :key="song.id">
-                <marquee behavior="scroll" direction="left" class="song-title">{{ song.trackName }}</marquee>
+                <img src="~/assets/disk.png" :alt="song.trackName">
+                <h3 class="song-title">{{ song.trackName }}</h3>
                 <div class="song-artist">{{ song.artist }}</div>
+                <div class="playCursor">
+                    <v-icon name="bi-play-circle" scale="4"></v-icon>
+                </div>
             </div>
-
-            <main-body-extra-info />
         </div>
     </div>
 </template>
@@ -93,7 +108,12 @@ let songs = ref<IArrayAudioMetaData>([
             border-radius: 10px;
             margin: 10px;
             padding: 0 20px;
-            cursor: pointer;
+            cursor: none;
+
+            img {
+                width: 130px;
+                object-fit: cover;
+            }
 
             .song-title {
                 font-size: 1.2rem;
@@ -101,6 +121,22 @@ let songs = ref<IArrayAudioMetaData>([
 
             .song-artist {
                 font-size: 0.9rem;
+            }
+
+            .playCursor {
+                position: absolute;
+                top: var(--y);
+                left: var(--x);
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+                transition: opacity .3s ease-in-out, transform .3s ease-in-out;
+            }
+
+            &:hover {
+                .playCursor {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1);
+                }
             }
         }
     }
