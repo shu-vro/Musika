@@ -4,6 +4,8 @@
         <Title>
             MUSIKA - Music for everyone
         </Title>
+        <Meta name="description" content="MUSIKA is a music player that allows you to play music for everyone." />
+        <Link rel="icon" type="image/ico" href="/favicon.ico" />
     </Head>
     <navigation-panel />
     <control-panel />

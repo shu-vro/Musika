@@ -4,7 +4,6 @@ export const useShrinkNavigation = defineStore("shrink", {
     actions: {
         invert() {
             this.shrink = !this.shrink;
-            console.log("shrinking", this.shrink);
         },
     },
 });

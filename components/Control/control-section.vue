@@ -1,20 +1,42 @@
+<script lang="ts" setup>
+import { useSelectedMusicStore } from '~/stores/selectedMusicStore'
+let { shuffle, playNext, playPrevious } = useSelectedMusicStore()
+let selectedMusic = useSelectedMusicStore()
+let currentTrack = selectedMusic.currentTrack
+
+let paused = ref(true);
+function toggleMusicState() {
+    paused.value = !paused.value;
+    audio.value.paused ? audio.value.play() : audio.value.pause();
+}
+const audio = ref<HTMLAudioElement>();
+
+selectedMusic.$subscribe(() => {
+    if (selectedMusic.currentTrack) {
+        audio.value.src = selectedMusic.currentTrack.src as string;
+        audio.value.play();
+    }
+})
+</script>
+
 <template>
     <div class="control-section">
+        <audio :src="currentTrack?.src as string" hidden autoplay ref="audio" />
         <div class="control-buttons">
             <button class="ripple button repeat">
                 <v-icon name="ri-repeat-2-fill" scale="1.5"></v-icon>
             </button>
             <button class="ripple button prev">
-                <v-icon name="md-skipprevious-round" scale="1.5"></v-icon>
+                <v-icon name="md-skipprevious-round" scale="1.5" @click="playPrevious"></v-icon>
             </button>
             <button class="ripple button play" @click="toggleMusicState">
-                <v-icon :name="paused ? 'bi-play-fill' : 'io-pause'" scale="3"></v-icon>
+                <v-icon :name="paused ? 'io-pause' : 'bi-play-fill'" scale="3"></v-icon>
             </button>
-            <button class="ripple button next">
+            <button class="ripple button next" @click="playNext">
                 <v-icon name="md-skipnext-round" scale="1.5"></v-icon>
             </button>
 
-            <button class="ripple button shuffle">
+            <button class="ripple button shuffle" @click="shuffle">
                 <v-icon name="bi-shuffle" scale="1.5"></v-icon>
             </button>
         </div>
@@ -25,12 +47,6 @@
         </div>
     </div>
 </template>
-<script lang="ts" setup>
-let paused = ref(true);
-function toggleMusicState() {
-    paused.value = !paused.value;
-}
-</script>
 
 <style lang="scss" scoped>
 @mixin flex-center() {

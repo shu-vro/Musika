@@ -2,6 +2,7 @@
     "name": "musika",
     "version": "0.1.0",
     "private": true,
+    "homepage": "https://shu-vro.github.io/Musika",
     "scripts": {
         "build": "nuxt build",
         "dev": "nuxt dev -o",

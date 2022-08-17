@@ -1,18 +1,32 @@
 <script setup lang="ts">
 import jsmediatags from "jsmediatags/dist/jsmediatags.min.js";
 import { useShrinkNavigation } from "~/stores/shrinkNavigation";
+import { useMusicStore } from "~/stores/musicStore";
 import { v4 } from "uuid";
 import { IAudioMetadata, IArrayAudioMetaData } from "~/types/types";
 import { ref, watch } from "vue";
 import hamburgerButton from "./hamburger-button.vue";
 let inputFiles = ref();
-let resolvedFiles = ref<IArrayAudioMetaData>([]);
 const shrinkNavigation = useShrinkNavigation();
+let musicStore = useMusicStore();
+let tracks = musicStore.tracks
 const input_file = ref<HTMLInputElement>();
+
+function extractThumbnailFromAudio(picture: any) {
+    if (!picture) return ""
+    let data = picture.data;
+    let format = picture.format;
+    let base64String = ''
+    for (let i = 0; i < data.length; i++) {
+        base64String += String.fromCharCode(data[i]);
+    }
+    return `data:${format};base64,${window.btoa(base64String)}`
+}
 
 watch(inputFiles, current => {
     for (let i = 0; i < current.length; i++) {
         const file: File = current[i];
+        const disposableAudio = document?.createElement("audio");
         jsmediatags.read(file, {
             onSuccess: async function (media) {
                 let res: IAudioMetadata = {
@@ -23,17 +37,40 @@ watch(inputFiles, current => {
                     genre: media.tags.genre || "",
                     path: "App Cache",
                     size: file.size,
-                    picture: media.tags.picture || "",
+                    picture: extractThumbnailFromAudio(media.tags.picture),
                     album: media.tags.album || "",
                     format: file.type,
                     lyrics: "",
+                    src: "",
+                    duration: 0,
                 };
-                res["lyrics"] = (
-                    (await $fetch(
-                        `/api/lyrics?song=${res.trackName}&artist=${res.artist}`
-                    )) as { lyrics: string; statusCode: number }
-                ).lyrics;
-                resolvedFiles.value.push(res);
+                if (navigator && navigator.onLine) {
+                    res["lyrics"] = (
+                        (await $fetch(
+                            `/api/lyrics?song=${res.trackName}&artist=${res.artist}`
+                        )) as { lyrics: string; statusCode: number }
+                    ).lyrics;
+                    try {
+                        res["lyrics"] = (
+                            (await $fetch(
+                                `/api/lyrics?song=${res.trackName}&artist=${res.artist}`
+                            )) as { lyrics: string; statusCode: number }
+                        ).lyrics;
+                    } catch (e) { }
+                } else {
+                    res["lyrics"] = "";
+                }
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    res["src"] = e.target.result;
+                    disposableAudio.src = e.target.result as string;
+                    disposableAudio.onloadedmetadata = function () {
+                        res["duration"] = disposableAudio.duration;
+                        tracks.push(res);
+                        disposableAudio.remove();
+                    };
+                };
+                reader.readAsDataURL(file);
             },
             onError: function (error) {
                 console.log(error);

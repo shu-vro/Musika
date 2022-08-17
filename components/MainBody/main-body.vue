@@ -1,55 +1,21 @@
 <script lang="ts" setup>
-import { IArrayAudioMetaData } from '~/types/types'
 import { useShrinkNavigation } from '~/stores/shrinkNavigation'
+import { useMusicStore } from '~/stores/musicStore'
+import { useSelectedMusicStore } from '~/stores/selectedMusicStore'
 const shrinkNavigation = useShrinkNavigation()
-let songs = ref<IArrayAudioMetaData>([
-    {
-        id: 1,
-        trackName: "Some amazing name!",
-        artist: 'Some amazing artist',
-        loved: false,
-        genre: "Me",
-        path: "App cache",
-        size: 1000000,
-        picture: 'some image',
-        album: 'wonderful album',
-        format: 'audio/mp3',
-        lyrics: '',
-    },
-    {
-        id: 2,
-        trackName: "Some amazing name!",
-        artist: 'Some amazing artist',
-        loved: false,
-        genre: "Me",
-        path: "App cache",
-        size: 1000000,
-        picture: 'some image',
-        album: 'wonderful album',
-        format: 'audio/mp3',
-        lyrics: '',
-    },
-    {
-        id: 3,
-        trackName: "Some amazing name!",
-        artist: 'Some amazing artist',
-        loved: false,
-        genre: "Me",
-        path: "App cache",
-        size: 1000000,
-        picture: 'some image',
-        album: 'wonderful album',
-        format: 'audio/mp3',
-        lyrics: '',
-    },
-]);
+let tracks = useMusicStore().tracks
+let setTrack = useSelectedMusicStore().setTrack
+
+function handleSetTrack(track: any) {
+    setTrack(track)
+}
 </script>
 <template>
     <div class="main-body" :class="{ shrink: shrinkNavigation.shrink }">
         <h1>Songs</h1>
         <div class="songs">
-            <div class="song ripple" v-for="song in songs" :key="song.id">
-                <img src="~/assets/disk.png" :alt="song.trackName">
+            <div class="song ripple" v-for="song in tracks" :key="song.id" @click="handleSetTrack(song)">
+                <img :src="song.picture" :alt="song.trackName">
                 <h3 class="song-title">{{ song.trackName }}</h3>
                 <div class="song-artist">{{ song.artist }}</div>
                 <div class="playCursor">
@@ -107,7 +73,7 @@ let songs = ref<IArrayAudioMetaData>([
             backdrop-filter: blur(10px);
             border-radius: 10px;
             margin: 10px;
-            padding: 0 20px;
+            padding: 10px 20px;
             cursor: none;
 
             img {
