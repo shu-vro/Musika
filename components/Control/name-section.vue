@@ -1,35 +1,20 @@
+<script lang="ts" setup>
+import { useSelectedMusicStore } from '~/stores/selectedMusicStore';
+
+let selectedMusic = useSelectedMusicStore()
+let lovedName = ref('bi-heart')
+</script>
+
 <template>
     <div class="name-section">
-
-        <img :src="trackImage || '../../assets/disk.png'" alt="">
+        <img :src="selectedMusic.currentTrack?.picture || '../../assets/disk.png'" alt="">
         <div class="details">
-            <marquee behavior="scroll" direction="left">{{ trackName }}</marquee>
-            <p>{{ artist }}</p>
+            <marquee behavior="scroll" direction="left">{{ selectedMusic.currentTrack?.trackName }}</marquee>
+            <p>{{ selectedMusic.currentTrack?.artist }}</p>
         </div>
         <v-icon :name=lovedName @mouseover="lovedName = `bi-heart-fill`" @mouseleave="lovedName = `bi-heart`"></v-icon>
     </div>
 </template>
-<script lang="ts" setup>
-let lovedName = ref('bi-heart')
-
-defineProps({
-    trackName: {
-        type: String,
-        default: "Track Name",
-    },
-    artist: {
-        type: String,
-        default: "artist name",
-    },
-    trackImage: {
-        type: String,
-    },
-    loved: {
-        type: Boolean,
-        default: false,
-    },
-})
-</script>
 
 <style lang="scss" scoped>
 .name-section {

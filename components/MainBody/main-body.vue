@@ -2,21 +2,22 @@
 import { useShrinkNavigation } from '~/stores/shrinkNavigation'
 import { useMusicStore } from '~/stores/musicStore'
 import { useSelectedMusicStore } from '~/stores/selectedMusicStore'
+import { useRippleRefresh } from '~/stores/rippleRefresh'
 const shrinkNavigation = useShrinkNavigation()
 let tracks = useMusicStore().tracks
 let setTrack = useSelectedMusicStore().setTrack
 
-function handleSetTrack(track: any) {
-    setTrack(track)
-}
+useMusicStore().$subscribe(() => {
+    useRippleRefresh().refresh()
+})
 </script>
 <template>
     <div class="main-body" :class="{ shrink: shrinkNavigation.shrink }">
         <h1>Songs</h1>
         <div class="songs">
-            <div class="song ripple" v-for="song in tracks" :key="song.id" @click="handleSetTrack(song)">
-                <img :src="song.picture" :alt="song.trackName">
-                <h3 class="song-title">{{ song.trackName }}</h3>
+            <div class="song ripple" v-for="song in tracks" :key="song.id" @click="setTrack(song)">
+                <img :src="song.picture || '../../assets/disk.png'" :alt="song.trackName">
+                <marquee class="song-title">{{ song.trackName }}</marquee>
                 <div class="song-artist">{{ song.artist }}</div>
                 <div class="playCursor">
                     <v-icon name="bi-play-circle" scale="4"></v-icon>

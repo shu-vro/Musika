@@ -19,6 +19,7 @@
         "@pinia/nuxt": "^0.4.0",
         "jsmediatags": "^3.9.7",
         "lyrics-finder": "^21.7.0",
+        "numeral": "^2.0.6",
         "oh-vue-icons": "^1.0.0-rc3",
         "pinia": "^2.0.18",
         "uuid": "^8.3.2"

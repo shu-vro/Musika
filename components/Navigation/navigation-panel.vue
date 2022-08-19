@@ -3,8 +3,7 @@ import jsmediatags from "jsmediatags/dist/jsmediatags.min.js";
 import { useShrinkNavigation } from "~/stores/shrinkNavigation";
 import { useMusicStore } from "~/stores/musicStore";
 import { v4 } from "uuid";
-import { IAudioMetadata, IArrayAudioMetaData } from "~/types/types";
-import { ref, watch } from "vue";
+import { IAudioMetadata } from "~/types/types";
 import hamburgerButton from "./hamburger-button.vue";
 let inputFiles = ref();
 const shrinkNavigation = useShrinkNavigation();
@@ -28,7 +27,7 @@ watch(inputFiles, current => {
         const file: File = current[i];
         const disposableAudio = document?.createElement("audio");
         jsmediatags.read(file, {
-            onSuccess: async function (media) {
+            onSuccess: function (media) {
                 let res: IAudioMetadata = {
                     id: v4(),
                     trackName: media.tags.title || file.name,
@@ -44,28 +43,12 @@ watch(inputFiles, current => {
                     src: "",
                     duration: 0,
                 };
-                if (navigator && navigator.onLine) {
-                    res["lyrics"] = (
-                        (await $fetch(
-                            `/api/lyrics?song=${res.trackName}&artist=${res.artist}`
-                        )) as { lyrics: string; statusCode: number }
-                    ).lyrics;
-                    try {
-                        res["lyrics"] = (
-                            (await $fetch(
-                                `/api/lyrics?song=${res.trackName}&artist=${res.artist}`
-                            )) as { lyrics: string; statusCode: number }
-                        ).lyrics;
-                    } catch (e) { }
-                } else {
-                    res["lyrics"] = "";
-                }
                 let reader = new FileReader();
                 reader.onload = function (e) {
                     res["src"] = e.target.result;
                     disposableAudio.src = e.target.result as string;
                     disposableAudio.onloadedmetadata = function () {
-                        res["duration"] = disposableAudio.duration;
+                        res["duration"] = Math.round(disposableAudio.duration);
                         tracks.push(res);
                         disposableAudio.remove();
                     };

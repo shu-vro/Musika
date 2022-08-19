@@ -1,10 +1,9 @@
 <template>
-
     <Head>
-        <Title>
-            MUSIKA - Music for everyone
-        </Title>
-        <Meta name="description" content="MUSIKA is a music player that allows you to play music for everyone." />
+        <Title> MUSIKA - Music for everyone </Title>
+        <Meta
+            name="description"
+            content="MUSIKA is a music player that allows you to play music for everyone." />
         <Link rel="icon" type="image/ico" href="/favicon.ico" />
     </Head>
     <navigation-panel />
@@ -13,8 +12,16 @@
 </template>
 
 <script lang="ts" setup>
+import { useRippleRefresh } from "~/stores/rippleRefresh";
+let rippleRefresh = useRippleRefresh();
 onMounted(() => {
-    let ripples = document.querySelectorAll<HTMLElement>(".ripple");
+    setTimeout(() => {
+        rippleRefresh.refresh();
+    }, 1000);
+});
+
+rippleRefresh.$subscribe(() => {
+    let ripples = rippleRefresh.ripples;
     function setSize(el: HTMLElement) {
         let parentWidth = el.getBoundingClientRect().width;
         let parentHeight = el.getBoundingClientRect().height;
@@ -22,9 +29,9 @@ onMounted(() => {
         el.style.setProperty("--size", size + "px");
     }
     ripples.forEach(r => {
-        setSize(r)
+        setSize(r);
         r.addEventListener("mousemove", (e: MouseEvent) => {
-            setSize(r)
+            setSize(r);
             let parentX = r.getBoundingClientRect().x;
             let parentY = r.getBoundingClientRect().y;
             let x = e.clientX - parentX;
@@ -120,7 +127,7 @@ body {
             50% {
                 width: var(--size);
                 height: var(--size);
-                opacity: .5;
+                opacity: 0.5;
             }
 
             100% {

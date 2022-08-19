@@ -1,36 +1,61 @@
 <script lang="ts" setup>
-import { useSelectedMusicStore } from '~/stores/selectedMusicStore'
-let { shuffle, playNext, playPrevious } = useSelectedMusicStore()
-let selectedMusic = useSelectedMusicStore()
-let currentTrack = selectedMusic.currentTrack
+import numeral from "numeral";
+import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
+let { shuffle, playNext, playPrevious } = useSelectedMusicStore();
+let selectedMusic = useSelectedMusicStore();
+let currentTrack = selectedMusic.currentTrack;
 
-let paused = ref(true);
 function toggleMusicState() {
-    paused.value = !paused.value;
     audio.value.paused ? audio.value.play() : audio.value.pause();
 }
 const audio = ref<HTMLAudioElement>();
+let currentTime = ref(0);
 
 selectedMusic.$subscribe(() => {
     if (selectedMusic.currentTrack) {
         audio.value.src = selectedMusic.currentTrack.src as string;
         audio.value.play();
     }
-})
+});
+
+const audioLoop = ref(false);
+function handleLoop() {
+    if (!audio.value) return;
+    audio.value.loop = !audio.value.loop;
+    audioLoop.value = audio.value.loop;
+}
+
+function handleLadderChange(e: Event) {
+    audio.value.currentTime = (e.target as HTMLInputElement)
+        .value as unknown as number;
+}
+
+setInterval(() => {
+    currentTime.value = Math.round(audio.value?.currentTime || 0);
+    console.log(currentTime.value);
+}, 1000);
 </script>
 
 <template>
     <div class="control-section">
-        <audio :src="currentTrack?.src as string" hidden autoplay ref="audio" />
+        <audio :src="currentTrack?.src as string" ref="audio" hidden autoplay />
         <div class="control-buttons">
-            <button class="ripple button repeat">
+            <button
+                class="ripple button repeat"
+                :class="{ active: audioLoop }"
+                @click="handleLoop">
                 <v-icon name="ri-repeat-2-fill" scale="1.5"></v-icon>
             </button>
             <button class="ripple button prev">
-                <v-icon name="md-skipprevious-round" scale="1.5" @click="playPrevious"></v-icon>
+                <v-icon
+                    name="md-skipprevious-round"
+                    scale="1.5"
+                    @click="playPrevious"></v-icon>
             </button>
             <button class="ripple button play" @click="toggleMusicState">
-                <v-icon :name="paused ? 'io-pause' : 'bi-play-fill'" scale="3"></v-icon>
+                <v-icon
+                    :name="audio?.paused ? 'bi-play-fill' : 'io-pause'"
+                    scale="3"></v-icon>
             </button>
             <button class="ripple button next" @click="playNext">
                 <v-icon name="md-skipnext-round" scale="1.5"></v-icon>
@@ -41,9 +66,17 @@ selectedMusic.$subscribe(() => {
             </button>
         </div>
         <div class="ladder">
-            <span>0:30</span>
-            <input type="range" class="progress" min="0" max="100" value="0" />
-            <span>3:00</span>
+            <span>{{ numeral(currentTime).format("00:00:00") }}</span>
+            <input
+                type="range"
+                class="progress"
+                :value="currentTime"
+                min="0"
+                :max="Math.round(selectedMusic.currentTrack?.duration || 10)"
+                @input="handleLadderChange" />
+            <span>{{
+                numeral(selectedMusic.currentTrack?.duration).format("00:00")
+            }}</span>
         </div>
     </div>
 </template>
@@ -69,6 +102,10 @@ selectedMusic.$subscribe(() => {
             border-radius: 50%;
             padding: 5px;
             margin: 2px 5px;
+
+            &.active {
+                color: var(--theme) !important;
+            }
         }
     }
 

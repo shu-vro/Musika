@@ -3,7 +3,7 @@ import { useMusicStore } from "./musicStore";
 
 export const useSelectedMusicStore = defineStore("selectedMusicStore", {
     state: () =>
-        ({ tracks: [], currentTrack: null } as {
+        ({ currentTrack: null } as {
             currentTrack: IAudioMetadata | null;
         }),
     actions: {
