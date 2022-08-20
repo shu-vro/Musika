@@ -1,22 +1,37 @@
 <script lang="ts" setup>
-import { useShrinkNavigation } from '~/stores/shrinkNavigation'
-import { useMusicStore } from '~/stores/musicStore'
-import { useSelectedMusicStore } from '~/stores/selectedMusicStore'
-import { useRippleRefresh } from '~/stores/rippleRefresh'
-const shrinkNavigation = useShrinkNavigation()
-let tracks = useMusicStore().tracks
-let setTrack = useSelectedMusicStore().setTrack
+import { useShrinkNavigation } from "~/stores/shrinkNavigation";
+import { useMusicStore } from "~/stores/musicStore";
+import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
+import { useRippleRefresh } from "~/stores/rippleRefresh";
+const shrinkNavigation = useShrinkNavigation();
+let tracks = useMusicStore().tracks;
+let setTrack = useSelectedMusicStore().setTrack;
 
 useMusicStore().$subscribe(() => {
-    useRippleRefresh().refresh()
-})
+    useRippleRefresh().refresh();
+});
+
+onMounted(() => {
+    useRippleRefresh().refresh();
+});
+
+function handle(track) {
+    console.log(track);
+    setTrack(track);
+}
 </script>
 <template>
     <div class="main-body" :class="{ shrink: shrinkNavigation.shrink }">
         <h1>Songs</h1>
         <div class="songs">
-            <div class="song ripple" v-for="song in tracks" :key="song.id" @click="setTrack(song)">
-                <img :src="song.picture || '../../assets/disk.png'" :alt="song.trackName">
+            <div
+                class="song ripple"
+                v-for="song in tracks"
+                :key="song.id"
+                @click="handle(song)">
+                <img
+                    :src="song.picture || '../../assets/disk.png'"
+                    :alt="song.trackName" />
                 <marquee class="song-title">{{ song.trackName }}</marquee>
                 <div class="song-artist">{{ song.artist }}</div>
                 <div class="playCursor">
@@ -96,7 +111,7 @@ useMusicStore().$subscribe(() => {
                 left: var(--x);
                 transform: translate(-50%, -50%) scale(0);
                 opacity: 0;
-                transition: opacity .3s ease-in-out, transform .3s ease-in-out;
+                transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
             }
 
             &:hover {

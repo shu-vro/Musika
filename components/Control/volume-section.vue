@@ -1,10 +1,33 @@
 <script lang="ts" setup>
 import { useVolumeStore } from "~/stores/volumeStore";
+import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
+const router = useRouter();
+
+function navigate() {
+    const current = router.currentRoute.value.path;
+    const song = useSelectedMusicStore().currentTrack?.trackName || "";
+    const artist = useSelectedMusicStore().currentTrack?.artist || "";
+    const id = useSelectedMusicStore().currentTrack?.id || "";
+    const lyrics = useSelectedMusicStore().currentTrack?.lyrics || "";
+    if (current === "/") {
+        router.push({
+            path: "/lyrics",
+            query: {
+                song,
+                artist,
+                id,
+                lyrics,
+            },
+        });
+    } else {
+        router.push("/");
+    }
+}
 </script>
 
 <template>
     <div class="volume-section">
-        <button>
+        <button @click="navigate">
             <v-icon name="md-lyrics-outlined" scale="1.2"></v-icon>
         </button>
         <button class="volume">
