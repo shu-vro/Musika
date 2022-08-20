@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { useVolumeStore } from "~/stores/volumeStore";
+</script>
+
 <template>
     <div class="volume-section">
         <button>
@@ -5,7 +9,12 @@
         </button>
         <button class="volume">
             <v-icon name="bi-volume-up-fill" scale="1.5"></v-icon>
-            <input type="range" class="progress" min="0" max="100" value="0" />
+            <input
+                type="range"
+                class="progress"
+                min="0"
+                max="100"
+                v-model="useVolumeStore().volume" />
         </button>
     </div>
 </template>

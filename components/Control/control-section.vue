@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import numeral from "numeral";
 import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
+import { useVolumeStore } from "~/stores/volumeStore";
 let { shuffle, playNext, playPrevious } = useSelectedMusicStore();
 let selectedMusic = useSelectedMusicStore();
 let currentTrack = selectedMusic.currentTrack;
+const paused = ref(true);
 
 function toggleMusicState() {
     audio.value.paused ? audio.value.play() : audio.value.pause();
+    paused.value = audio.value.paused;
 }
 const audio = ref<HTMLAudioElement>();
 let currentTime = ref(0);
@@ -32,8 +35,26 @@ function handleLadderChange(e: Event) {
 
 setInterval(() => {
     currentTime.value = Math.round(audio.value?.currentTime || 0);
-    console.log(currentTime.value);
 }, 1000);
+
+function normalizeTimeFormat(number: number) {
+    let a: string = numeral(number).format("00:00:00");
+    if (a.substring(0, 2) === "0:") {
+        a = a.substring(2, a.length);
+        return a;
+    }
+    return a;
+}
+
+onMounted(() => {
+    audio.value.addEventListener("ended", () => {
+        playNext();
+    });
+});
+
+useVolumeStore().$subscribe(() => {
+    audio.value.volume = useVolumeStore().volume / 100;
+});
 </script>
 
 <template>
@@ -54,7 +75,7 @@ setInterval(() => {
             </button>
             <button class="ripple button play" @click="toggleMusicState">
                 <v-icon
-                    :name="audio?.paused ? 'bi-play-fill' : 'io-pause'"
+                    :name="paused ? 'bi-play-fill' : 'io-pause'"
                     scale="3"></v-icon>
             </button>
             <button class="ripple button next" @click="playNext">
@@ -66,7 +87,7 @@ setInterval(() => {
             </button>
         </div>
         <div class="ladder">
-            <span>{{ numeral(currentTime).format("00:00:00") }}</span>
+            <span>{{ normalizeTimeFormat(currentTime) }}</span>
             <input
                 type="range"
                 class="progress"
@@ -75,7 +96,7 @@ setInterval(() => {
                 :max="Math.round(selectedMusic.currentTrack?.duration || 10)"
                 @input="handleLadderChange" />
             <span>{{
-                numeral(selectedMusic.currentTrack?.duration).format("00:00")
+                normalizeTimeFormat(selectedMusic.currentTrack?.duration)
             }}</span>
         </div>
     </div>
