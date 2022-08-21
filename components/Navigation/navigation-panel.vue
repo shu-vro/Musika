@@ -1,25 +1,26 @@
 <script setup lang="ts">
 import jsmediatags from "jsmediatags/dist/jsmediatags.min.js";
+import { v4 } from "uuid";
 import { useShrinkNavigation } from "~/stores/shrinkNavigation";
 import { useMusicStore } from "~/stores/musicStore";
-import { v4 } from "uuid";
 import { IAudioMetadata } from "~/types/types";
 import hamburgerButton from "./hamburger-button.vue";
 let inputFiles = ref();
+const router = useRouter();
 const shrinkNavigation = useShrinkNavigation();
 let musicStore = useMusicStore();
-let tracks = musicStore.tracks
+let tracks = musicStore.tracks;
 const input_file = ref<HTMLInputElement>();
 
 function extractThumbnailFromAudio(picture: any) {
-    if (!picture) return ""
+    if (!picture) return "";
     let data = picture.data;
     let format = picture.format;
-    let base64String = ''
+    let base64String = "";
     for (let i = 0; i < data.length; i++) {
         base64String += String.fromCharCode(data[i]);
     }
-    return `data:${format};base64,${window.btoa(base64String)}`
+    return `data:${format};base64,${window.btoa(base64String)}`;
 }
 
 watch(inputFiles, current => {
@@ -78,16 +79,23 @@ function handleChangeFiles(e) {
 <template>
     <div class="nav" :class="{ shrink: shrinkNavigation.shrink }">
         <a href="/" class="logo">MUSIKA</a>
-        <input type="file" accept="audio/*" ref="input_file" hidden multiple @change="handleChangeFiles" />
+        <input
+            type="file"
+            accept="audio/*"
+            ref="input_file"
+            hidden
+            multiple
+            @change="handleChangeFiles" />
         <button class="closeButton" @click="handleClose">
-            <hamburger-button :class="{ opened: shrinkNavigation.shrink }"></hamburger-button>
+            <hamburger-button
+                :class="{ opened: shrinkNavigation.shrink }"></hamburger-button>
         </button>
         <ul>
-            <li class="ripple">
+            <li class="ripple" @click="router.push('/playing')">
                 <v-icon name="bi-music-note-list" scale="1.5"></v-icon>
                 <span>Playing</span>
             </li>
-            <li class="ripple active">
+            <li class="ripple active" @click="router.push('/')">
                 <v-icon name="gi-bookshelf" scale="1.5"></v-icon>
                 <span>Play List</span>
             </li>
@@ -244,7 +252,7 @@ div.nav {
             height: 80px;
             display: flex;
 
-            &>* {
+            & > * {
                 flex-basis: 100%;
             }
 

@@ -153,7 +153,7 @@ a {
 
 .page-enter-active,
 .page-leave-active {
-    transition: opacity 0.5s ease;
+    transition: 1s ease;
 }
 
 .page-enter-from {
