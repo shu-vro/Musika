@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useMusicStore } from "~/stores/musicStore";
+import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
+import { ILyricsObject } from "~/types/types";
 const musicStore = useMusicStore();
+const currentMusic = useSelectedMusicStore();
 const route = useRoute();
 const { song, artist, id, lyrics } = route.query;
 const res = ref();
@@ -13,15 +16,16 @@ if (
     lyrics === ""
 ) {
     $fetch(`/api/lyrics?song=${song}&artist=${artist}`)
-        .then(r => {
-            // @ts-ignore
+        .then((r: ILyricsObject) => {
             res.value = r.lyrics;
 
             if (id !== "") {
                 let index = musicStore.tracks.findIndex(t => t.id === id);
                 if (index !== -1) {
-                    // @ts-ignore
                     musicStore.tracks[index].lyrics = r.lyrics;
+                }
+                if (currentMusic.currentTrack?.id === id) {
+                    currentMusic.currentTrack.lyrics ??= r.lyrics;
                 }
             }
         })
@@ -38,7 +42,7 @@ definePageMeta({
     <main-body title="Lyrics">
         <pre
             >{{ res }}
-        
+
         
         </pre>
     </main-body>

@@ -15,3 +15,8 @@ export interface IAudioMetadata {
 }
 
 export type IArrayAudioMetaData = Array<IAudioMetadata>;
+
+export interface ILyricsObject {
+    statusCode: number;
+    lyrics: string;
+}

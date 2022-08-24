@@ -20,10 +20,10 @@ definePageMeta({
 });
 </script>
 <template>
-    <main-body title="Songs">
-        <div class="songs">
+    <main-body title="Playlists">
+        <div class="playlists">
             <div
-                class="song ripple"
+                class="playlist ripple"
                 v-for="song in tracks"
                 :key="song.id"
                 @click="setTrack(song)">
@@ -41,7 +41,7 @@ definePageMeta({
 </template>
 
 <style lang="scss" scoped>
-.songs {
+.playlists {
     position: relative;
     width: calc(100% - 41px);
     height: calc(100% - 75px);
@@ -54,7 +54,7 @@ definePageMeta({
     flex-wrap: wrap;
     padding: 10px 20px;
 
-    .song {
+    .playlist {
         position: relative;
         display: flex;
         justify-content: center;

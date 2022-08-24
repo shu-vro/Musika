@@ -3,6 +3,7 @@
         "jsmediatags",
         "MUSIKA",
         "Nuxt",
-        "skipnext"
+        "skipnext",
+        "skipprevious"
     ]
 }

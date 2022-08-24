@@ -21,4 +21,14 @@ export default defineNuxtConfig({
             },
         ],
     ],
+    vite: {
+        vue: {
+            template: {
+                compilerOptions: {
+                    isCustomElement: tag => ["marquee"].includes(tag),
+                },
+            },
+        },
+    },
+    css: ["~/assets/styles/main.scss"],
 });

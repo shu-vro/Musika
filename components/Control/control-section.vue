@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import numeral from "numeral";
 import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
 import { useVolumeStore } from "~/stores/volumeStore";
+import { normalizeTimeFormat } from "~/utils/utils";
 let { shuffle, playNext, playPrevious } = useSelectedMusicStore();
 let selectedMusic = useSelectedMusicStore();
 let currentTrack = selectedMusic.currentTrack;
@@ -37,18 +37,12 @@ setInterval(() => {
     currentTime.value = Math.round(audio.value?.currentTime || 0);
 }, 1000);
 
-function normalizeTimeFormat(number: number) {
-    let a: string = numeral(number).format("00:00:00");
-    if (a.substring(0, 2) === "0:") {
-        a = a.substring(2, a.length);
-        return a;
-    }
-    return a;
-}
-
 onMounted(() => {
     audio.value.addEventListener("ended", () => {
         playNext();
+    });
+    audio.value.addEventListener("play", () => {
+        paused.value = false;
     });
 });
 

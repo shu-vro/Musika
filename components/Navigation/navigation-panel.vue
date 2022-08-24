@@ -157,7 +157,7 @@ div.nav {
         font-size: 2rem;
         font-weight: bold;
         font-family: "Zen Dots", cursive;
-        background: linear-gradient(90deg, #ff0077, #333399);
+        background: linear-gradient(90deg, #ff0077, #2dffc0);
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -190,19 +190,8 @@ div.nav {
                 transition-delay: 0.3s;
                 display: inline-block;
                 text-overflow: ellipsis;
-                // width: 200px;
                 white-space: nowrap;
                 overflow: hidden;
-            }
-
-            &.active::after {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 6px;
-                height: 100%;
-                background: var(--theme);
             }
         }
     }

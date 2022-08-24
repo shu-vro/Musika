@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@types/jsmediatags": "^3.9.3",
+        "@types/numeral": "^2.0.2",
         "@types/uuid": "^8.3.4",
         "nuxt": "3.0.0-rc.6",
         "sass": "^1.54.4"
