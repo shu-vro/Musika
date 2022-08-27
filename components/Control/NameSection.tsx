@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import Image from "next/image";
-import disk from "../../assets/disk.png";
+import disk from "@assets/disk.png";
 import styles from "@styles/ControlPanel.module.scss";
 
 export default function NameSection() {
@@ -16,7 +16,7 @@ export default function NameSection() {
                 </marquee>
                 <p>Some amazing artist</p>
             </div>
-            <AiOutlineHeart size="3rem" className={styles.love_icon} />
+            <AiOutlineHeart size="1.5rem" className={styles.love_icon} />
         </div>
     );
 }

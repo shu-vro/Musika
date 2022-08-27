@@ -4,7 +4,7 @@ import type { IAudioMetadata } from "@ts/types";
 const Context = createContext({});
 
 export function useSelectMusic(): {
-    value?: boolean;
+    value?: IAudioMetadata;
     setValue?: React.Dispatch<React.SetStateAction<IAudioMetadata>>;
 } {
     return useContext(Context);
