@@ -16,7 +16,7 @@ export default function NameSection() {
                 </marquee>
                 <p>Some amazing artist</p>
             </div>
-            <AiOutlineHeart size={"1.5rem"} className={styles.love_icon} />
+            <AiOutlineHeart size="3rem" className={styles.love_icon} />
         </div>
     );
 }

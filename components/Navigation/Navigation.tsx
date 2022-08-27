@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GiMusicalNotes, GiBookshelf } from "react-icons/gi";
 import { RiPlayListAddLine } from "react-icons/ri";
 import styles from "@styles/Navigation.module.scss";
 import Hamburger from "./Hamburger";
-import { useShrinkNavigation } from "contexts/shrinkNavigation";
+import { useShrinkNavigation } from "@contexts/shrinkNavigation";
+import { useRippleRefresh } from "@contexts/RippleRefresh";
 
 export default function Navigation() {
     let shrink = useShrinkNavigation();
@@ -11,6 +12,50 @@ export default function Navigation() {
         console.log(shrink.value);
         shrink.setValue(!shrink.value);
     }
+
+    // Ripple effect
+
+    let rippleRefresh = useRippleRefresh();
+    useEffect(() => {
+        rippleRefresh.refresh();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        let ripples = rippleRefresh.value;
+        function setSize(el: HTMLElement) {
+            let parentWidth = el.getBoundingClientRect().width;
+            let parentHeight = el.getBoundingClientRect().height;
+            let size = Math.hypot(parentWidth, parentHeight) * 2;
+            el.style.setProperty("--size", size + "px");
+        }
+        ripples.forEach(r => {
+            setSize(r);
+            r.addEventListener("mousemove", (e: MouseEvent) => {
+                setSize(r);
+                let parentX = r.getBoundingClientRect().x;
+                let parentY = r.getBoundingClientRect().y;
+                let x = e.clientX - parentX;
+                let y = e.clientY - parentY;
+                r.style.setProperty("--x", x + "px");
+                r.style.setProperty("--y", y + "px");
+            });
+
+            r.addEventListener("mousedown", (e: MouseEvent) => {
+                let parentX = r.getBoundingClientRect().x;
+                let parentY = r.getBoundingClientRect().y;
+                let x = e.clientX - parentX;
+                let y = e.clientY - parentY;
+                r.style.setProperty("--x", x + "px");
+                r.style.setProperty("--y", y + "px");
+                r.classList.add("ripple-effect");
+
+                setTimeout(() => {
+                    r.classList.remove("ripple-effect");
+                }, 500);
+            });
+        });
+    }, [rippleRefresh.value]);
     return (
         <>
             <div
