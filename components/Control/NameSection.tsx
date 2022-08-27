@@ -7,7 +7,7 @@ import styles from "@styles/ControlPanel.module.scss";
 export default function NameSection() {
     return (
         <div className={styles["name-section"]}>
-            <Image src={disk} alt="" width={80} height={80} />
+            <Image src={disk} alt="" layout="fixed" width={80} height={80} />
             <div className={styles.details}>
                 {/* @ts-ignore */}
                 <marquee behavior="scroll" direction="left">

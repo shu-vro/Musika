@@ -1,0 +1,12 @@
+.playing {
+    position: relative;
+    text-align: center;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    h1 {
+        font-size: max(3vw, 20px);
+    }
+}

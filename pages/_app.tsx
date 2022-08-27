@@ -1,14 +1,21 @@
 import ControlPanel from "@components/Control/ControlPanel";
 import Navigation from "@components/Navigation/Navigation";
+import TransitionEffect from "@components/TransitionEffect";
 import Wrapper from "@components/Wrapper";
 import "@styles/globals.scss";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
     return (
         <>
+            <Head>
+                <title>MUSIKA - Music For Everyone</title>
+            </Head>
             <Wrapper>
                 <Navigation />
-                <Component {...pageProps} />
+                <TransitionEffect>
+                    <Component {...pageProps} />
+                </TransitionEffect>
                 <ControlPanel />
             </Wrapper>
         </>

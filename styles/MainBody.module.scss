@@ -1,6 +1,6 @@
 .main-body {
-    $width: calc(100% - 202px);
-    $height: calc(100% - 100px);
+    $width: calc(100vw - 202px);
+    $height: calc(100vh - 100px);
     position: fixed;
     right: 0;
     top: 0;

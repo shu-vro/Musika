@@ -1,13 +1,24 @@
 import React, { useEffect } from "react";
 import { GiMusicalNotes, GiBookshelf } from "react-icons/gi";
 import { RiPlayListAddLine } from "react-icons/ri";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { v4 } from "uuid";
+import jsmediatags from "jsmediatags/dist/jsmediatags.min.js";
 import styles from "@styles/Navigation.module.scss";
 import Hamburger from "./Hamburger";
 import { useShrinkNavigation } from "@contexts/shrinkNavigation";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
+import type { IAudioMetadata } from "@ts/types";
+import { extractThumbnailFromAudio, removeSiteFromTitle } from "@utils/utils";
+import { useMusicStore } from "@contexts/MusicStore";
 
 export default function Navigation() {
-    let shrink = useShrinkNavigation();
+    const shrink = useShrinkNavigation();
+    const router = useRouter();
+    const musicStore = useMusicStore();
+    const [files, setFiles] = useState<any>([]);
+
     function handleShrink() {
         console.log(shrink.value);
         shrink.setValue(!shrink.value);
@@ -56,6 +67,55 @@ export default function Navigation() {
             });
         });
     }, [rippleRefresh.value]);
+
+    useEffect(() => {
+        for (let i = 0; i < files.length; i++) {
+            const file: File = files[i];
+            const disposableAudio = document?.createElement("audio");
+            jsmediatags.read(file, {
+                onSuccess: function (media) {
+                    let res: IAudioMetadata = {
+                        id: v4(),
+                        trackName: removeSiteFromTitle(
+                            media.tags.title || file.name
+                        ),
+                        artist: media.tags.artist || "Unknown",
+                        loved: false,
+                        genre: media.tags.genre || "",
+                        path: "App Cache",
+                        size: file.size,
+                        picture: extractThumbnailFromAudio(media.tags.picture),
+                        album: media.tags.album || "",
+                        format: file.type,
+                        lyrics: "",
+                        src: "",
+                        duration: 0,
+                    };
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        res["src"] = e.target.result;
+                        disposableAudio.src = e.target.result as string;
+                        disposableAudio.onloadedmetadata = function () {
+                            res["duration"] = Math.round(
+                                disposableAudio.duration
+                            );
+                            musicStore.setValue(prev => {
+                                console.log(res);
+                                return [...prev, res];
+                            });
+                            disposableAudio.remove();
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                },
+                onError: function (error) {
+                    console.log(error);
+                },
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [files]);
+
     return (
         <>
             <div
@@ -71,19 +131,26 @@ export default function Navigation() {
                     accept="audio/*"
                     hidden
                     multiple
+                    onChange={({ target }) => {
+                        setFiles(target.files);
+                    }}
                 />
                 <button className="closeButton" onClick={handleShrink}>
                     <Hamburger />
                 </button>
 
                 <ul>
-                    <li className="ripple">
+                    <li
+                        className="ripple"
+                        onClick={() => router.push("/playing")}>
                         <GiMusicalNotes
                             size={shrink.value ? "2rem" : "1.5rem"}
                         />
                         <span>Playing</span>
                     </li>
-                    <li className="ripple active">
+                    <li
+                        className="ripple active"
+                        onClick={() => router.push("/")}>
                         <GiBookshelf size={shrink.value ? "2rem" : "1.5rem"} />
                         <span>Play List</span>
                     </li>
