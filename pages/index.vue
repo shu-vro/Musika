@@ -1,9 +1,6 @@
 <script lang="ts" setup>
 import { useMusicStore } from "~/stores/musicStore";
-import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
 import { useRippleRefresh } from "~/stores/rippleRefresh";
-let tracks = useMusicStore().tracks;
-let setTrack = useSelectedMusicStore().setTrack;
 
 useMusicStore().$subscribe(() => {
     useRippleRefresh().refresh();
@@ -22,20 +19,22 @@ definePageMeta({
 <template>
     <main-body title="Playlists">
         <div class="playlists">
-            <div
-                class="playlist ripple"
-                v-for="song in tracks"
-                :key="song.id"
-                @click="setTrack(song)">
-                <img
-                    :src="song.picture || '../../assets/disk.png'"
-                    :alt="song.trackName" />
-                <marquee class="song-title">{{ song.trackName }}</marquee>
-                <div class="song-artist">{{ song.artist }}</div>
+            <nuxt-link to="/playlist_" class="playlist ripple">
+                <div class="image">
+                    <img
+                        v-for="i in 4"
+                        :src="
+                            useMusicStore().tracks[i - 1]?.picture ||
+                            `../../assets/photo.jpg`
+                        "
+                        alt="playlist" />
+                </div>
+                <div class="playlist-title">All</div>
+                <div class="playlist-description">Some description</div>
                 <div class="playCursor">
                     <v-icon name="bi-play-circle" scale="4"></v-icon>
                 </div>
-            </div>
+            </nuxt-link>
         </div>
     </main-body>
 </template>
@@ -69,16 +68,22 @@ definePageMeta({
         padding: 10px 20px;
         cursor: none;
 
-        img {
+        .image {
             width: 130px;
-            object-fit: cover;
+            height: 130px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+
+            img {
+                width: 100%;
+            }
         }
 
-        .song-title {
+        .playlist-title {
             font-size: 1.2rem;
         }
 
-        .song-artist {
+        .playlist-description {
             font-size: 0.9rem;
         }
 

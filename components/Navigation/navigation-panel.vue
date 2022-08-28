@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import { useShrinkNavigation } from "~/stores/shrinkNavigation";
 import { useMusicStore } from "~/stores/musicStore";
 import { IAudioMetadata } from "~/types/types";
+import { removeSiteFromTitle } from "~/utils/utils";
 import hamburgerButton from "./hamburger-button.vue";
 let inputFiles = ref();
 const router = useRouter();
@@ -31,7 +32,9 @@ watch(inputFiles, current => {
             onSuccess: function (media) {
                 let res: IAudioMetadata = {
                     id: v4(),
-                    trackName: media.tags.title || file.name,
+                    trackName: removeSiteFromTitle(
+                        media.tags.title || file.name
+                    ),
                     artist: media.tags.artist || "Unknown",
                     loved: false,
                     genre: media.tags.genre || "",
@@ -107,8 +110,6 @@ function handleChangeFiles(e) {
     </div>
 </template>
 <style lang="scss" scoped>
-@import url("https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap");
-
 div.nav {
     position: fixed;
     top: 0;

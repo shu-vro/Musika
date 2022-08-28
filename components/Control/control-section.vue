@@ -14,8 +14,12 @@ function toggleMusicState() {
 const audio = ref<HTMLAudioElement>();
 let currentTime = ref(0);
 
-selectedMusic.$subscribe(() => {
-    if (selectedMusic.currentTrack) {
+selectedMusic.$subscribe((mutation, state) => {
+    if (
+        selectedMusic.currentTrack &&
+        // @ts-ignore
+        mutation.events.oldValue?.src !== mutation.events.newValue?.src
+    ) {
         audio.value.src = selectedMusic.currentTrack.src as string;
         audio.value.play();
     }
@@ -61,11 +65,8 @@ useVolumeStore().$subscribe(() => {
                 @click="handleLoop">
                 <v-icon name="ri-repeat-2-fill" scale="1.5"></v-icon>
             </button>
-            <button class="ripple button prev">
-                <v-icon
-                    name="md-skipprevious-round"
-                    scale="1.5"
-                    @click="playPrevious"></v-icon>
+            <button class="ripple button prev" @click="playPrevious">
+                <v-icon name="md-skipprevious-round" scale="1.5"></v-icon>
             </button>
             <button class="ripple button play" @click="toggleMusicState">
                 <v-icon

@@ -3,8 +3,16 @@ import { useMusicStore } from "~/stores/musicStore";
 import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
 import { useRippleRefresh } from "~/stores/rippleRefresh";
 import { normalizeTimeFormat } from "@/utils/utils";
+const router = useRouter();
+const { params } = useRoute();
 let tracks = useMusicStore().tracks;
 let setTrack = useSelectedMusicStore().setTrack;
+
+if (params.playlistId === "") {
+    tracks = useMusicStore().tracks;
+} else {
+    // TODO: validate playlists
+}
 
 useMusicStore().$subscribe(() => {
     useRippleRefresh().refresh();
@@ -24,7 +32,14 @@ definePageMeta({
     <main-body title="Songs">
         <div class="songs">
             <div class="image">
-                <img src="../../assets/bg.jpg" alt="playlist" />
+                <v-icon
+                    name="ri-arrow-go-back-line"
+                    scale="1.5"
+                    @click="router.back()"></v-icon>
+                <img
+                    :src="tracks[0]?.picture || '../../assets/photo.jpg'"
+                    alt="playlist" />
+                <h1>Playlist Name</h1>
             </div>
             <div
                 class="song ripple"
@@ -58,6 +73,29 @@ definePageMeta({
         overflow: hidden;
         box-shadow: 0 10px 10px rgba(0, 0, 0, 0.404);
 
+        &::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            z-index: 1;
+        }
+
+        .ov-icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 2;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 10px;
+            cursor: pointer;
+        }
+
         img {
             position: absolute;
             top: 0;
@@ -66,6 +104,15 @@ definePageMeta({
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        h1 {
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            font-family: "Zen dots", cursive;
+            margin-bottom: 10px;
         }
     }
 
@@ -88,6 +135,7 @@ definePageMeta({
             justify-content: flex-start;
             align-items: center;
             flex-direction: row;
+            width: 50%;
 
             img {
                 width: 70px;
@@ -99,6 +147,7 @@ definePageMeta({
                 font-size: 1.3rem;
                 font-weight: 600;
                 font-style: italic;
+                width: 100%;
             }
         }
     }

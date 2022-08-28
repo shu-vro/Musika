@@ -1,8 +1,8 @@
-import type { IAudioMetadata, IArrayAudioMetaData } from "~/types/types";
+import type { IArrayAudioMetaData } from "~/types/types";
 
 export const useMusicStore = defineStore("musicStore", {
     state: () =>
-        ({ tracks: [], currentTrack: null } as {
+        ({ tracks: [] } as {
             tracks: IArrayAudioMetaData;
         }),
 });

@@ -9,19 +9,19 @@ function navigate() {
     const artist = useSelectedMusicStore().currentTrack?.artist || "";
     const id = useSelectedMusicStore().currentTrack?.id || "";
     const lyrics = useSelectedMusicStore().currentTrack?.lyrics || "";
-    if (current === "/") {
-        router.push({
-            path: "/lyrics",
-            query: {
-                song,
-                artist,
-                id,
-                lyrics,
-            },
-        });
-    } else {
-        router.push("/");
-    }
+    // if (current === "/lyrics") {
+    //     router.back();
+    // } else {
+    //     router.push({
+    //         path: "/lyrics",
+    //         query: {
+    //             song,
+    //             artist,
+    //             id,
+    //             lyrics,
+    //         },
+    //     });
+    // }
 }
 </script>
 

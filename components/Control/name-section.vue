@@ -2,7 +2,22 @@
 import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
 
 let selectedMusic = useSelectedMusicStore();
-let lovedName = ref("bi-heart");
+let lovedName = ref<`bi-heart` | `bi-heart-fill`>("bi-heart");
+useSelectedMusicStore().$subscribe(() => {
+    if (selectedMusic) {
+        selectedMusic.currentTrack.loved
+            ? (lovedName.value = "bi-heart-fill")
+            : (lovedName.value = "bi-heart");
+    }
+});
+function handleLoved() {
+    if (selectedMusic) {
+        selectedMusic.currentTrack.loved = !selectedMusic.currentTrack.loved;
+        selectedMusic.currentTrack.loved
+            ? (lovedName.value = "bi-heart-fill")
+            : (lovedName.value = "bi-heart");
+    }
+}
 </script>
 
 <template>
@@ -18,10 +33,7 @@ let lovedName = ref("bi-heart");
             }}</marquee>
             <p>{{ selectedMusic.currentTrack?.artist }}</p>
         </div>
-        <v-icon
-            :name="lovedName"
-            @mouseover="lovedName = `bi-heart-fill`"
-            @mouseleave="lovedName = `bi-heart`"></v-icon>
+        <v-icon :name="lovedName" @click="handleLoved"></v-icon>
     </div>
 </template>
 

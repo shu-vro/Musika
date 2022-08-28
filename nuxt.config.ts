@@ -6,7 +6,7 @@ export default defineNuxtConfig({
         transpile: ["h3"],
     },
     components: true,
-    buildModules: [
+    modules: [
         // ...
         [
             "@pinia/nuxt",
@@ -14,8 +14,6 @@ export default defineNuxtConfig({
                 autoImports: [
                     // automatically imports `usePinia()`
                     "defineStore",
-                    // automatically imports `usePinia()` as `usePiniaStore()`
-                    ["defineStore", "definePiniaStore"],
                     "storeToRefs",
                 ],
             },

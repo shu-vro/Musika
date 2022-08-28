@@ -8,3 +8,10 @@ export function normalizeTimeFormat(number: number) {
     }
     return a;
 }
+
+export function removeSiteFromTitle(title: string) {
+    return title.replace(
+        /([\w+]+\:\/\/)?([\w\d-]+\.)*[\w-]+[\.\:]\w+([\/\?\=\&\#\.]?[\w-]+)*\/?/gm,
+        ""
+    );
+}

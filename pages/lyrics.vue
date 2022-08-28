@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import { useMusicStore } from "~/stores/musicStore";
-import { useSelectedMusicStore } from "~/stores/selectedMusicStore";
 import { ILyricsObject } from "~/types/types";
 const musicStore = useMusicStore();
-const currentMusic = useSelectedMusicStore();
 const route = useRoute();
 const { song, artist, id, lyrics } = route.query;
 const res = ref();
@@ -23,9 +21,6 @@ if (
                 let index = musicStore.tracks.findIndex(t => t.id === id);
                 if (index !== -1) {
                     musicStore.tracks[index].lyrics = r.lyrics;
-                }
-                if (currentMusic.currentTrack?.id === id) {
-                    currentMusic.currentTrack.lyrics ??= r.lyrics;
                 }
             }
         })
