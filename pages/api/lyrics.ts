@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res) {
     if (typeof song !== "string" || typeof artist !== "string")
         res.status(200).json({ lyrics });
     try {
-        lyrics = (await lf(song, artist)) || "No lyrics found";
+        lyrics = await lf(song, artist) || "No lyrics found";
     } catch (e) {
         console.log(e);
     }

@@ -1,19 +1,21 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import MainBody from "@components/MainBody";
 import styles from "@styles/Home.module.scss";
 import defaultImage from "@assets/disk.png";
 import { useSelectMusic } from "@contexts/SelectMusic";
-import { useEffect, useRef, useState } from "react";
 
 export default function Playing() {
     const selectedMusic = useSelectMusic().value;
     const imageParentRef = useRef(null);
     const [height, setHeight] = useState(0);
+
     useEffect(() => {
         function setWidth() {
-            let image = imageParentRef.current.querySelector("img");
+            if (!imageParentRef.current) return;
             try {
+                let image = imageParentRef.current.querySelector("img");
                 setTimeout(() => {
                     let { y } = image.getBoundingClientRect();
                     let targetElHeight =
@@ -30,14 +32,14 @@ export default function Playing() {
     return (
         <>
             <Head>
-                <title>Playing - </title>
+                <title>Playing - {selectedMusic?.trackName}</title>
             </Head>
             <MainBody title="Playing">
                 <div className={styles.playing} ref={imageParentRef}>
                     <h1>{selectedMusic?.trackName}</h1>
                     <p>{selectedMusic?.artist}</p>
                     <Image
-                        src={defaultImage}
+                        src={selectedMusic?.picture || defaultImage}
                         alt={selectedMusic?.trackName}
                         layout="fixed"
                         objectFit="contain"

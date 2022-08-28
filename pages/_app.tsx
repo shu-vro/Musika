@@ -10,6 +10,11 @@ function MyApp({ Component, pageProps }) {
         <>
             <Head>
                 <title>MUSIKA - Music For Everyone</title>
+                <link
+                    rel="shortcut icon"
+                    href="/favicon.ico"
+                    type="image/x-icon"
+                />
             </Head>
             <Wrapper>
                 <Navigation />

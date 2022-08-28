@@ -1,22 +1,52 @@
 import React from "react";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import Image from "next/image";
 import disk from "@assets/disk.png";
 import styles from "@styles/ControlPanel.module.scss";
+import { useSelectMusic } from "@contexts/SelectMusic";
 
 export default function NameSection() {
+    const { value: selectedMusic, setValue: setSelectedMusic } =
+        useSelectMusic();
+
+    function handleLoved() {
+        if (selectedMusic?.loved === null) return;
+        setSelectedMusic(prev => {
+            let temp = { ...prev };
+            temp.loved = !temp.loved;
+            return temp;
+        });
+    }
     return (
         <div className={styles["name-section"]}>
-            <Image src={disk} alt="" layout="fixed" width={80} height={80} />
+            <Image
+                src={selectedMusic?.picture || disk}
+                alt=""
+                layout="fixed"
+                width={80}
+                height={80}
+            />
             <div className={styles.details}>
                 {/* @ts-ignore */}
                 <marquee behavior="scroll" direction="left">
-                    Some amazing Track
+                    {selectedMusic?.trackName}
                     {/* @ts-ignore */}
                 </marquee>
-                <p>Some amazing artist</p>
+                <p>{selectedMusic?.artist}</p>
             </div>
-            <AiOutlineHeart size="1.5rem" className={styles.love_icon} />
+            {selectedMusic?.loved ? (
+                <AiFillHeart
+                    size="1.5rem"
+                    className={styles.love_icon}
+                    onClick={handleLoved}
+                />
+            ) : (
+                <AiOutlineHeart
+                    size="1.5rem"
+                    className={styles.love_icon}
+                    onClick={handleLoved}
+                />
+            )}
         </div>
     );
 }

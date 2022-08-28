@@ -4,7 +4,7 @@ import type { IArrayAudioMetaData } from "@ts/types";
 const Context = createContext({});
 
 export function useMusicStore(): {
-    value?: boolean;
+    value?: IArrayAudioMetaData;
     setValue?: React.Dispatch<React.SetStateAction<IArrayAudioMetaData>>;
 } {
     return useContext(Context);

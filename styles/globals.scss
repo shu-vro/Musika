@@ -100,20 +100,6 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(0deg, #ff0077, #2dffc0);
+    background: linear-gradient(0deg, #ec2f4b, #009fff);
     border-radius: 50px;
-}
-
-.page-enter-active,
-.page-leave-active {
-    transition: 1s ease;
-}
-
-.page-enter-from {
-    opacity: 0;
-    transform: translateX(max(-50%, -200px));
-}
-.page-leave-to {
-    opacity: 0;
-    transform: translateX(min(50%, 200px));
 }

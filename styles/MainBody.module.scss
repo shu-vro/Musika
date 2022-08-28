@@ -11,7 +11,7 @@
     transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
     &.shrink {
-        width: calc(100% - 67px);
+        width: calc(100vw - 67px);
     }
 
     h1 {
@@ -22,7 +22,7 @@
 
 @media (max-width: 687px) {
     .main-body {
-        width: 100% !important;
-        height: calc(100% - 180px);
+        width: 100vw !important;
+        height: calc(100vh - 180px);
     }
 }

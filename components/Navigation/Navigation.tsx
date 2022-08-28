@@ -12,17 +12,13 @@ import { useRippleRefresh } from "@contexts/RippleRefresh";
 import type { IAudioMetadata } from "@ts/types";
 import { extractThumbnailFromAudio, removeSiteFromTitle } from "@utils/utils";
 import { useMusicStore } from "@contexts/MusicStore";
+import { TagType } from "jsmediatags/types";
 
 export default function Navigation() {
     const shrink = useShrinkNavigation();
     const router = useRouter();
     const musicStore = useMusicStore();
     const [files, setFiles] = useState<any>([]);
-
-    function handleShrink() {
-        console.log(shrink.value);
-        shrink.setValue(!shrink.value);
-    }
 
     // Ripple effect
 
@@ -72,8 +68,9 @@ export default function Navigation() {
         for (let i = 0; i < files.length; i++) {
             const file: File = files[i];
             const disposableAudio = document?.createElement("audio");
+            if (!file.type.match(/^audio\//)) continue;
             jsmediatags.read(file, {
-                onSuccess: function (media) {
+                onSuccess: function (media: TagType) {
                     let res: IAudioMetadata = {
                         id: v4(),
                         trackName: removeSiteFromTitle(
@@ -100,7 +97,6 @@ export default function Navigation() {
                                 disposableAudio.duration
                             );
                             musicStore.setValue(prev => {
-                                console.log(res);
                                 return [...prev, res];
                             });
                             disposableAudio.remove();
@@ -135,7 +131,11 @@ export default function Navigation() {
                         setFiles(target.files);
                     }}
                 />
-                <button className="closeButton" onClick={handleShrink}>
+                <button
+                    className="closeButton"
+                    onClick={() => {
+                        shrink.setValue(!shrink.value);
+                    }}>
                     <Hamburger />
                 </button>
 
