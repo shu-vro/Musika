@@ -1,27 +1,36 @@
 {
     "name": "musika",
+    "repository": {
+        "url": "https://github.com/shu-vro/Musika.git"
+    },
+    "homepage": "https://shu-vro.github.io/Musika/",
     "version": "0.1.0",
     "private": true,
-    "homepage": "https://shu-vro.github.io/Musika",
     "scripts": {
-        "build": "nuxt build",
-        "dev": "nuxt dev -o",
-        "generate": "nuxt generate",
-        "preview": "nuxt preview"
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "framer-motion": "^7.2.1",
+        "jsmediatags": "^3.9.7",
+        "lyrics-finder": "^21.7.0",
+        "next": "12.2.5",
+        "numeral": "^2.0.6",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-icons": "^4.4.0",
+        "uuid": "^8.3.2"
     },
     "devDependencies": {
         "@types/jsmediatags": "^3.9.3",
+        "@types/node": "^18.7.13",
         "@types/numeral": "^2.0.2",
+        "@types/react": "^18.0.17",
         "@types/uuid": "^8.3.4",
-        "nuxt": "3.0.0-rc.6",
-        "sass": "^1.54.4"
-    },
-    "dependencies": {
-        "@pinia/nuxt": "^0.4.0",
-        "jsmediatags": "^3.9.7",
-        "lyrics-finder": "^21.7.0",
-        "numeral": "^2.0.6",
-        "pinia": "^2.0.18",
-        "uuid": "^8.3.2"
+        "eslint": "8.22.0",
+        "eslint-config-next": "12.2.5",
+        "sass": "^1.54.5"
     }
 }

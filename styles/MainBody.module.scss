@@ -1,0 +1,28 @@
+.main-body {
+    $width: calc(100vw - 202px);
+    $height: calc(100vh - 100px);
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: $width;
+    height: $height;
+    background: rgba(0, 0, 0, 40%);
+    backdrop-filter: blur(10px);
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &.shrink {
+        width: calc(100vw - 67px);
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 687px) {
+    .main-body {
+        width: 100vw !important;
+        height: calc(100vh - 180px);
+    }
+}
