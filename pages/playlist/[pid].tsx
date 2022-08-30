@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import MainBody from "@components/MainBody";
 import defaultImage from "../../assets/photo.jpg";
-import styles from "@styles/Home.module.scss";
+import styles from "@styles/Songs.module.scss";
 import { useMusicStore } from "@contexts/MusicStore";
 import { normalizeTimeFormat } from "@utils/utils";
 import { RiArrowGoBackLine } from "react-icons/ri";

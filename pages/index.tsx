@@ -1,52 +1,61 @@
-import Link from "next/link";
-import Image from "next/image";
-import { BsPlayCircle } from "react-icons/bs";
-import { IoIosAddCircleOutline } from "react-icons/io";
-import styles from "@styles/Home.module.scss";
+import { Swiper, SwiperSlide } from "swiper/react";
+import Playlist from "@components/Index/Playlist";
 import MainBody from "@components/MainBody";
-import defaultImage from "../assets/photo.jpg";
-import { useMusicStore } from "@contexts/MusicStore";
+import styles from "@styles/Home.module.scss";
+import Songs from "@components/Index/Songs";
+import { useState } from "react";
+import Artists from "@components/Index/Artists";
 
 export default function Home() {
-    let musicStore = useMusicStore().value;
+    const [swiper, setSwiper] = useState(null);
+    const [swiperThumb, setSwiperThumb] = useState(null);
+    let navigation = [
+        {
+            name: "PlayList",
+        },
+        {
+            name: "Songs",
+        },
+        {
+            name: "Artist",
+        },
+        {
+            name: "Album",
+        },
+    ];
     return (
         <MainBody title="Play List">
-            <div className={styles.playlists}>
-                <Link href="playlist/1">
-                    <div className={`ripple ${styles.playlist}`}>
-                        <div className={styles.image}>
-                            {Array(4)
-                                .fill("")
-                                .map((a, i) => (
-                                    <Image
-                                        src={
-                                            musicStore?.[i]?.picture ||
-                                            defaultImage
-                                        }
-                                        alt="playlist"
-                                        objectFit="contain"
-                                        width={65}
-                                        height={65}
-                                        key={i}
-                                    />
-                                ))}
-                        </div>
-                        <div className={styles["playlist-title"]}>All</div>
-                        <div className={styles["playlist-description"]}>
-                            Some description
-                        </div>
-                        <div className={styles["playCursor"]}>
-                            <BsPlayCircle size="4rem" />
-                        </div>
-                    </div>
-                </Link>
-                <div className={`ripple ${styles.playlist}`}>
-                    <div className={styles.addPlaylist}>
-                        <IoIosAddCircleOutline size="4rem" color="#aaa" />
-                    </div>
-                    <div className={styles["playlist-title"]}>Add</div>
-                </div>
-            </div>
+            <Swiper
+                slidesPerView={3}
+                centeredSlides
+                onSwiper={setSwiperThumb}
+                className={styles.mySwiperThumb}>
+                {navigation.map((topic, i) => (
+                    <SwiperSlide
+                        key={i}
+                        onClick={() => {
+                            swiper.slideTo(i);
+                            swiperThumb.slideTo(i);
+                        }}>
+                        {topic.name}
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+            <Swiper
+                className={styles.mySwiperContainer}
+                centeredSlides
+                touchAngle={30}
+                onSwiper={setSwiper}>
+                <SwiperSlide>
+                    <Playlist />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <Songs />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <Artists />
+                </SwiperSlide>
+            </Swiper>
         </MainBody>
     );
 }

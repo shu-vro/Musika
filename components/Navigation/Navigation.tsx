@@ -27,6 +27,10 @@ export default function Navigation() {
         rippleRefresh.refresh();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        rippleRefresh.refresh();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [musicStore]);
 
     useEffect(() => {
         let ripples = rippleRefresh.value;

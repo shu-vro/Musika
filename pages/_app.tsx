@@ -1,9 +1,10 @@
+import Head from "next/head";
 import ControlPanel from "@components/Control/ControlPanel";
 import Navigation from "@components/Navigation/Navigation";
 import TransitionEffect from "@components/TransitionEffect";
 import Wrapper from "@components/Wrapper";
 import "@styles/globals.scss";
-import Head from "next/head";
+import "swiper/scss";
 
 function MyApp({ Component, pageProps }) {
     return (
