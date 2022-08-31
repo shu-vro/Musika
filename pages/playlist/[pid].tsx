@@ -11,16 +11,9 @@ import { useSelectMusic } from "@contexts/SelectMusic";
 
 export default function PlayList() {
     const router = useRouter();
-    const musicStore = useMusicStore().value;
+    const { queue: musicStore } = useMusicStore();
     const selectMusic = useSelectMusic().setValue;
     const rippleRefresh = useRippleRefresh();
-
-    useEffect(() => {
-        let { pid } = router.query;
-        if (!pid) return;
-
-        // pid will be Nan, other playlist
-    }, [router]);
 
     useEffect(() => {
         rippleRefresh.refresh();
@@ -34,6 +27,7 @@ export default function PlayList() {
                     <div className={styles.image}>
                         <RiArrowGoBackLine
                             size="1.5rem"
+                            className={styles.backIcon}
                             onClick={() => {
                                 router.back();
                             }}

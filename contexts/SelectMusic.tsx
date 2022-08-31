@@ -22,7 +22,7 @@ export function SelectMusicContext({ children }) {
     const musicStore = useMusicStore();
 
     function shuffle() {
-        const tracks = [...musicStore.value];
+        const tracks = [...musicStore.queue];
         let array = tracks;
         let currentIndex = array.length,
             randomIndex: number;
@@ -42,13 +42,13 @@ export function SelectMusicContext({ children }) {
         musicStore.setValue(tracks);
     }
     function playNext() {
-        const tracks = [...musicStore.value];
+        const tracks = [...musicStore.queue];
         if (value) {
             setValue(tracks[(tracks.indexOf(value) + 1) % tracks.length]);
         }
     }
     function playPrevious() {
-        const tracks = [...musicStore.value];
+        const tracks = [...musicStore.queue];
         if (value) {
             setValue(
                 tracks[

@@ -1,12 +1,14 @@
+import { useRouter } from "next/router";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useState } from "react";
 import Playlist from "@components/Index/Playlist";
 import MainBody from "@components/MainBody";
 import styles from "@styles/Home.module.scss";
 import Songs from "@components/Index/Songs";
-import { useState } from "react";
-import Artists from "@components/Index/Artists";
+import GroupSlide from "@components/Index/GroupSlide";
 
 export default function Home() {
+    const router = useRouter();
     const [swiper, setSwiper] = useState(null);
     const [swiperThumb, setSwiperThumb] = useState(null);
     let navigation = [
@@ -22,6 +24,9 @@ export default function Home() {
         {
             name: "Album",
         },
+        {
+            name: "Genre",
+        },
     ];
     return (
         <MainBody title="Play List">
@@ -29,6 +34,10 @@ export default function Home() {
                 slidesPerView={3}
                 centeredSlides
                 onSwiper={setSwiperThumb}
+                onActiveIndexChange={e => {
+                    location.hash = e.slides[e.activeIndex].textContent
+                    swiper.slideTo(e.activeIndex);
+                }}
                 className={styles.mySwiperThumb}>
                 {navigation.map((topic, i) => (
                     <SwiperSlide
@@ -45,6 +54,9 @@ export default function Home() {
                 className={styles.mySwiperContainer}
                 centeredSlides
                 touchAngle={30}
+                onActiveIndexChange={e => {
+                    swiperThumb.slideTo(e.activeIndex);
+                }}
                 onSwiper={setSwiper}>
                 <SwiperSlide>
                     <Playlist />
@@ -53,7 +65,13 @@ export default function Home() {
                     <Songs />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <Artists />
+                    <GroupSlide slideName="artist" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <GroupSlide slideName="album" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <GroupSlide slideName="genre" />
                 </SwiperSlide>
             </Swiper>
         </MainBody>

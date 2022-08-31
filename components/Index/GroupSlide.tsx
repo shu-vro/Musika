@@ -4,24 +4,37 @@ import styles from "@styles/Playlist.module.scss";
 import { useMusicStore } from "@contexts/MusicStore";
 import defaultImage from "../../assets/disk.png";
 import { BsPlayCircle } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { IArrayAudioMetaData } from "@ts/types";
 
-export default function Artists() {
-    const musicStore = useMusicStore().value;
-    let artistNames = musicStore.map(track => track.artist);
+export default function GroupSlide({ slideName }) {
+    const { value: musicStore, getFromSearch, setQueue } = useMusicStore();
+    const [searchResults, setSearchResults] = useState<IArrayAudioMetaData[]>(
+        []
+    );
+    useEffect(() => {
+        setSearchResults(getFromSearch(slideName));
+    }, [getFromSearch, musicStore, slideName]);
 
     return (
         <>
             <div className={styles.playlists}>
-                {artistNames.map((name, i) => (
-                    <Link href={`artist?name=${name}`} key={i}>
-                        <div className={`ripple ${styles.playlist}`}>
+                {searchResults.map((arrayTracks, i) => (
+                    <Link
+                        href={`playlist/${slideName}?name=${arrayTracks[0][slideName]}`}
+                        key={i}>
+                        <div
+                            className={`ripple ${styles.playlist}`}
+                            onClick={() => {
+                                setQueue(arrayTracks);
+                            }}>
                             <div className={styles.image}>
                                 {Array(4)
                                     .fill("")
                                     .map((a, i) => (
                                         <Image
                                             src={
-                                                musicStore?.[i]?.picture ||
+                                                arrayTracks?.[i]?.picture ||
                                                 defaultImage
                                             }
                                             alt="playlist"
@@ -33,7 +46,7 @@ export default function Artists() {
                                     ))}
                             </div>
                             <div className={styles["playlist-title"]}>
-                                {name}
+                                {arrayTracks[0][slideName]}
                             </div>
                             <div className={styles.playCursor}>
                                 <BsPlayCircle size="4rem" />

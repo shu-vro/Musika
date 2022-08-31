@@ -80,13 +80,13 @@ export default function Navigation() {
                         trackName: removeSiteFromTitle(
                             media.tags.title || file.name
                         ),
-                        artist: media.tags.artist || "Unknown",
+                        artist: media.tags.artist || "unknown",
                         loved: false,
-                        genre: media.tags.genre || "",
+                        genre: media.tags.genre || "unknown",
                         path: "App Cache",
                         size: file.size,
                         picture: extractThumbnailFromAudio(media.tags.picture),
-                        album: media.tags.album || "",
+                        album: media.tags.album || "unknown",
                         format: file.type,
                         lyrics: "",
                         src: "",

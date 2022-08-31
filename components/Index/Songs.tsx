@@ -4,7 +4,7 @@ import styles from "@styles/Songs.module.scss";
 import { normalizeTimeFormat } from "@utils/utils";
 
 export default function Songs() {
-    const musicStore = useMusicStore().value;
+    const { value: musicStore, setQueue } = useMusicStore();
     const selectMusic = useSelectMusic().setValue;
 
     return (
@@ -14,7 +14,10 @@ export default function Songs() {
                     <div
                         className={`ripple ${styles.song}`}
                         key={song.id}
-                        onClick={() => selectMusic(song)}>
+                        onClick={() => {
+                            selectMusic(song);
+                            setQueue(musicStore);
+                        }}>
                         <div>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
