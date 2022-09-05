@@ -22,7 +22,7 @@ const MySlider = styled(Slider)({
     "& .MuiSlider-thumb": {
         backgroundColor: "#00ffb8",
     },
-});
+}) as typeof Slider;
 
 const minDistance = 2;
 

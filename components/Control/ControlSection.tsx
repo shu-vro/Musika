@@ -1,13 +1,14 @@
+import { useEffect, useRef, useState } from "react";
 import { IoRepeat, IoShuffle } from "react-icons/io5";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import { FaPlay } from "react-icons/fa";
+import { IoMdPause } from "react-icons/io";
 import styles from "@styles/ControlPanel.module.scss";
 import { normalizeTimeFormat } from "@utils/utils";
-import { FaPlay } from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import { useVolumeHandle } from "@contexts/VolumeHandle";
-import { GiPauseButton } from "react-icons/gi";
 import RangeSlider from "./RangeSlider";
+import { useLoading } from "@contexts/Loading";
 
 export default function ControlSection() {
     const {
@@ -21,6 +22,7 @@ export default function ControlSection() {
     const [loop, setLoop] = useState(false);
     const [paused, setPaused] = useState(true);
     const [currentTime, setCurrentTime] = useState(0);
+    const { setValue: setLoading } = useLoading();
 
     useEffect(() => {
         let audio = audioRef.current;
@@ -35,12 +37,31 @@ export default function ControlSection() {
         }, 1000);
     }, []);
 
+    useEffect(() => {
+        (async () => {
+            try {
+                if (selectedMusic === null) return;
+                await audioRef.current?.play();
+                setPaused(false);
+            } catch (e) {}
+        })();
+    }, [selectedMusic]);
+
     return (
         <div className={`${styles["control-section"]}`}>
             <audio
                 src={(selectedMusic?.src as string) || ""}
                 hidden
                 ref={audioRef}
+                onLoadStart={() => {
+                    setLoading(true);
+                }}
+                onLoadedData={() => {
+                    setLoading(false);
+                }}
+                onError={() => {
+                    setLoading(false);
+                }}
             />
             <div className={styles["control-buttons"]}>
                 <button
@@ -62,15 +83,17 @@ export default function ControlSection() {
                     className={`ripple play-pause ${styles.button}`}
                     style={{ padding: "10px" }}
                     onClick={async () => {
-                        audioRef.current.paused
-                            ? await audioRef.current.play()
-                            : audioRef.current.pause();
-                        setPaused(audioRef.current.paused);
+                        try {
+                            audioRef.current.paused
+                                ? await audioRef.current.play()
+                                : audioRef.current.pause();
+                            setPaused(audioRef.current.paused);
+                        } catch (e) {}
                     }}>
                     {paused ? (
-                        <FaPlay size="2.5rem" />
+                        <FaPlay size="2.0rem" />
                     ) : (
-                        <GiPauseButton size="2.5rem" />
+                        <IoMdPause size="2.0rem" />
                     )}
                 </button>
                 <button
@@ -86,16 +109,6 @@ export default function ControlSection() {
             </div>
             <div className={styles.ladder}>
                 <span>{normalizeTimeFormat(currentTime)}</span>
-                {/* <input
-                    type="range"
-                    className={styles.progress}
-                    value={currentTime}
-                    min="0"
-                    max={selectedMusic?.duration || 0}
-                    onChange={e => {
-                        audioRef.current.currentTime = Number(e.target.value);
-                    }}
-                /> */}
                 <RangeSlider
                     min={0}
                     max={selectedMusic?.duration || 0}

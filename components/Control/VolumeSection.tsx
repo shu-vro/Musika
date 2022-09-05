@@ -12,7 +12,6 @@ export default function VolumeSection() {
     const selectedMusic = useSelectMusic().value;
     const { value: volume, setValue: setVolume } = useVolumeHandle();
     function navigate() {
-        console.log(router);
         if (router.pathname === "/lyrics") {
             return router.back();
         }
@@ -34,18 +33,11 @@ export default function VolumeSection() {
                 </button>
                 <button className={styles.volume}>
                     <FiVolume2 size="1.5rem" />
-                    {/* <input
-                        type="range"
-                        className={styles.progress}
-                        min="0"
-                        max="100"
-                        value={volume}
-                        onChange={e => setVolume(Number(e.target.value))}
-                    /> */}
                     <RangeSlider
                         min={0}
                         max={100}
                         value={volume}
+                        valueLabelDisplay="auto"
                         onChange={(e, n, a) => setVolume(Number(n))}
                     />
                 </button>

@@ -5,6 +5,7 @@ import TransitionEffect from "@components/TransitionEffect";
 import Wrapper from "@components/Wrapper";
 import "@styles/globals.scss";
 import "swiper/scss";
+import Loader from "@components/Loader";
 
 function MyApp({ Component, pageProps }) {
     return (
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }) {
                 />
             </Head>
             <Wrapper>
+                <Loader />
                 <Navigation />
                 <TransitionEffect>
                     <Component {...pageProps} />

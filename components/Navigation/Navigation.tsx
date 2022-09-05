@@ -13,15 +13,15 @@ import type { IAudioMetadata } from "@ts/types";
 import { extractThumbnailFromAudio, removeSiteFromTitle } from "@utils/utils";
 import { useMusicStore } from "@contexts/MusicStore";
 import { TagType } from "jsmediatags/types";
+import { useLoading } from "@contexts/Loading";
 
 export default function Navigation() {
     const shrink = useShrinkNavigation();
     const router = useRouter();
     const musicStore = useMusicStore();
-    const [files, setFiles] = useState<any>([]);
+    const { setValue: setLoading } = useLoading();
 
     // Ripple effect
-
     let rippleRefresh = useRippleRefresh();
     useEffect(() => {
         rippleRefresh.refresh();
@@ -68,11 +68,26 @@ export default function Navigation() {
         });
     }, [rippleRefresh.value]);
 
-    useEffect(() => {
-        for (let i = 0; i < files.length; i++) {
-            const file: File = files[i];
+    const handleFiles = ({ target }) => {
+        setLoading(true);
+        for (let i = 0; i < target.files.length; i++) {
+            const file: File = target.files[i];
             const disposableAudio = document?.createElement("audio");
-            if (!file.type.match(/^audio\//)) continue;
+
+            /**
+             * Aborts the process on specific condition
+             *
+             * If element is in last position, then stop loading.
+             */
+            const abort = () => {
+                if (i === target.files.length - 1) {
+                    setLoading(false);
+                }
+            };
+            if (!file.type.match(/^audio\//)) {
+                abort();
+                continue;
+            }
             jsmediatags.read(file, {
                 onSuccess: function (media: TagType) {
                     let res: IAudioMetadata = {
@@ -104,17 +119,22 @@ export default function Navigation() {
                                 return [...prev, res];
                             });
                             disposableAudio.remove();
+                            abort();
                         };
+                    };
+                    reader.onerror = function (e) {
+                        console.warn(e);
+                        abort();
                     };
                     reader.readAsDataURL(file);
                 },
-                onError: function (error) {
-                    console.log(error);
+                onError: function (e) {
+                    console.warn(e);
+                    abort();
                 },
             });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [files]);
+    };
 
     return (
         <>
@@ -131,9 +151,7 @@ export default function Navigation() {
                     accept="audio/*"
                     hidden
                     multiple
-                    onChange={({ target }) => {
-                        setFiles(target.files);
-                    }}
+                    onChange={handleFiles}
                 />
                 <button
                     className="closeButton"
@@ -170,33 +188,6 @@ export default function Navigation() {
                     </li>
                 </ul>
             </div>
-            {/* <div class="nav" className="{ shrink: shrinkNavigation.shrink }">
-                <a href="/" className="logo">MUSIKA</a>
-                <input
-                    type="file"
-                    accept="audio/*"
-                    hidden
-                    multiple
-                    onChange="handleChangeFiles" />
-                <button className="closeButton" @click="handleClose">
-                    <hamburger-button
-                        :className="{ opened: shrinkNavigation.shrink }"></hamburger-button>
-                </button>
-                <ul>
-                    <li className="ripple" @click="router.push('/playing')">
-                        <v-icon name="bi-music-note-list" scale="1.5"></v-icon>
-                        <span>Playing</span>
-                    </li>
-                    <li className="ripple active" @click="router.push('/')">
-                        <v-icon name="gi-bookshelf" scale="1.5"></v-icon>
-                        <span>Play List</span>
-                    </li>
-                    <li className="ripple" @click="handlePickFile">
-                        <v-icon name="co-playlist-add" scale="1.5"></v-icon>
-                        <span>Add Songs</span>
-                    </li>
-                </ul>
-            </div> */}
         </>
     );
 }

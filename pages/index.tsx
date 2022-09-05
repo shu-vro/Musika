@@ -1,6 +1,5 @@
-import { useRouter } from "next/router";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Playlist from "@components/Index/Playlist";
 import MainBody from "@components/MainBody";
 import styles from "@styles/Home.module.scss";
@@ -28,32 +27,33 @@ export default function Home() {
         },
     ];
 
-    useEffect(() => {
-        if (!location) return;
-        let i = navigation.findIndex(e => "#" + e.name === location.hash);
-        if (i > -1) {
-            swiper?.slideTo(i);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     return (
         <MainBody title="Play List">
             <Swiper
                 slidesPerView={3}
                 centeredSlides
                 onSwiper={setSwiperThumb}
+                touchAngle={30}
+                onInit={swiper => {
+                    setTimeout(() => {
+                        if (!location) return;
+                        let i = navigation.findIndex(
+                            e => "#" + e.name === location.hash
+                        );
+                        if (i > -1 && !swiper.destroyed) swiper?.slideTo(i);
+                    }, 1500);
+                }}
                 onActiveIndexChange={e => {
                     location.hash = e.slides[e.activeIndex].textContent;
-                    swiper.slideTo(e.activeIndex);
+                    swiper?.slideTo(e.activeIndex);
                 }}
                 className={styles.mySwiperThumb}>
                 {navigation.map((topic, i) => (
                     <SwiperSlide
                         key={i}
                         onClick={() => {
-                            swiper.slideTo(i);
-                            swiperThumb.slideTo(i);
+                            swiper?.slideTo(i);
+                            swiperThumb?.slideTo(i);
                         }}>
                         {topic.name}
                     </SwiperSlide>
@@ -63,8 +63,17 @@ export default function Home() {
                 className={styles.mySwiperContainer}
                 centeredSlides
                 touchAngle={30}
+                onInit={swiper => {
+                    setTimeout(() => {
+                        if (!location) return;
+                        let i = navigation.findIndex(
+                            e => "#" + e.name === location.hash
+                        );
+                        if (i > -1 && !swiper.destroyed) swiper?.slideTo(i);
+                    }, 1500);
+                }}
                 onActiveIndexChange={e => {
-                    swiperThumb.slideTo(e.activeIndex);
+                    swiperThumb?.slideTo(e.activeIndex);
                 }}
                 onSwiper={setSwiper}>
                 <SwiperSlide>
