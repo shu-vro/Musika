@@ -3,5 +3,6 @@
         "jsmediatags",
         "MUSIKA",
         "Swiper"
-    ]
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

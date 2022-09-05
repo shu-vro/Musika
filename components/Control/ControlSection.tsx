@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import { useVolumeHandle } from "@contexts/VolumeHandle";
 import { GiPauseButton } from "react-icons/gi";
+import RangeSlider from "./RangeSlider";
 
 export default function ControlSection() {
     const {
@@ -85,7 +86,7 @@ export default function ControlSection() {
             </div>
             <div className={styles.ladder}>
                 <span>{normalizeTimeFormat(currentTime)}</span>
-                <input
+                {/* <input
                     type="range"
                     className={styles.progress}
                     value={currentTime}
@@ -93,6 +94,14 @@ export default function ControlSection() {
                     max={selectedMusic?.duration || 0}
                     onChange={e => {
                         audioRef.current.currentTime = Number(e.target.value);
+                    }}
+                /> */}
+                <RangeSlider
+                    min={0}
+                    max={selectedMusic?.duration || 0}
+                    value={currentTime}
+                    onChange={(e, n, a) => {
+                        audioRef.current.currentTime = Number(n);
                     }}
                 />
                 <span>{normalizeTimeFormat(selectedMusic?.duration || 0)}</span>

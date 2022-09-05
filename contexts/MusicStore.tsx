@@ -10,7 +10,7 @@ export function useMusicStore(): {
     setQueue?: React.Dispatch<React.SetStateAction<IArrayAudioMetaData>>;
     /**
      * @param search - search query.
-     * @returns Array of `IArrayAudioMetaData`
+     * @returns Array of [IArrayAudioMetaData](../types/types.ts)
      */
     getFromSearch?: (search: string) => any[];
 } {

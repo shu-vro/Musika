@@ -13,10 +13,13 @@
 
 .lyrics {
     text-align: center;
-    font-size: 1.3rem;
-    font-family: inherit;
     overflow-y: auto;
     height: calc(100% - 50px);
+
+    pre {
+        font-size: 1.3rem;
+        font-family: inherit;
+    }
 }
 
 .mySwiperContainer {

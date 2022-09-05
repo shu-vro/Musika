@@ -55,12 +55,17 @@ export default function Lyrics() {
                 </title>
             </Head>
             <MainBody title="Lyrics">
-                <pre className={styles.lyrics}>
-                    {res}
-                    <br />
-                    <br />
-                    <br />
-                </pre>
+                <div className={styles.lyrics}>
+                    <h2>
+                        {route.query?.song} - {route.query?.artist}
+                    </h2>
+                    <pre>
+                        {res}
+                        <br />
+                        <br />
+                        <br />
+                    </pre>
+                </div>
             </MainBody>
         </>
     );
