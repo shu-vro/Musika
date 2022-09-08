@@ -2,7 +2,6 @@ import { ShrinkNavigationContext } from "contexts/shrinkNavigation";
 import { RippleRefreshContext } from "contexts/RippleRefresh";
 import { MusicStoreContext } from "@contexts/MusicStore";
 import { SelectMusicContext } from "@contexts/SelectMusic";
-import { VolumeHandleContext } from "@contexts/VolumeHandle";
 import { LoadingContext } from "@contexts/Loading";
 
 export default function Wrapper({ children }) {
@@ -11,11 +10,7 @@ export default function Wrapper({ children }) {
             <ShrinkNavigationContext>
                 <RippleRefreshContext>
                     <MusicStoreContext>
-                        <SelectMusicContext>
-                            <VolumeHandleContext>
-                                {children}
-                            </VolumeHandleContext>
-                        </SelectMusicContext>
+                        <SelectMusicContext>{children}</SelectMusicContext>
                     </MusicStoreContext>
                 </RippleRefreshContext>
             </ShrinkNavigationContext>

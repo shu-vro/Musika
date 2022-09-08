@@ -13,6 +13,7 @@ export function useSelectMusic(): {
     shuffle?: VoidFunction;
     playNext?: VoidFunction;
     playPrevious?: VoidFunction;
+    setNext?: (song: IAudioMetadata) => void;
 } {
     return useContext(Context);
 }
@@ -57,10 +58,22 @@ export function SelectMusicContext({ children }) {
             );
         }
     }
+    function setNext(song: IAudioMetadata) {
+        const tracks = [...musicStore.queue];
+        tracks[tracks.length] = song;
+        musicStore.setQueue(tracks);
+    }
     return (
         <>
             <Context.Provider
-                value={{ value, setValue, shuffle, playNext, playPrevious }}>
+                value={{
+                    value,
+                    setValue,
+                    shuffle,
+                    playNext,
+                    playPrevious,
+                    setNext,
+                }}>
                 {children}
             </Context.Provider>
         </>

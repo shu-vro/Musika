@@ -124,6 +124,7 @@
     .volume {
         position: relative;
         @include flex-center();
+        margin-right: 10px;
 
         span[class^="MuiSlider-root"] {
             width: 0;

@@ -1,18 +1,16 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { RiArrowGoBackLine } from "react-icons/ri";
 import MainBody from "@components/MainBody";
 import defaultImage from "../../assets/photo.jpg";
 import styles from "@styles/Songs.module.scss";
 import { useMusicStore } from "@contexts/MusicStore";
-import { normalizeTimeFormat } from "@utils/utils";
-import { RiArrowGoBackLine } from "react-icons/ri";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
-import { useSelectMusic } from "@contexts/SelectMusic";
+import SongList from "@components/Index/SongList";
 
 export default function PlayList() {
     const router = useRouter();
     const { queue: musicStore } = useMusicStore();
-    const selectMusic = useSelectMusic().setValue;
     const rippleRefresh = useRippleRefresh();
 
     useEffect(() => {
@@ -40,25 +38,7 @@ export default function PlayList() {
                         <h1>Playlist Name</h1>
                     </div>
                     {musicStore.map(song => (
-                        <div
-                            className={`ripple ${styles.song}`}
-                            key={song.id}
-                            onClick={() => selectMusic(song)}>
-                            <div>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                    src={
-                                        song.picture || "../../assets/disk.png"
-                                    }
-                                    alt={song.trackName}
-                                />
-                                <div className="song-title">
-                                    {song.trackName}
-                                </div>
-                            </div>
-                            <i className="song-artist">{song.artist}</i>
-                            <b>{normalizeTimeFormat(song.duration)}</b>
-                        </div>
+                        <SongList key={song.id} song={song} />
                     ))}
                 </div>
             </MainBody>

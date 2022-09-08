@@ -10,7 +10,7 @@ export default function Playlist() {
     let { value: musicStore, setQueue } = useMusicStore();
     return (
         <div className={styles.playlists}>
-            <Link href="playlist/playlist?name=all">
+            <Link href="/playlist/playlist?name=all">
                 <div
                     className={`ripple ${styles.playlist}`}
                     onClick={() => setQueue(musicStore)}>
