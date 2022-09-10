@@ -19,9 +19,10 @@ export default function Lyrics() {
             !song &&
             !artist &&
             !id &&
-            lyrics !== ""
+            lyrics
         )
             return;
+        console.log(!song, !artist, !id, lyrics !== "", lyrics);
         fetch(`/api/lyrics?song=${song}&artist=${artist}`)
             .then(r => r.json())
             .then((r: any) => {

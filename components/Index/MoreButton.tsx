@@ -64,13 +64,9 @@ export default function MoreButton({ song }: { song: IAudioMetadata }) {
                     onClick={e => {
                         e.stopPropagation();
                         setAnchorEl(null);
-                        router.push(
-                            `/info/${song?.trackName || `song`}?musicId=${
-                                song?.id
-                            }`
-                        );
+                        router.push(`/info/song?musicId=${song?.id}`);
                     }}>
-                    Info
+                    Music Details
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Go to Artist</MenuItem>
                 <MenuItem onClick={handleClose}>Go to Genre</MenuItem>
