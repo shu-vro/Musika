@@ -154,7 +154,7 @@ export default function Navigation() {
                     onChange={handleFiles}
                 />
                 <button
-                    className="closeButton"
+                    className={styles.closeButton}
                     onClick={() => {
                         shrink.setValue(!shrink.value);
                     }}>
@@ -174,7 +174,7 @@ export default function Navigation() {
                         className="ripple active"
                         onClick={() => router.push("/")}>
                         <GiBookshelf size={shrink.value ? "2rem" : "1.5rem"} />
-                        <span>Play List</span>
+                        <span>All Songs</span>
                     </li>
                     <li
                         className="ripple"

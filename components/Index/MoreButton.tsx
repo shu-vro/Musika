@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 export default function MoreButton({ song }: { song: IAudioMetadata }) {
     const router = useRouter();
-    const { setNext } = useSelectMusic();
+    const { setNext, value: selectedMusic } = useSelectMusic();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -53,6 +53,7 @@ export default function MoreButton({ song }: { song: IAudioMetadata }) {
                     "aria-labelledby": "basic-button",
                 }}>
                 <MenuItem
+                    disabled={song?.id === selectedMusic?.id}
                     onClick={e => {
                         e.stopPropagation();
                         setAnchorEl(null);
@@ -68,8 +69,30 @@ export default function MoreButton({ song }: { song: IAudioMetadata }) {
                     }}>
                     Music Details
                 </MenuItem>
-                <MenuItem onClick={handleClose}>Go to Artist</MenuItem>
-                <MenuItem onClick={handleClose}>Go to Genre</MenuItem>
+                <MenuItem
+                    onClick={e => {
+                        e.stopPropagation();
+                        setAnchorEl(null);
+                        router.push(`/playlist/artist?name=${song.artist}`);
+                    }}>
+                    Go to Artist
+                </MenuItem>
+                <MenuItem
+                    onClick={e => {
+                        e.stopPropagation();
+                        setAnchorEl(null);
+                        router.push(`/playlist/album?name=${song.album}`);
+                    }}>
+                    Go to Album
+                </MenuItem>
+                <MenuItem
+                    onClick={e => {
+                        e.stopPropagation();
+                        setAnchorEl(null);
+                        router.push(`/playlist/genre?name=${song.genre}`);
+                    }}>
+                    Go to Genre
+                </MenuItem>
             </Menu>
         </>
     );

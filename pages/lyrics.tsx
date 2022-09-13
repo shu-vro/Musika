@@ -5,45 +5,46 @@ import MainBody from "@components/MainBody";
 import styles from "@styles/Home.module.scss";
 import { useMusicStore } from "@contexts/MusicStore";
 import { useSelectMusic } from "@contexts/SelectMusic";
+import { useLoading } from "@contexts/Loading";
 
 export default function Lyrics() {
     const route = useRouter();
     const musicStore = useMusicStore();
     const selectedMusic = useSelectMusic();
     const [res, setRes] = useState(route.query?.lyrics || "");
+    const { setValue: setLoading } = useLoading();
+
     useEffect(() => {
         if (Object.keys(route.query).length === 0) return;
         let { song, artist, id, lyrics } = route.query;
         if (
             // if they do not exist, return
-            !song &&
-            !artist &&
-            !id &&
+            !song ||
+            !artist ||
+            !id ||
             lyrics
         )
             return;
-        console.log(!song, !artist, !id, lyrics !== "", lyrics);
+
+        setLoading(true);
+
         fetch(`/api/lyrics?song=${song}&artist=${artist}`)
             .then(r => r.json())
             .then((r: any) => {
                 setRes(r.lyrics);
-
-                if (id === "") return;
-                let index = musicStore.value.findIndex(t => t.id === id);
-                if (index !== -1) {
-                    musicStore.setValue(prev => {
-                        let temp = [...prev];
-                        temp[index].lyrics = r.lyrics;
-                        return temp;
-                    });
-                }
+                musicStore.setUsingId(id as string, {
+                    lyrics: r.lyrics,
+                });
                 selectedMusic.setValue(prev => {
                     let temp = { ...prev };
                     temp.lyrics = r.lyrics;
                     return temp;
                 });
+                setLoading(false);
             })
-            .catch(() => {});
+            .catch(() => {
+                setLoading(false);
+            });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [route]);

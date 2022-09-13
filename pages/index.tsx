@@ -28,7 +28,7 @@ export default function Home() {
     ];
 
     return (
-        <MainBody title="Play List">
+        <MainBody title="All Songs">
             <Swiper
                 slidesPerView={3}
                 centeredSlides

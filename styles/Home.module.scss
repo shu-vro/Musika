@@ -14,12 +14,12 @@
 .lyrics {
     text-align: center;
     overflow-y: auto;
-    height: calc(100% - 50px);
+    height: calc(100% - 60px);
 }
 
 .mySwiperContainer {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 90px);
 }
 
 .mySwiperThumb {

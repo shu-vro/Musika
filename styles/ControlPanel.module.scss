@@ -17,12 +17,12 @@
     display: flex;
     align-items: center;
 
-    // img {
-    //     width: 80px;
-    //     height: 80px;
-    //     border-radius: 50%;
-    //     object-fit: contain;
-    // }
+    img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: contain;
+    }
 
     .details {
         display: flex;
@@ -49,6 +49,7 @@
     }
 
     .love_icon {
+        color: var(--color);
         margin-left: 10px;
         cursor: pointer;
     }
@@ -83,37 +84,10 @@
 
     .ladder {
         @include flex-center();
-        width: min(100%, 550px);
+        width: min(100%, 650px);
 
         span {
             margin: 0 10px;
-        }
-
-        .progress {
-            position: relative;
-            appearance: none;
-            flex-grow: 1;
-            height: 8px;
-            border-radius: 50px;
-            display: block;
-            background: var(--color);
-            outline: none;
-            overflow: hidden;
-            transition: 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-
-            &::-webkit-slider-thumb {
-                appearance: none;
-                height: 15px;
-                width: 15px;
-                background: var(--theme);
-                border-radius: 50%;
-                cursor: ew-resize;
-                box-shadow: -1007.5px 0 0 1000px var(--theme);
-            }
-
-            &:hover {
-                height: 15px;
-            }
         }
     }
 }

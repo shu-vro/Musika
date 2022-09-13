@@ -1,30 +1,33 @@
 import React from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import Image from "next/image";
+import { IconButton } from "@mui/material";
 import disk from "@assets/disk.png";
 import styles from "@styles/ControlPanel.module.scss";
 import { useSelectMusic } from "@contexts/SelectMusic";
+import { useMusicStore } from "@contexts/MusicStore";
 
 export default function NameSection() {
     const { value: selectedMusic, setValue: setSelectedMusic } =
         useSelectMusic();
+    const { setUsingId } = useMusicStore();
 
     function handleLoved() {
-        if (selectedMusic?.loved === null) return;
+        if (selectedMusic?.loved === null || !selectedMusic?.id) return;
         setSelectedMusic(prev => {
             let temp = { ...prev };
             temp.loved = !temp.loved;
+            setUsingId(selectedMusic.id, {
+                loved: temp.loved,
+            });
             return temp;
         });
     }
     return (
         <div className={styles["name-section"]}>
-            <Image
-                src={selectedMusic?.picture || disk}
-                alt=""
-                layout="fixed"
-                width={80}
-                height={80}
+            {/*eslint-disable-next-line @next/next/no-img-element*/}
+            <img
+                src={selectedMusic?.picture || disk.src}
+                alt={selectedMusic?.trackName || "track thumbnail"}
             />
             <div className={styles.details}>
                 {/* @ts-ignore */}
@@ -34,19 +37,13 @@ export default function NameSection() {
                 </marquee>
                 <p>{selectedMusic?.artist}</p>
             </div>
-            {selectedMusic?.loved ? (
-                <AiFillHeart
-                    size="1.5rem"
-                    className={styles.love_icon}
-                    onClick={handleLoved}
-                />
-            ) : (
-                <AiOutlineHeart
-                    size="1.5rem"
-                    className={styles.love_icon}
-                    onClick={handleLoved}
-                />
-            )}
+            <IconButton onClick={handleLoved}>
+                {selectedMusic?.loved ? (
+                    <AiFillHeart size="1.5rem" />
+                ) : (
+                    <AiOutlineHeart size="1.5rem" />
+                )}
+            </IconButton>
         </div>
     );
 }

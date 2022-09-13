@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { RiArrowGoBackLine } from "react-icons/ri";
+import { useEffect, useState } from "react";
 import MainBody from "@components/MainBody";
 import defaultImage from "../../assets/photo.jpg";
 import styles from "@styles/Songs.module.scss";
@@ -10,35 +9,49 @@ import SongList from "@components/Index/SongList";
 
 export default function PlayList() {
     const router = useRouter();
-    const { queue: musicStore } = useMusicStore();
+    const {
+        queue: musicStore,
+        getFromField,
+        setQueue: setQueueStore,
+    } = useMusicStore();
     const rippleRefresh = useRippleRefresh();
+    const { pid, name }: any = router.query;
+    const [queue, setQueue] = useState([]);
 
     useEffect(() => {
         rippleRefresh.refresh();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [musicStore]);
 
+    useEffect(() => {
+        if (!pid || !name) return;
+        if (pid !== `playlist`) {
+            setQueue(getFromField({ [pid]: name }));
+        } else if (name === "all") {
+            setQueue(musicStore);
+        }
+    }, [getFromField, musicStore, name, pid]);
+
     return (
         <>
             <MainBody title="Songs">
                 <div className={styles.songs}>
                     <div className={styles.image}>
-                        <RiArrowGoBackLine
-                            size="1.5rem"
-                            className={styles.backIcon}
-                            onClick={() => {
-                                router.back();
-                            }}
-                        />
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={musicStore?.[0]?.picture || defaultImage.src}
+                            src={queue?.[0]?.picture || defaultImage.src}
                             alt="song"
                         />
-                        <h1>Playlist Name</h1>
+                        <h1>{name}</h1>
                     </div>
-                    {musicStore.map(song => (
-                        <SongList key={song.id} song={song} />
+                    {queue.map(song => (
+                        <SongList
+                            key={song.id}
+                            song={song}
+                            cb={() => {
+                                setQueueStore(queue);
+                            }}
+                        />
                     ))}
                 </div>
             </MainBody>

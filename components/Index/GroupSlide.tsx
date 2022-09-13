@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { IArrayAudioMetaData } from "@ts/types";
 
 export default function GroupSlide({ slideName }) {
-    const { value: musicStore, getFromSearch, setQueue } = useMusicStore();
+    const { value: musicStore, getFromSearch } = useMusicStore();
     const [searchResults, setSearchResults] = useState<IArrayAudioMetaData[]>(
         []
     );
@@ -23,11 +23,7 @@ export default function GroupSlide({ slideName }) {
                     <Link
                         href={`playlist/${slideName}?name=${arrayTracks[0][slideName]}`}
                         key={i}>
-                        <div
-                            className={`ripple ${styles.playlist}`}
-                            onClick={() => {
-                                setQueue(arrayTracks);
-                            }}>
+                        <div className={`ripple ${styles.playlist}`}>
                             <div className={styles.image}>
                                 {Array(4)
                                     .fill("")

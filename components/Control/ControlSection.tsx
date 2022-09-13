@@ -4,13 +4,14 @@ import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import { FaPlay } from "react-icons/fa";
 import { IoMdPause } from "react-icons/io";
 import { GiMusicalScore } from "react-icons/gi";
-import { FiVolume2 } from "react-icons/fi";
+import { FiVolume2, FiVolumeX } from "react-icons/fi";
 import { useRouter } from "next/router";
 import styles from "@styles/ControlPanel.module.scss";
 import { normalizeTimeFormat } from "@utils/utils";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import RangeSlider from "./RangeSlider";
 import { useLoading } from "@contexts/Loading";
+import { IconButton } from "@mui/material";
 
 export default function ControlSection() {
     const {
@@ -48,7 +49,8 @@ export default function ControlSection() {
                 setPaused(false);
             } catch (e) {}
         })();
-    }, [selectedMusic]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedMusic?.src || shuffle]);
 
     function navigate() {
         if (router.pathname === "/lyrics") {
@@ -142,11 +144,20 @@ export default function ControlSection() {
                 </div>
             </div>
             <div className={styles["volume-section"]}>
-                <button>
-                    <GiMusicalScore size="1.5rem" onClick={navigate} />
-                </button>
-                <button className={styles.volume}>
-                    <FiVolume2 size="1.5rem" />
+                <IconButton onClick={navigate}>
+                    <GiMusicalScore size="1.5rem" />
+                </IconButton>
+                <div className={styles.volume}>
+                    <IconButton
+                        onClick={() => {
+                            setVolume(prev => (prev !== 0 ? 0 : 100));
+                        }}>
+                        {volume === 0 ? (
+                            <FiVolumeX size="1.5rem" />
+                        ) : (
+                            <FiVolume2 size="1.5rem" />
+                        )}
+                    </IconButton>
                     <RangeSlider
                         min={0}
                         max={100}
@@ -154,7 +165,7 @@ export default function ControlSection() {
                         valueLabelDisplay="auto"
                         onChange={(e, n, a) => setVolume(Number(n))}
                     />
-                </button>
+                </div>
             </div>
         </>
     );

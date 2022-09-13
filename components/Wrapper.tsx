@@ -3,17 +3,20 @@ import { RippleRefreshContext } from "contexts/RippleRefresh";
 import { MusicStoreContext } from "@contexts/MusicStore";
 import { SelectMusicContext } from "@contexts/SelectMusic";
 import { LoadingContext } from "@contexts/Loading";
+import ThemeContext from "@contexts/ThemeProvider";
 
 export default function Wrapper({ children }) {
     return (
-        <LoadingContext>
-            <ShrinkNavigationContext>
-                <RippleRefreshContext>
-                    <MusicStoreContext>
-                        <SelectMusicContext>{children}</SelectMusicContext>
-                    </MusicStoreContext>
-                </RippleRefreshContext>
-            </ShrinkNavigationContext>
-        </LoadingContext>
+        <ThemeContext>
+            <LoadingContext>
+                <ShrinkNavigationContext>
+                    <RippleRefreshContext>
+                        <MusicStoreContext>
+                            <SelectMusicContext>{children}</SelectMusicContext>
+                        </MusicStoreContext>
+                    </RippleRefreshContext>
+                </ShrinkNavigationContext>
+            </LoadingContext>
+        </ThemeContext>
     );
 }

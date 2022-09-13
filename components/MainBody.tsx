@@ -35,12 +35,12 @@ export default function MainBody({ children, title }) {
                     shrinkNavigation.value ? styles.shrink : ""
                 }`}>
                 <div className={styles.topNav}>
-                    <MyIconButton>
-                        <RiArrowGoBackLine
-                            size="1.5rem"
+                    <MyIconButton
                             onClick={() => {
                                 router.back();
-                            }}
+                            }}>
+                        <RiArrowGoBackLine
+                            size="1.5rem"
                         />
                     </MyIconButton>
                     <h1>{title}</h1>
