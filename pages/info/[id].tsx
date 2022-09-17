@@ -24,6 +24,10 @@ import { normalizeTimeFormat } from "@utils/utils";
 import numeral from "numeral";
 import Head from "next/head";
 
+function capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export default function Id() {
     const router = useRouter();
     const musicStore = useMusicStore();
@@ -98,7 +102,11 @@ export default function Id() {
                                                         textOverflow:
                                                             "ellipsis",
                                                     }}>
-                                                    <b>{key}</b>
+                                                    <b>
+                                                        {capitalizeFirstLetter(
+                                                            key
+                                                        )}
+                                                    </b>
                                                 </TableCell>
                                                 <TableCell>
                                                     <IconButton
@@ -115,7 +123,7 @@ export default function Id() {
                                     }
                                     if (
                                         key.match(
-                                            /^picture$|^src$|^loved$|^lyrics$/
+                                            /^picture$|^src$|^loved$|^lyrics$|^id$/
                                         )
                                     )
                                         return;
@@ -125,7 +133,9 @@ export default function Id() {
                                                 sx={{
                                                     textOverflow: "ellipsis",
                                                 }}>
-                                                <b>{key}</b>
+                                                <b>
+                                                    {capitalizeFirstLetter(key)}
+                                                </b>
                                             </TableCell>
                                             <TableCell>
                                                 {key === "duration"

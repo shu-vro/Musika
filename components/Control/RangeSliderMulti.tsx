@@ -22,6 +22,9 @@ const MySlider = styled(Slider)({
     "& .MuiSlider-thumb": {
         backgroundColor: "#00ffb8",
     },
+    "& .MuiSlider-thumb:nth-child(odd)": {
+        backgroundColor: "#fff",
+    },
 }) as typeof Slider;
 
 const minDistance = 2;
@@ -30,7 +33,7 @@ export default function RangeSliderMulti({
     value,
     onChange,
     ...rest
-}: SliderUnstyledOwnProps | any) {
+}: SliderUnstyledOwnProps) {
     // const onChange = (
     //     event: Event,
     //     newValue: number | number[],

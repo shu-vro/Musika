@@ -85,6 +85,7 @@
     .ladder {
         @include flex-center();
         width: min(100%, 650px);
+        font-weight: bold;
 
         span {
             margin: 0 10px;

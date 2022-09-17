@@ -1,13 +1,15 @@
 import React from "react";
 import { GiMusicalScore } from "react-icons/gi";
 import { FiVolume2, FiVolumeX } from "react-icons/fi";
+import { CgArrowsShrinkH } from "react-icons/cg";
 import { IconButton } from "@mui/material";
-import RangeSlider from "./RangeSlider";
-import styles from "@styles/ControlPanel.module.scss";
 import { useRouter } from "next/router";
+import styles from "@styles/ControlPanel.module.scss";
+import RangeSlider from "./RangeSlider";
 import { useSelectMusic } from "@contexts/SelectMusic";
+import MoreButton from "../Index/MoreButton";
 
-export default function VolumeSection({ volume, setVolume }) {
+export default function VolumeSection({ volume, setVolume, setActivateRange }) {
     const router = useRouter();
     const { value: selectedMusic } = useSelectMusic();
 
@@ -25,12 +27,26 @@ export default function VolumeSection({ volume, setVolume }) {
             },
         });
     }
+    let buttons = [
+        {
+            name: "Select Part",
+            icon: <CgArrowsShrinkH size="1.3rem" />,
+            cb: () => {
+                setActivateRange(prev => !prev);
+            },
+        },
+        {
+            name: "Lyrics",
+            icon: <GiMusicalScore size="1.3rem" />,
+            cb: () => {
+                navigate();
+            },
+        },
+    ];
 
     return (
         <div className={styles["volume-section"]}>
-            <IconButton onClick={navigate}>
-                <GiMusicalScore size="1.5rem" />
-            </IconButton>
+            <MoreButton buttons={buttons} />
             <div className={styles.volume}>
                 <IconButton
                     onClick={() => {

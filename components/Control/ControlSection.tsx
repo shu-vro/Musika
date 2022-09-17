@@ -20,6 +20,7 @@ export default function ControlSection() {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [loop, setLoop] = useState(false);
     const [paused, setPaused] = useState(true);
+    const [activateRange, setActivateRange] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const { setValue: setLoading } = useLoading();
 
@@ -112,9 +113,14 @@ export default function ControlSection() {
                     audioRef={audioRef}
                     currentTime={currentTime}
                     duration={selectedMusic?.duration}
+                    activateRange={activateRange}
                 />
             </div>
-            <VolumeSection volume={volume} setVolume={setVolume} />
+            <VolumeSection
+                volume={volume}
+                setVolume={setVolume}
+                setActivateRange={setActivateRange}
+            />
         </>
     );
 }
