@@ -15,5 +15,9 @@ const BorderLinearProgress = styled(LinearProgress)(() => ({
 export default function Loader({ ...rest }: LinearProgressProps) {
     const { value: loading } = useLoading();
 
-    return loading ? <BorderLinearProgress color="success" {...rest} /> : <></>;
+    return loading ? (
+        <BorderLinearProgress color="secondary" {...rest} />
+    ) : (
+        <></>
+    );
 }

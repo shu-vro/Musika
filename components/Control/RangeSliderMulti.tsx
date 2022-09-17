@@ -26,11 +26,33 @@ const MySlider = styled(Slider)({
 
 const minDistance = 2;
 
-export default function RangeSlider({
+export default function RangeSliderMulti({
     value,
     onChange,
     ...rest
-}: SliderUnstyledOwnProps) {
+}: SliderUnstyledOwnProps | any) {
+    // const onChange = (
+    //     event: Event,
+    //     newValue: number | number[],
+    //     activeThumb: number
+    // ) => {
+    //     if (!Array.isArray(newValue)) {
+    //         setValue(newValue);
+    //         return;
+    //     }
+    //     if (newValue[2] - newValue[0] < minDistance) {
+    //         if (activeThumb === 0) {
+    //             const clamped = Math.min(newValue[0], 100 - minDistance);
+    //             setValue([clamped, clamped + minDistance]);
+    //         } else {
+    //             const clamped = Math.max(newValue[2], minDistance);
+    //             setValue([clamped - minDistance, clamped]);
+    //         }
+    //     } else {
+    //         setValue(newValue as number[]);
+    //     }
+    // };
+
     return (
         <MySlider
             getAriaLabel={() => "Track of playing music"}

@@ -52,7 +52,7 @@ export default function Navigation() {
                 r.style.setProperty("--y", y + "px");
             });
 
-            r.addEventListener("mousedown", (e: MouseEvent) => {
+            r.addEventListener("click", (e: MouseEvent) => {
                 let parentX = r.getBoundingClientRect().x;
                 let parentY = r.getBoundingClientRect().y;
                 let x = e.clientX - parentX;
@@ -93,15 +93,15 @@ export default function Navigation() {
                     let res: IAudioMetadata = {
                         id: v4(),
                         trackName: removeSiteFromTitle(
-                            media.tags.title || file.name
+                            media.tags.title.trim() || file.name
                         ),
-                        artist: media.tags.artist || "unknown",
+                        artist: media.tags.artist.trim() || "unknown",
                         loved: false,
-                        genre: media.tags.genre || "unknown",
+                        genre: media.tags.genre.trim() || "unknown",
                         path: "App Cache",
                         size: file.size,
                         picture: extractThumbnailFromAudio(media.tags.picture),
-                        album: media.tags.album || "unknown",
+                        album: media.tags.album.trim() || "unknown",
                         format: file.type,
                         lyrics: "",
                         src: "",

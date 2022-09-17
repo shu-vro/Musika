@@ -33,6 +33,7 @@
 
         marquee {
             min-width: 150px;
+            font-weight: bold;
         }
 
         p {
@@ -42,7 +43,6 @@
             max-width: 200px;
             font-size: 0.8rem;
             margin: 0;
-            color: #ccc;
             font-style: italic;
             text-transform: capitalize;
         }
@@ -111,6 +111,12 @@
                 opacity: 1;
                 margin-left: 10px;
                 width: 130px;
+            }
+        }
+
+        @media screen and (max-width: 508px) {
+            & {
+                display: none;
             }
         }
     }

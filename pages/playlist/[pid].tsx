@@ -6,6 +6,7 @@ import styles from "@styles/Songs.module.scss";
 import { useMusicStore } from "@contexts/MusicStore";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
 import SongList from "@components/Index/SongList";
+import Head from "next/head";
 
 export default function PlayList() {
     const router = useRouter();
@@ -35,6 +36,11 @@ export default function PlayList() {
     return (
         <>
             <MainBody title="Songs">
+                <Head>
+                    <title>
+                        {pid} - {name} - MUSIKA
+                    </title>
+                </Head>
                 <div className={styles.songs}>
                     <div className={styles.image}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}

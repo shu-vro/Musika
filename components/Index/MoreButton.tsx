@@ -73,6 +73,22 @@ export default function MoreButton({ song }: { song: IAudioMetadata }) {
                     onClick={e => {
                         e.stopPropagation();
                         setAnchorEl(null);
+                        router.push({
+                            pathname: "/lyrics",
+                            query: {
+                                song: song?.trackName ?? "",
+                                artist: song?.artist ?? "",
+                                id: song?.id ?? "",
+                                lyrics: song?.lyrics ?? "",
+                            },
+                        });
+                    }}>
+                    Lyrics
+                </MenuItem>
+                <MenuItem
+                    onClick={e => {
+                        e.stopPropagation();
+                        setAnchorEl(null);
                         router.push(`/playlist/artist?name=${song.artist}`);
                     }}>
                     Go to Artist
