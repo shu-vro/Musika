@@ -21,53 +21,6 @@ export default function Navigation() {
     const musicStore = useMusicStore();
     const { setValue: setLoading } = useLoading();
 
-    // Ripple effect
-    let rippleRefresh = useRippleRefresh();
-    useEffect(() => {
-        rippleRefresh.refresh();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-    useEffect(() => {
-        rippleRefresh.refresh();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [musicStore]);
-
-    useEffect(() => {
-        let ripples = rippleRefresh.value;
-        function setSize(el: HTMLElement) {
-            let parentWidth = el.getBoundingClientRect().width;
-            let parentHeight = el.getBoundingClientRect().height;
-            let size = Math.hypot(parentWidth, parentHeight) * 2;
-            el.style.setProperty("--size", size + "px");
-        }
-        ripples.forEach(r => {
-            setSize(r);
-            r.addEventListener("mousemove", (e: MouseEvent) => {
-                setSize(r);
-                let parentX = r.getBoundingClientRect().x;
-                let parentY = r.getBoundingClientRect().y;
-                let x = e.clientX - parentX;
-                let y = e.clientY - parentY;
-                r.style.setProperty("--x", x + "px");
-                r.style.setProperty("--y", y + "px");
-            });
-
-            r.addEventListener("click", (e: MouseEvent) => {
-                let parentX = r.getBoundingClientRect().x;
-                let parentY = r.getBoundingClientRect().y;
-                let x = e.clientX - parentX;
-                let y = e.clientY - parentY;
-                r.style.setProperty("--x", x + "px");
-                r.style.setProperty("--y", y + "px");
-                r.classList.add("ripple-effect");
-
-                setTimeout(() => {
-                    r.classList.remove("ripple-effect");
-                }, 500);
-            });
-        });
-    }, [rippleRefresh.value]);
-
     const handleFiles = ({ target }) => {
         setLoading(true);
         for (let i = 0; i < target.files.length; i++) {
@@ -139,9 +92,8 @@ export default function Navigation() {
     return (
         <>
             <div
-                className={`${styles.nav} ${
-                    shrink.value ? styles.shrink : ""
-                }`}>
+                className={`${styles.nav} ${shrink.value ? styles.shrink : ""}`}
+            >
                 <a href="./" className={styles.logo}>
                     MUSIKA
                 </a>
@@ -157,14 +109,16 @@ export default function Navigation() {
                     className={styles.closeButton}
                     onClick={() => {
                         shrink.setValue(!shrink.value);
-                    }}>
+                    }}
+                >
                     <Hamburger />
                 </button>
 
                 <ul>
                     <li
                         className="ripple"
-                        onClick={() => router.push("/playing")}>
+                        onClick={() => router.push("/playing")}
+                    >
                         <GiMusicalNotes
                             size={shrink.value ? "2rem" : "1.5rem"}
                         />
@@ -172,7 +126,8 @@ export default function Navigation() {
                     </li>
                     <li
                         className="ripple active"
-                        onClick={() => router.push("/")}>
+                        onClick={() => router.push("/")}
+                    >
                         <GiBookshelf size={shrink.value ? "2rem" : "1.5rem"} />
                         <span>All Songs</span>
                     </li>
@@ -180,7 +135,8 @@ export default function Navigation() {
                         className="ripple"
                         onClick={() =>
                             document.getElementById("input_file").click()
-                        }>
+                        }
+                    >
                         <RiPlayListAddLine
                             size={shrink.value ? "2rem" : "1.5rem"}
                         />

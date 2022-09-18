@@ -3,8 +3,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IconButton, ListItemIcon, ListItemText } from "@mui/material";
+import { IArrayMoreButtons } from "@ts/types";
 
-export default function MoreControlButton({ buttons = [] }) {
+export default function MoreControlButton({
+    buttons = [],
+}: {
+    buttons: IArrayMoreButtons;
+}) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {

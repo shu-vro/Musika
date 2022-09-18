@@ -1,3 +1,5 @@
+import { MenuItemProps } from "@mui/material";
+
 export interface IAudioMetadata {
     id: string;
     trackName: string;
@@ -36,3 +38,10 @@ export interface ILyricsObject {
     statusCode: number;
     lyrics: string;
 }
+
+export type IArrayMoreButtons = {
+    name: string;
+    icon: React.ReactNode;
+    cb: VoidFunction;
+    rest?: MenuItemProps;
+}[];

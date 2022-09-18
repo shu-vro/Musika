@@ -1,4 +1,3 @@
-import React from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { IconButton } from "@mui/material";
 import disk from "@assets/disk.png";

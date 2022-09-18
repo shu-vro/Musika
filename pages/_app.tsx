@@ -6,6 +6,7 @@ import Wrapper from "@components/Wrapper";
 import "@styles/globals.scss";
 import "swiper/scss";
 import Loader from "@components/Loader";
+import ConfigHelperComponent from "@components/ConfigHelperComponent";
 
 function MyApp({ Component, pageProps }) {
     return (
@@ -25,6 +26,7 @@ function MyApp({ Component, pageProps }) {
                     <Component {...pageProps} />
                 </TransitionEffect>
                 <ControlPanel />
+                <ConfigHelperComponent />
             </Wrapper>
         </>
     );

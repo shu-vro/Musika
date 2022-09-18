@@ -109,7 +109,8 @@ export function MusicStoreContext({ children }) {
                     getFromSearch,
                     setUsingId,
                     getFromField,
-                }}>
+                }}
+            >
                 {children}
             </Context.Provider>
         </>
