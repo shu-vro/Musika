@@ -5,6 +5,7 @@ import MainBody from "@components/MainBody";
 import styles from "@styles/Home.module.scss";
 import Songs from "@components/Index/Songs";
 import GroupSlide from "@components/Index/GroupSlide";
+import { IAudioOptionalMetadata } from "@ts/types";
 
 export default function Home() {
     const [swiper, setSwiper] = useState(null);
@@ -15,6 +16,9 @@ export default function Home() {
         },
         {
             name: "Songs",
+        },
+        {
+            name: "Loved",
         },
         {
             name: "Artist",
@@ -47,14 +51,16 @@ export default function Home() {
                     location.hash = e.slides[e.activeIndex].textContent;
                     swiper?.slideTo(e.activeIndex);
                 }}
-                className={styles.mySwiperThumb}>
+                className={styles.mySwiperThumb}
+            >
                 {navigation.map((topic, i) => (
                     <SwiperSlide
                         key={i}
                         onClick={() => {
                             swiper?.slideTo(i);
                             swiperThumb?.slideTo(i);
-                        }}>
+                        }}
+                    >
                         {topic.name}
                     </SwiperSlide>
                 ))}
@@ -75,12 +81,21 @@ export default function Home() {
                 onActiveIndexChange={e => {
                     swiperThumb?.slideTo(e.activeIndex);
                 }}
-                onSwiper={setSwiper}>
+                onSwiper={setSwiper}
+            >
                 <SwiperSlide>
                     <Playlist />
                 </SwiperSlide>
                 <SwiperSlide>
                     <Songs />
+                </SwiperSlide>
+                <SwiperSlide>
+                    {/* <LovedSongs /> */}
+                    <Songs
+                        filter={e =>
+                            e.loved as unknown as IAudioOptionalMetadata
+                        }
+                    />
                 </SwiperSlide>
                 <SwiperSlide>
                     <GroupSlide slideName="artist" />

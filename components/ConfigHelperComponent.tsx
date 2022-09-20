@@ -1,11 +1,22 @@
+import { useEffect } from "react";
+import { openDB } from "idb";
 import { useMusicStore } from "@contexts/MusicStore";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
-import { arraysEqual } from "@utils/utils";
-import { openDB } from "idb";
-import React, { useEffect } from "react";
+import { arraysEqual, object_equals } from "@utils/utils";
+import { useSelectMusic } from "@contexts/SelectMusic";
+import { useLoading } from "@contexts/Loading";
 
 export default function ConfigHelperComponent() {
-    const { value: musicStore, setValue: setMusicStore } = useMusicStore();
+    const {
+        value: musicStore,
+        setValue: setMusicStore,
+        queue,
+        setQueue,
+        getFromMultipleIds,
+    } = useMusicStore();
+    const { value: selectedMusic, setValue: setSelectedMusic } =
+        useSelectMusic();
+    const { setValue: setLoading } = useLoading();
 
     // RIPPLE REFRESH
     let rippleRefresh = useRippleRefresh();
@@ -50,28 +61,113 @@ export default function ConfigHelperComponent() {
         });
     }, [rippleRefresh.value]);
 
-    // MUSIC STORE BACKUP
+    // MUSIC STORE BACKUP: FOR MUSICsTORE
     useEffect(() => {
-        if (!window || !document) return;
         (async () => {
-            const db = await openDB("MUSIC_STORE_DB", undefined, {
-                upgrade(database, oldVersion, newVersion, transaction) {
-                    database.createObjectStore("music_store", {
-                        keyPath: "id",
-                        autoIncrement: true,
-                    });
-                },
-            });
+            try {
+                setLoading(true);
+                const db = await openDB("MUSIC_STORE_DB", 1, {
+                    upgrade(database, oldVersion, newVersion, transaction) {
+                        database.createObjectStore("music_store", {
+                            keyPath: "id",
+                            autoIncrement: true,
+                        });
+                    },
+                });
 
-            musicStore.forEach(track => {
-                db.put("music_store", track);
-            });
-            const values = await db.getAll("music_store");
-            if (values.length === 0) return;
-            if (arraysEqual(musicStore, values)) return;
-            setMusicStore(values);
+                if (musicStore.length !== 0) {
+                    // SET TO DB
+                    db.clear("music_store");
+                    musicStore.forEach(track => {
+                        db.put("music_store", track);
+                    });
+                    return setLoading(false);
+                }
+                // GET FROM DB
+                const values = await db.getAll("music_store");
+                if (values.length === 0) return setLoading(false);
+                if (arraysEqual(musicStore, values)) return setLoading(false);
+                setMusicStore(values);
+                setLoading(false);
+            } catch (e) {
+                console.log(e);
+                setLoading(false);
+            }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [musicStore]);
+
+    // MUSIC STORE BACKUP: FOR QUEUE
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                const db = await openDB("QUEUE_STORE_DB", 1, {
+                    upgrade(database, oldVersion, newVersion, transaction) {
+                        database.createObjectStore("queue_store", {
+                            keyPath: "id",
+                            autoIncrement: true,
+                        });
+                    },
+                });
+                if (queue.length !== 0) {
+                    // SET TO DB
+                    db.clear("queue_store");
+                    queue.forEach(track => {
+                        db.put("queue_store", { id: track.id });
+                    });
+                    return setLoading(false);
+                }
+                // GET FROM DB
+                const values = await db.getAllKeys("queue_store");
+                if (values.length === 0) return setLoading(false);
+                const parsedQueues = getFromMultipleIds(values);
+                if (arraysEqual(queue, parsedQueues)) return setLoading(false);
+                setQueue(parsedQueues);
+                setLoading(false);
+            } catch (e) {
+                console.log(e);
+                setLoading(false);
+            }
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [queue, musicStore]);
+
+    // SELECTED MUSIC BACKUP
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                const db = await openDB("SELECTED_MUSIC_STORE_DB", 1, {
+                    upgrade(database, oldVersion, newVersion, transaction) {
+                        database.createObjectStore("selected_music_store", {
+                            keyPath: "id",
+                            autoIncrement: true,
+                        });
+                    },
+                });
+                if (selectedMusic) {
+                    // SET TO DATABASE
+                    db.clear("selected_music_store");
+                    db.put("selected_music_store", { id: selectedMusic.id });
+                    return setLoading(false);
+                }
+                // GET FROM DATABASE
+                const values = await db.getAllKeys("selected_music_store");
+                if (values.length === 0) return setLoading(false);
+                const [parsedTrack] = getFromMultipleIds(values);
+                console.log(parsedTrack, values, musicStore);
+                if (object_equals(selectedMusic, parsedTrack))
+                    return setLoading(false);
+                setSelectedMusic(parsedTrack);
+                setLoading(false);
+            } catch (e) {
+                console.log(e);
+                setLoading(false);
+            }
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedMusic, musicStore]);
+
     return <></>;
 }

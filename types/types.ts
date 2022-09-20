@@ -45,3 +45,18 @@ export type IArrayMoreButtons = {
     cb: VoidFunction;
     rest?: MenuItemProps;
 }[];
+
+export type TAudioMetadataField =
+    | "id"
+    | "trackName"
+    | "artist"
+    | "loved"
+    | "genre"
+    | "path"
+    | "size"
+    | "picture"
+    | "album"
+    | "format"
+    | "lyrics"
+    | "src"
+    | "duration";

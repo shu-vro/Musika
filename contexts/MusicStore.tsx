@@ -3,6 +3,7 @@ import type {
     IArrayAudioMetaData,
     IAudioMetadata,
     IAudioOptionalMetadata,
+    TAudioMetadataField,
 } from "@ts/types";
 
 const Context = createContext({});
@@ -13,7 +14,7 @@ export function useMusicStore(): {
     queue?: IArrayAudioMetaData;
     setQueue?: React.Dispatch<React.SetStateAction<IArrayAudioMetaData>>;
     /**
-     * @param search - search query.
+     * @param search - search query. a valid key from [TAudioMetadataField](../types/types.ts)
      * @returns Array of [IArrayAudioMetaData](../types/types.ts)
      */
     getFromSearch?: (search: string) => any[];
@@ -28,13 +29,14 @@ export function useMusicStore(): {
     /**
      * @example
      * ```js
-     * const array = getFromField({artist: 'Arijit Singh})
+     * const array = getFromField({artist: 'some artist'})
      * console.log(array)
      * ```
      * @param {IAudioOptionalMetadata} getters
      * @returns {IArrayAudioMetaData} IArrayAudioMetaData
      */
     getFromField?: (getters: IAudioOptionalMetadata) => IArrayAudioMetaData;
+    getFromMultipleIds?: (array: Array<IDBValidKey>) => IArrayAudioMetaData;
 } {
     return useContext(Context);
 }
@@ -43,7 +45,7 @@ export function MusicStoreContext({ children }) {
     const [value, setValue] = useState<IArrayAudioMetaData>([]);
     const [queue, setQueue] = useState<IArrayAudioMetaData>([]);
 
-    function getFromSearch(search: string) {
+    function getFromSearch(search: TAudioMetadataField) {
         let result = [];
         let arr = value.map(e => e?.[search]);
         if (arr.length === 0) return result;
@@ -64,6 +66,14 @@ export function MusicStoreContext({ children }) {
                 result.push(...value.filter(e => e?.[key] === v));
             }
         }
+        return result;
+    }
+
+    function getFromMultipleIds(array: Array<IDBValidKey>) {
+        let result = [];
+        array.forEach(id => {
+            result.push(...value.filter(e => e.id === id));
+        });
         return result;
     }
 
@@ -109,6 +119,7 @@ export function MusicStoreContext({ children }) {
                     getFromSearch,
                     setUsingId,
                     getFromField,
+                    getFromMultipleIds,
                 }}
             >
                 {children}
