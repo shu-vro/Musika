@@ -42,6 +42,18 @@ export default function ControlSection() {
             try {
                 if (selectedMusic === null) return;
                 await audioRef.current?.play();
+                if ("mediaSession" in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: selectedMusic?.trackName,
+                        artist: selectedMusic?.artist,
+                        album: selectedMusic?.album,
+                        artwork: [
+                            {
+                                src: selectedMusic?.picture,
+                            },
+                        ],
+                    });
+                }
                 setPaused(false);
             } catch (e) {}
         })();
@@ -64,6 +76,12 @@ export default function ControlSection() {
                     onError={() => {
                         setLoading(false);
                     }}
+                    onPlay={e => {
+                        setPaused((e.target as HTMLAudioElement).paused);
+                    }}
+                    onPause={e => {
+                        setPaused((e.target as HTMLAudioElement).paused);
+                    }}
                 />
                 <div className={styles["control-buttons"]}>
                     <button
@@ -73,12 +91,14 @@ export default function ControlSection() {
                         onClick={() => {
                             audioRef.current.loop = !audioRef.current?.loop;
                             setLoop(audioRef.current?.loop);
-                        }}>
+                        }}
+                    >
                         <IoRepeat size="2rem" />
                     </button>
                     <button
                         className={`ripple prev ${styles.button}`}
-                        onClick={playPrevious}>
+                        onClick={playPrevious}
+                    >
                         <MdSkipPrevious size="2rem" />
                     </button>
                     <button
@@ -89,9 +109,9 @@ export default function ControlSection() {
                                 audioRef.current.paused
                                     ? await audioRef.current.play()
                                     : audioRef.current.pause();
-                                setPaused(audioRef.current.paused);
                             } catch (e) {}
-                        }}>
+                        }}
+                    >
                         {paused ? (
                             <FaPlay size="2.0rem" />
                         ) : (
@@ -100,12 +120,14 @@ export default function ControlSection() {
                     </button>
                     <button
                         className={`ripple next ${styles.button}`}
-                        onClick={playNext}>
+                        onClick={playNext}
+                    >
                         <MdSkipNext size="2rem" />
                     </button>
                     <button
                         className={`ripple shuffle ${styles.button}`}
-                        onClick={shuffle}>
+                        onClick={shuffle}
+                    >
                         <IoShuffle size="2rem" />
                     </button>
                 </div>

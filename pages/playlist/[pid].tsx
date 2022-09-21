@@ -48,7 +48,9 @@ export default function PlayList() {
                             src={queue?.[0]?.picture || defaultImage.src}
                             alt="song"
                         />
-                        <h1>{name}</h1>
+                        <h1>
+                            {pid} - {name}
+                        </h1>
                     </div>
                     {queue.map(song => (
                         <SongList

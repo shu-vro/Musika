@@ -65,33 +65,38 @@ export default function ConfigHelperComponent() {
     useEffect(() => {
         (async () => {
             try {
-                setLoading(true);
                 const db = await openDB("MUSIC_STORE_DB", 1, {
                     upgrade(database, oldVersion, newVersion, transaction) {
                         database.createObjectStore("music_store", {
                             keyPath: "id",
                             autoIncrement: true,
                         });
+                        database.createObjectStore("queue_store", {
+                            keyPath: "id",
+                            autoIncrement: true,
+                        });
+                        database.createObjectStore("selected_music_store", {
+                            keyPath: "id",
+                            autoIncrement: true,
+                        });
                     },
                 });
-
+                if (!db.objectStoreNames.contains("music_store")) return;
                 if (musicStore.length !== 0) {
                     // SET TO DB
                     db.clear("music_store");
                     musicStore.forEach(track => {
                         db.put("music_store", track);
                     });
-                    return setLoading(false);
+                    return;
                 }
                 // GET FROM DB
                 const values = await db.getAll("music_store");
-                if (values.length === 0) return setLoading(false);
-                if (arraysEqual(musicStore, values)) return setLoading(false);
+                if (values.length === 0) return;
+                if (arraysEqual(musicStore, values)) return;
                 setMusicStore(values);
-                setLoading(false);
             } catch (e) {
                 console.log(e);
-                setLoading(false);
             }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,33 +106,39 @@ export default function ConfigHelperComponent() {
     useEffect(() => {
         (async () => {
             try {
-                setLoading(true);
-                const db = await openDB("QUEUE_STORE_DB", 1, {
+                const db = await openDB("MUSIC_STORE_DB", 1, {
                     upgrade(database, oldVersion, newVersion, transaction) {
+                        database.createObjectStore("music_store", {
+                            keyPath: "id",
+                            autoIncrement: true,
+                        });
                         database.createObjectStore("queue_store", {
+                            keyPath: "id",
+                            autoIncrement: true,
+                        });
+                        database.createObjectStore("selected_music_store", {
                             keyPath: "id",
                             autoIncrement: true,
                         });
                     },
                 });
+                if (!db.objectStoreNames.contains("queue_store")) return;
                 if (queue.length !== 0) {
                     // SET TO DB
                     db.clear("queue_store");
                     queue.forEach(track => {
                         db.put("queue_store", { id: track.id });
                     });
-                    return setLoading(false);
+                    return;
                 }
                 // GET FROM DB
                 const values = await db.getAllKeys("queue_store");
-                if (values.length === 0) return setLoading(false);
+                if (values.length === 0) return;
                 const parsedQueues = getFromMultipleIds(values);
-                if (arraysEqual(queue, parsedQueues)) return setLoading(false);
+                if (arraysEqual(queue, parsedQueues)) return;
                 setQueue(parsedQueues);
-                setLoading(false);
             } catch (e) {
                 console.log(e);
-                setLoading(false);
             }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -137,33 +148,39 @@ export default function ConfigHelperComponent() {
     useEffect(() => {
         (async () => {
             try {
-                setLoading(true);
-                const db = await openDB("SELECTED_MUSIC_STORE_DB", 1, {
+                const db = await openDB("MUSIC_STORE_DB", 1, {
                     upgrade(database, oldVersion, newVersion, transaction) {
+                        database.createObjectStore("music_store", {
+                            keyPath: "id",
+                            autoIncrement: true,
+                        });
+                        database.createObjectStore("queue_store", {
+                            keyPath: "id",
+                            autoIncrement: true,
+                        });
                         database.createObjectStore("selected_music_store", {
                             keyPath: "id",
                             autoIncrement: true,
                         });
                     },
                 });
+                if (!db.objectStoreNames.contains("selected_music_store"))
+                    return;
                 if (selectedMusic) {
                     // SET TO DATABASE
                     db.clear("selected_music_store");
                     db.put("selected_music_store", { id: selectedMusic.id });
-                    return setLoading(false);
+                    return;
                 }
                 // GET FROM DATABASE
                 const values = await db.getAllKeys("selected_music_store");
-                if (values.length === 0) return setLoading(false);
+                if (values.length === 0) return;
                 const [parsedTrack] = getFromMultipleIds(values);
                 console.log(parsedTrack, values, musicStore);
-                if (object_equals(selectedMusic, parsedTrack))
-                    return setLoading(false);
+                if (object_equals(selectedMusic, parsedTrack)) return;
                 setSelectedMusic(parsedTrack);
-                setLoading(false);
             } catch (e) {
                 console.log(e);
-                setLoading(false);
             }
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
