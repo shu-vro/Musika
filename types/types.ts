@@ -46,6 +46,12 @@ export type IArrayMoreButtons = {
     rest?: MenuItemProps;
 }[];
 
+export interface ISearchFromValues {
+    element: IAudioMetadata;
+    key: TAudioMetadataField;
+    matched: string[];
+}
+
 export type TAudioMetadataField =
     | "id"
     | "trackName"

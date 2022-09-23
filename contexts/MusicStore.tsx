@@ -3,8 +3,10 @@ import type {
     IArrayAudioMetaData,
     IAudioMetadata,
     IAudioOptionalMetadata,
+    ISearchFromValues,
     TAudioMetadataField,
 } from "@ts/types";
+import { stringToRegex } from "@utils/utils";
 
 const Context = createContext({});
 
@@ -37,6 +39,29 @@ export function useMusicStore(): {
      */
     getFromField?: (getters: IAudioOptionalMetadata) => IArrayAudioMetaData;
     getFromMultipleIds?: (array: Array<IDBValidKey>) => IArrayAudioMetaData;
+    /** Find Value from any object inside the music store
+     *
+     * It does not match `picture`, `src`, `loved`, `lyrics`, `id`, `format`, `duration` fields
+     * @param {String} search - a value in `IAudioMetadata` that might exist in `IArrayAudioMetaData`
+     * @example
+     * ```
+     * let sfv = SearchFromValues('some audio data')
+     * console.log(sfv)
+     *
+     * /* returns
+     * [
+     *      {
+     *          element: IAudioMetadata,
+     *          key: TAudioMetadataField,
+     *          matched: ['some audio data']
+     *      },
+     *      ...
+     * ]
+     * *\/
+     * ```
+     * @returns [ISearchFromValues[]](../types/types.ts)
+     */
+    SearchFromValues?: (search: string) => ISearchFromValues[][];
 } {
     return useContext(Context);
 }
@@ -108,6 +133,41 @@ export function MusicStoreContext({ children }) {
         setNewObject(value, setValue);
         setNewObject(queue, setQueue);
     }
+    function SearchFromValues(search: string): ISearchFromValues[][] {
+        if (search === "") return [[]];
+        let s = stringToRegex(search);
+        let tempResult: ISearchFromValues[] = [];
+        let arrayResult: any = [];
+        let fields: TAudioMetadataField[] = [
+            "trackName",
+            "artist",
+            "album",
+            "genre",
+            "lyrics",
+        ];
+
+        value.forEach(el => {
+            for (const key in el) {
+                if (!fields.includes(key as TAudioMetadataField)) continue;
+                if (Object.prototype.hasOwnProperty.call(el, key)) {
+                    const v: string = String(el[key]);
+                    const matched = v.match(RegExp(s, "gi"));
+                    if (matched) {
+                        tempResult.push({
+                            element: el,
+                            key: key as TAudioMetadataField,
+                            matched,
+                        });
+                    }
+                }
+            }
+        });
+        fields.forEach(field => {
+            let f = tempResult.filter(e => e.key === field);
+            arrayResult.push(f);
+        });
+        return arrayResult;
+    }
     return (
         <>
             <Context.Provider
@@ -119,6 +179,7 @@ export function MusicStoreContext({ children }) {
                     getFromSearch,
                     setUsingId,
                     getFromField,
+                    SearchFromValues,
                     getFromMultipleIds,
                 }}
             >

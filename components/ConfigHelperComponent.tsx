@@ -84,9 +84,9 @@ export default function ConfigHelperComponent() {
                 if (!db.objectStoreNames.contains("music_store")) return;
                 if (musicStore.length !== 0) {
                     // SET TO DB
-                    db.clear("music_store");
-                    musicStore.forEach(track => {
-                        db.put("music_store", track);
+                    await db.clear("music_store");
+                    musicStore.forEach(async track => {
+                        await db.put("music_store", track);
                     });
                     return;
                 }
@@ -125,9 +125,9 @@ export default function ConfigHelperComponent() {
                 if (!db.objectStoreNames.contains("queue_store")) return;
                 if (queue.length !== 0) {
                     // SET TO DB
-                    db.clear("queue_store");
-                    queue.forEach(track => {
-                        db.put("queue_store", { id: track.id });
+                    await db.clear("queue_store");
+                    queue.forEach(async track => {
+                        await db.put("queue_store", { id: track.id });
                     });
                     return;
                 }
@@ -168,15 +168,16 @@ export default function ConfigHelperComponent() {
                     return;
                 if (selectedMusic) {
                     // SET TO DATABASE
-                    db.clear("selected_music_store");
-                    db.put("selected_music_store", { id: selectedMusic.id });
+                    await db.clear("selected_music_store");
+                    await db.put("selected_music_store", {
+                        id: selectedMusic.id,
+                    });
                     return;
                 }
                 // GET FROM DATABASE
                 const values = await db.getAllKeys("selected_music_store");
                 if (values.length === 0) return;
                 const [parsedTrack] = getFromMultipleIds(values);
-                console.log(parsedTrack, values, musicStore);
                 if (object_equals(selectedMusic, parsedTrack)) return;
                 setSelectedMusic(parsedTrack);
             } catch (e) {

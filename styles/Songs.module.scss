@@ -39,6 +39,7 @@
             bottom: 0;
             width: 100%;
             font-family: "Zen dots", cursive;
+            color: #ffffff;
             margin-bottom: 10px;
             z-index: 1;
             text-transform: capitalize;
@@ -74,10 +75,25 @@
             }
 
             .song-title {
-                font-size: 1.3rem;
                 font-weight: 600;
                 font-style: italic;
                 width: 100%;
+            }
+        }
+
+        .song-artist {
+            display: inline-block;
+        }
+
+        @media screen and (max-width: 425px) {
+            .song-artist {
+                display: none;
+            }
+            div {
+                width: 100%;
+            }
+            b {
+                display: none;
             }
         }
     }

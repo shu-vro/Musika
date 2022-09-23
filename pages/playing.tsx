@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import MainBody from "@components/MainBody";
 import styles from "@styles/Home.module.scss";
@@ -19,8 +18,7 @@ export default function Playing() {
                 setTimeout(() => {
                     let { y } = image.getBoundingClientRect();
                     let targetElHeight =
-                        image.parentElement.parentElement.parentElement
-                            .offsetHeight;
+                        image.parentElement.parentElement.offsetHeight;
                     setHeight(targetElHeight - y);
                 }, 500);
             } catch (e) {}
@@ -38,13 +36,11 @@ export default function Playing() {
                 <div className={styles.playing} ref={imageParentRef}>
                     <h1>{selectedMusic?.trackName}</h1>
                     <p>{selectedMusic?.artist}</p>
-                    <Image
-                        src={selectedMusic?.picture || defaultImage}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                        src={selectedMusic?.picture || defaultImage.src}
                         alt={selectedMusic?.trackName}
-                        layout="fixed"
-                        objectFit="contain"
                         height={height}
-                        width={height}
                         style={{
                             opacity: height === 0 ? 0 : 1,
                         }}

@@ -12,10 +12,20 @@ import MoreButton from "./MoreButton";
 export default function SongList({
     song,
     cb = () => null,
+    searching = {
+        state: false,
+        key: "",
+        value: "",
+    },
     ...rest
 }: {
     song: IAudioMetadata;
     cb?: VoidFunction;
+    searching?: {
+        state: boolean;
+        key: string;
+        value: string;
+    };
     [x: string]: any;
 }) {
     const {
@@ -88,17 +98,26 @@ export default function SongList({
                 selectMusic(song);
                 cb();
             }}
-            {...rest}>
+            {...rest}
+        >
             <div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     src={song.picture || "../../assets/disk.png"}
                     alt={song.trackName}
                 />
-                <div className="song-title">{song.trackName}</div>
+                <div className={styles["song-title"]}>{song.trackName}</div>
             </div>
-            <i className="song-artist">{song.artist}</i>
-            <b>{normalizeTimeFormat(song.duration)}</b>
+            {searching.state ? (
+                <>
+                    {searching.key}: {searching.value}
+                </>
+            ) : (
+                <>
+                    <i className={styles["song-artist"]}>{song.artist}</i>
+                    <b>{normalizeTimeFormat(song.duration)}</b>
+                </>
+            )}
             <MoreButton buttons={buttons} />
         </div>
     );

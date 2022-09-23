@@ -60,7 +60,8 @@ export function SelectMusicContext({ children }) {
     }
     function setNext(song: IAudioMetadata) {
         const tracks = [...musicStore.queue];
-        tracks[tracks.length] = song;
+        let index = tracks.indexOf(value) + 1;
+        tracks.splice(index, 0, song);
         musicStore.setQueue(tracks);
     }
     return (
@@ -73,7 +74,8 @@ export function SelectMusicContext({ children }) {
                     playNext,
                     playPrevious,
                     setNext,
-                }}>
+                }}
+            >
                 {children}
             </Context.Provider>
         </>

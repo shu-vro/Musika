@@ -16,9 +16,16 @@
     }
 
     .topNav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         h1 {
             text-align: center;
             font-size: 1.3rem;
+        }
+
+        svg {
+            cursor: pointer;
         }
     }
 }

@@ -78,3 +78,16 @@ export function arraysEqual(a: Array<any> | null, b: Array<any> | null) {
     }
     return true;
 }
+
+export function stringToRegex(s: string): RegExp {
+    let m: any = [];
+    return (m = s.match(/^([\/~@;%#'])(.*?)\1([gimsuy]*)$/))
+        ? new RegExp(
+              m[2],
+              m[3]
+                  .split("")
+                  .filter((i: number, p: any, s: any[]) => s.indexOf(i) === p)
+                  .join("")
+          )
+        : new RegExp(s);
+}
