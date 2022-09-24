@@ -60,48 +60,88 @@ export default function Id() {
     }
 
     return (
-        <MainBody title="Music Details">
+        <>
             <Head>
                 <title>Music Details - {song?.trackName} - MUSIKA</title>
             </Head>
-            {message && (
-                <Alert
-                    severity="error"
-                    variant="filled"
-                    sx={{
-                        margin: `0px auto`,
-                        maxWidth: "50%",
-                    }}>
-                    <AlertTitle>Error</AlertTitle>
-                    {message}
-                </Alert>
-            )}
-            <DisplayImage
-                src={song?.picture || defaultImage.src}
-                alt={song?.trackName || "Track Thumbnail"}
-            />
+            <MainBody title="Music Details">
+                {message && (
+                    <Alert
+                        severity="error"
+                        variant="filled"
+                        sx={{
+                            margin: `0px auto`,
+                            maxWidth: "50%",
+                        }}
+                    >
+                        <AlertTitle>Error</AlertTitle>
+                        {message}
+                    </Alert>
+                )}
+                <DisplayImage
+                    src={song?.picture?.[1] || defaultImage.src}
+                    alt={song?.trackName || "Track Thumbnail"}
+                />
 
-            {Object.keys(song).length && (
-                <TableContainer
-                    sx={{
-                        borderRadius: "10px",
-                        background: `rgba(255, 255, 255, 10%)`,
-                        backdropFilter: "blur(10px)",
-                        margin: `30px 20px`,
-                        width: `auto`,
-                    }}>
-                    <Table>
-                        <TableBody>
-                            {Object.entries(song).map(
-                                ([key, value]: [string, string]) => {
-                                    if (key === "loved") {
+                {Object.keys(song).length && (
+                    <TableContainer
+                        sx={{
+                            borderRadius: "10px",
+                            background: `rgba(255, 255, 255, 10%)`,
+                            backdropFilter: "blur(10px)",
+                            margin: `30px 20px`,
+                            width: `auto`,
+                        }}
+                    >
+                        <Table>
+                            <TableBody>
+                                {Object.entries(song).map(
+                                    ([key, value]: [string, string]) => {
+                                        if (key === "loved") {
+                                            return (
+                                                <TableRow key={key}>
+                                                    <TableCell
+                                                        sx={{
+                                                            textOverflow:
+                                                                "ellipsis",
+                                                        }}
+                                                    >
+                                                        <b>
+                                                            {capitalizeFirstLetter(
+                                                                key
+                                                            )}
+                                                        </b>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <IconButton
+                                                            onClick={
+                                                                handleLoved
+                                                            }
+                                                        >
+                                                            {value ? (
+                                                                <AiFillHeart size="1.5rem" />
+                                                            ) : (
+                                                                <AiOutlineHeart size="1.5rem" />
+                                                            )}
+                                                        </IconButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        }
+                                        if (
+                                            key.match(
+                                                /^picture$|^src$|^loved$|^lyrics$|^id$/
+                                            )
+                                        )
+                                            return;
                                         return (
                                             <TableRow key={key}>
                                                 <TableCell
                                                     sx={{
                                                         textOverflow:
                                                             "ellipsis",
-                                                    }}>
+                                                    }}
+                                                >
                                                     <b>
                                                         {capitalizeFirstLetter(
                                                             key
@@ -109,82 +149,58 @@ export default function Id() {
                                                     </b>
                                                 </TableCell>
                                                 <TableCell>
-                                                    <IconButton
-                                                        onClick={handleLoved}>
-                                                        {value ? (
-                                                            <AiFillHeart size="1.5rem" />
-                                                        ) : (
-                                                            <AiOutlineHeart size="1.5rem" />
-                                                        )}
-                                                    </IconButton>
+                                                    {key === "duration"
+                                                        ? normalizeTimeFormat(
+                                                              song?.duration ||
+                                                                  0
+                                                          )
+                                                        : key === "size"
+                                                        ? numeral(value).format(
+                                                              "0.00b"
+                                                          )
+                                                        : value}
                                                 </TableCell>
                                             </TableRow>
                                         );
                                     }
-                                    if (
-                                        key.match(
-                                            /^picture$|^src$|^loved$|^lyrics$|^id$/
-                                        )
-                                    )
-                                        return;
-                                    return (
-                                        <TableRow key={key}>
-                                            <TableCell
-                                                sx={{
-                                                    textOverflow: "ellipsis",
-                                                }}>
-                                                <b>
-                                                    {capitalizeFirstLetter(key)}
-                                                </b>
-                                            </TableCell>
-                                            <TableCell>
-                                                {key === "duration"
-                                                    ? normalizeTimeFormat(
-                                                          song?.duration || 0
-                                                      )
-                                                    : key === "size"
-                                                    ? numeral(value).format(
-                                                          "0.00b"
-                                                      )
-                                                    : value}
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                }
-                            )}
-                            <TableRow>
-                                <TableCell
-                                    colSpan={2}
-                                    sx={{
-                                        padding: "0",
-                                        border: "none",
-                                    }}>
-                                    <Accordion
+                                )}
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={2}
                                         sx={{
-                                            background: "transparent",
-                                            color: `var(--color)`,
-                                            width: `100%`,
-                                        }}>
-                                        <AccordionSummary
-                                            expandIcon={
-                                                <MdExpandMore
-                                                    size="1.5rem"
-                                                    fill="var(--color)"
-                                                />
-                                            }>
-                                            Lyrics
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <pre>{song?.lyrics}</pre>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            )}
-        </MainBody>
+                                            padding: "0",
+                                            border: "none",
+                                        }}
+                                    >
+                                        <Accordion
+                                            sx={{
+                                                background: "transparent",
+                                                color: `var(--color)`,
+                                                width: `100%`,
+                                            }}
+                                        >
+                                            <AccordionSummary
+                                                expandIcon={
+                                                    <MdExpandMore
+                                                        size="1.5rem"
+                                                        fill="var(--color)"
+                                                    />
+                                                }
+                                            >
+                                                Lyrics
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <pre>{song?.lyrics}</pre>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                )}
+            </MainBody>
+        </>
     );
 }
 

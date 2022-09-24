@@ -4,6 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IconButton, ListItemIcon, ListItemText } from "@mui/material";
 import { IArrayMoreButtons } from "@ts/types";
+import MyTooltip from "./MyTooltip";
 
 export default function MoreControlButton({
     buttons = [],
@@ -23,20 +24,23 @@ export default function MoreControlButton({
 
     return (
         <>
-            <IconButton
-                id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClick}>
-                <BiDotsVerticalRounded
-                    size="2rem"
-                    style={{
-                        zIndex: 1,
-                        color: "var(--color)",
-                    }}
-                />
-            </IconButton>
+            <MyTooltip title="See more">
+                <IconButton
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                >
+                    <BiDotsVerticalRounded
+                        size="2rem"
+                        style={{
+                            zIndex: 1,
+                            color: "var(--color)",
+                        }}
+                    />
+                </IconButton>
+            </MyTooltip>
             <Menu
                 id="more-control-button"
                 sx={{
@@ -51,7 +55,8 @@ export default function MoreControlButton({
                 onClose={handleClose}
                 MenuListProps={{
                     "aria-labelledby": "basic-button",
-                }}>
+                }}
+            >
                 {buttons.map(button => (
                     <MenuItem
                         key={button.name}
@@ -60,7 +65,8 @@ export default function MoreControlButton({
                             setAnchorEl(null);
                             button.cb();
                         }}
-                        {...button?.rest}>
+                        {...button?.rest}
+                    >
                         <ListItemIcon>{button.icon}</ListItemIcon>
                         <ListItemText>{button.name}</ListItemText>
                     </MenuItem>

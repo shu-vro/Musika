@@ -15,8 +15,7 @@ export default function AlertDialog({ open, setOpen }) {
     const handleClose = () => {
         setOpen(false);
     };
-    const { value: musicStore, setQueue, SearchFromValues } = useMusicStore();
-    console.log(searchValues);
+    const { setQueue, SearchFromValues } = useMusicStore();
     return (
         <div>
             <Dialog

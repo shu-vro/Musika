@@ -22,7 +22,8 @@ export default function GroupSlide({ slideName }) {
                 {searchResults.map((arrayTracks, i) => (
                     <Link
                         href={`playlist/${slideName}?name=${arrayTracks[0][slideName]}`}
-                        key={i}>
+                        key={i}
+                    >
                         <div className={`ripple ${styles.playlist}`}>
                             <div className={styles.image}>
                                 {Array(4)
@@ -30,7 +31,8 @@ export default function GroupSlide({ slideName }) {
                                     .map((a, i) => (
                                         <Image
                                             src={
-                                                arrayTracks?.[i]?.picture ||
+                                                arrayTracks?.[i]
+                                                    ?.picture?.[0] ||
                                                 defaultImage
                                             }
                                             alt="playlist"

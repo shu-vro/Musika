@@ -51,7 +51,8 @@ export default function VolumeSection({ volume, setVolume, setActivateRange }) {
                 <IconButton
                     onClick={() => {
                         setVolume(prev => (prev !== 0 ? 0 : 100));
-                    }}>
+                    }}
+                >
                     {volume === 0 ? (
                         <FiVolumeX size="1.5rem" />
                     ) : (

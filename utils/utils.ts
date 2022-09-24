@@ -16,15 +16,46 @@ export function removeSiteFromTitle(title: string) {
     );
 }
 
-export function extractThumbnailFromAudio(picture: any) {
-    if (!picture) return "";
+export function imageResize(
+    data: string,
+    sizes = ["92x92", "original"]
+): string[] {
+    let result: string[] = [];
+    sizes.forEach(size => {
+        const image = new Image();
+        image.src = data;
+        image.onload = () => {
+            let width = 0,
+                height = 0;
+            if (size === "original") {
+                return result.push(data);
+            } else {
+                [width, height] = size.split("x").map(e => Number(e));
+            }
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = width;
+            canvas.height = height;
+            ctx?.drawImage(image, 0, 0, canvas.width, canvas.height);
+            let imageData = canvas.toDataURL();
+            result.push(imageData);
+            canvas.remove();
+            image.remove();
+        };
+    });
+    return result;
+}
+
+export function extractThumbnailFromAudio(picture: any): string[] {
+    if (!picture) return [];
     let data = picture.data;
     let format = picture.format;
     let base64String = "";
     for (let i = 0; i < data.length; i++) {
         base64String += String.fromCharCode(data[i]);
     }
-    return `data:${format};base64,${window.btoa(base64String)}`;
+    let dataURL = `data:${format};base64,${window.btoa(base64String)}`;
+    return imageResize(dataURL);
 }
 
 export function object_equals(x, y) {
@@ -41,6 +72,9 @@ export function object_equals(x, y) {
     for (var p in x) {
         if (!x.hasOwnProperty(p)) continue;
         // other properties were tested using x.constructor === y.constructor
+
+        if (p === "picture") continue;
+        // Picture is a constant array. This will never change. So omitting it
 
         if (!y.hasOwnProperty(p)) return false;
         // allows to compare x[ p ] and y[ p ] when set to undefined

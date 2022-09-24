@@ -8,6 +8,7 @@ import { useSelectMusic } from "@contexts/SelectMusic";
 import { useLoading } from "@contexts/Loading";
 import TimeControlSection from "./TimeControlSection";
 import VolumeSection from "./VolumeSection";
+import MyTooltip from "@components/Index/MyTooltip";
 
 export default function ControlSection() {
     const {
@@ -49,7 +50,7 @@ export default function ControlSection() {
                         album: selectedMusic?.album,
                         artwork: [
                             {
-                                src: selectedMusic?.picture,
+                                src: selectedMusic?.picture?.[0],
                             },
                         ],
                     });
@@ -84,52 +85,62 @@ export default function ControlSection() {
                     }}
                 />
                 <div className={styles["control-buttons"]}>
-                    <button
-                        className={`ripple repeat ${styles.button} ${
-                            loop ? styles.active : ""
-                        }`}
-                        onClick={() => {
-                            audioRef.current.loop = !audioRef.current?.loop;
-                            setLoop(audioRef.current?.loop);
-                        }}
-                    >
-                        <IoRepeat size="2rem" />
-                    </button>
-                    <button
-                        className={`ripple prev ${styles.button}`}
-                        onClick={playPrevious}
-                    >
-                        <MdSkipPrevious size="2rem" />
-                    </button>
-                    <button
-                        className={`ripple play-pause ${styles.button}`}
-                        style={{ padding: "10px" }}
-                        onClick={async () => {
-                            try {
-                                audioRef.current.paused
-                                    ? await audioRef.current.play()
-                                    : audioRef.current.pause();
-                            } catch (e) {}
-                        }}
-                    >
-                        {paused ? (
-                            <FaPlay size="2.0rem" />
-                        ) : (
-                            <IoMdPause size="2.0rem" />
-                        )}
-                    </button>
-                    <button
-                        className={`ripple next ${styles.button}`}
-                        onClick={playNext}
-                    >
-                        <MdSkipNext size="2rem" />
-                    </button>
-                    <button
-                        className={`ripple shuffle ${styles.button}`}
-                        onClick={shuffle}
-                    >
-                        <IoShuffle size="2rem" />
-                    </button>
+                    <MyTooltip title="Repeat" className="ripple">
+                        <button
+                            className={`repeat ${styles.button} ${
+                                loop ? styles.active : ""
+                            }`}
+                            onClick={() => {
+                                audioRef.current.loop = !audioRef.current?.loop;
+                                setLoop(audioRef.current?.loop);
+                            }}
+                        >
+                            <IoRepeat size="2rem" />
+                        </button>
+                    </MyTooltip>
+                    <MyTooltip title="Play Previous" className="ripple">
+                        <button
+                            className={`prev ${styles.button}`}
+                            onClick={playPrevious}
+                        >
+                            <MdSkipPrevious size="2rem" />
+                        </button>
+                    </MyTooltip>
+                    <MyTooltip title="Play/Pause" className="ripple">
+                        <button
+                            className={`play-pause ${styles.button}`}
+                            style={{ padding: "10px" }}
+                            onClick={async () => {
+                                try {
+                                    audioRef.current.paused
+                                        ? await audioRef.current.play()
+                                        : audioRef.current.pause();
+                                } catch (e) {}
+                            }}
+                        >
+                            {paused ? (
+                                <FaPlay size="2.0rem" />
+                            ) : (
+                                <IoMdPause size="2.0rem" />
+                            )}
+                        </button>
+                    </MyTooltip>
+                    <MyTooltip title="Play Next" className="ripple">
+                        <button
+                            className={`next ${styles.button}`}
+                            onClick={playNext}
+                        >
+                            <MdSkipNext size="2rem" />
+                        </button>
+                    </MyTooltip>
+                    <MyTooltip title="Shuffle" className="ripple">
+                        <button
+                            className={`shuffle ${styles.button}`}
+                            onClick={shuffle}
+                        >
+                            <IoShuffle size="2rem" />
+                        </button>
+                    </MyTooltip>
                 </div>
                 <TimeControlSection
                     audioRef={audioRef}

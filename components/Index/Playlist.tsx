@@ -13,14 +13,16 @@ export default function Playlist() {
             <Link href="/playlist/playlist?name=all">
                 <div
                     className={`ripple ${styles.playlist}`}
-                    onClick={() => setQueue(musicStore)}>
+                    onClick={() => setQueue(musicStore)}
+                >
                     <div className={styles.image}>
                         {Array(4)
                             .fill("")
                             .map((a, i) => (
                                 <Image
                                     src={
-                                        musicStore?.[i]?.picture || defaultImage
+                                        musicStore?.[i]?.picture?.[0] ||
+                                        defaultImage
                                     }
                                     alt="playlist"
                                     objectFit="contain"

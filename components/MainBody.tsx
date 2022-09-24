@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { useRouter } from "next/router";
 import { IconButton } from "@mui/material";
+import { BsSearch } from "react-icons/bs";
 import styles from "@styles/MainBody.module.scss";
 import { useShrinkNavigation } from "@contexts/shrinkNavigation";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
-import { BsSearch } from "react-icons/bs";
 import SearchResults from "./SearchResults";
+import MyTooltip from "./Index/MyTooltip";
 
 export default function MainBody({ children, title }) {
     const [open, setOpen] = useState(false);
@@ -27,21 +28,25 @@ export default function MainBody({ children, title }) {
                 }`}
             >
                 <div className={styles.topNav}>
-                    <IconButton
-                        onClick={() => {
-                            router.back();
-                        }}
-                    >
-                        <RiArrowGoBackLine size="1.5rem" />
-                    </IconButton>
+                    <MyTooltip title="Go Back" placement="bottom">
+                        <IconButton
+                            onClick={() => {
+                                router.back();
+                            }}
+                        >
+                            <RiArrowGoBackLine size="1.5rem" />
+                        </IconButton>
+                    </MyTooltip>
                     <h1>{title}</h1>
-                    <IconButton
-                        onClick={() => {
-                            setOpen(true);
-                        }}
-                    >
-                        <BsSearch size="1.5rem" />
-                    </IconButton>
+                    <MyTooltip title="Search" placement="bottom">
+                        <IconButton
+                            onClick={() => {
+                                setOpen(true);
+                            }}
+                        >
+                            <BsSearch size="1.5rem" />
+                        </IconButton>
+                    </MyTooltip>
                 </div>
                 {children}
                 <SearchResults open={open} setOpen={setOpen} />

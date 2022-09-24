@@ -33,16 +33,23 @@
             object-fit: cover;
         }
 
-        h1 {
-            text-align: center;
+        div {
             position: absolute;
             bottom: 0;
             width: 100%;
-            font-family: "Zen dots", cursive;
-            color: #ffffff;
             margin-bottom: 10px;
+            color: white;
             z-index: 1;
-            text-transform: capitalize;
+            text-align: center;
+
+            p {
+                margin: 0;
+            }
+            h1 {
+                margin: 0;
+                font-family: "Zen dots", cursive;
+                text-transform: capitalize;
+            }
         }
     }
 

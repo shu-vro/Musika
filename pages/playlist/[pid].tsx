@@ -35,22 +35,23 @@ export default function PlayList() {
 
     return (
         <>
+            <Head>
+                <title>
+                    {pid} - {name} - MUSIKA
+                </title>
+            </Head>
             <MainBody title="Songs">
-                <Head>
-                    <title>
-                        {pid} - {name} - MUSIKA
-                    </title>
-                </Head>
                 <div className={styles.songs}>
                     <div className={styles.image}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={queue?.[0]?.picture || defaultImage.src}
+                            src={queue?.[0]?.picture?.[1] || defaultImage.src}
                             alt="song"
                         />
-                        <h1>
-                            {pid} - {name}
-                        </h1>
+                        <div>
+                            <p>{pid}</p>
+                            <h1>{name}</h1>
+                        </div>
                     </div>
                     {queue.map(song => (
                         <SongList

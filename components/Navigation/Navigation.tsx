@@ -1,14 +1,11 @@
-import React, { useEffect } from "react";
 import { GiMusicalNotes, GiBookshelf } from "react-icons/gi";
 import { RiPlayListAddLine } from "react-icons/ri";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { v4 } from "uuid";
 import jsmediatags from "jsmediatags/dist/jsmediatags.min.js";
 import styles from "@styles/Navigation.module.scss";
 import Hamburger from "./Hamburger";
 import { useShrinkNavigation } from "@contexts/shrinkNavigation";
-import { useRippleRefresh } from "@contexts/RippleRefresh";
 import type { IAudioMetadata } from "@ts/types";
 import { extractThumbnailFromAudio, removeSiteFromTitle } from "@utils/utils";
 import { useMusicStore } from "@contexts/MusicStore";

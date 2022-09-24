@@ -103,7 +103,7 @@ export default function SongList({
             <div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                    src={song.picture || "../../assets/disk.png"}
+                    src={song.picture?.[0] || "../../assets/disk.png"}
                     alt={song.trackName}
                 />
                 <div className={styles["song-title"]}>{song.trackName}</div>
