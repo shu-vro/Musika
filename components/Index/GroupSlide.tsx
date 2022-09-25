@@ -31,9 +31,9 @@ export default function GroupSlide({ slideName }) {
                                     .map((a, i) => (
                                         <Image
                                             src={
-                                                arrayTracks?.[i]
-                                                    ?.picture?.[0] ||
-                                                defaultImage
+                                                arrayTracks?.[i]?.picture?.[
+                                                    "92x92"
+                                                ] || defaultImage
                                             }
                                             alt="playlist"
                                             objectFit="contain"

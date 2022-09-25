@@ -25,7 +25,7 @@ export default function NameSection() {
         <div className={styles["name-section"]}>
             {/*eslint-disable-next-line @next/next/no-img-element*/}
             <img
-                src={selectedMusic?.picture?.[0] || disk.src}
+                src={selectedMusic?.picture?.["92x92"] || disk.src}
                 alt={selectedMusic?.trackName || "track thumbnail"}
             />
             <div className={styles.details}>

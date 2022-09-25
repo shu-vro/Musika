@@ -2,6 +2,7 @@
     "cSpell.words": [
         "jsmediatags",
         "MUSIKA",
+        "sortablejs",
         "Swiper"
     ],
     "typescript.tsdk": "node_modules/typescript/lib"

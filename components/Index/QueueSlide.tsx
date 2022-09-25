@@ -4,31 +4,43 @@ import { useRouter } from "next/router";
 import { GiMusicalScore } from "react-icons/gi";
 import { FiExternalLink } from "react-icons/fi";
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import styles from "@styles/Songs.module.scss";
+import { ReactSortable } from "react-sortablejs";
 import { normalizeTimeFormat } from "@utils/utils";
 import { IAudioMetadata } from "@ts/types";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import MoreButton from "./MoreButton";
 
-interface SongListProps extends HTMLAttributes<HTMLDivElement> {
-    song: IAudioMetadata;
-    cb?: VoidFunction;
-    searching?: {
-        state: boolean;
-        key: string;
-        value: string;
-    };
+import { useMusicStore } from "@contexts/MusicStore";
+import styles from "@styles/Songs.module.scss";
+
+export default function QueueSlide() {
+    const { queue, setQueue } = useMusicStore();
+
+    return (
+        <>
+            <ReactSortable
+                className={styles.songs}
+                list={queue}
+                setList={setQueue}
+                swap
+                handle=".handle"
+            >
+                {queue.map(song => (
+                    <div key={song.id}>
+                        <QueueSongList song={song} />
+                    </div>
+                ))}
+            </ReactSortable>
+        </>
+    );
 }
-export default function SongList({
-    song,
-    cb = () => null,
-    searching = {
-        state: false,
-        key: "",
-        value: "",
-    },
-    ...rest
-}: SongListProps) {
+
+interface QuerySongListProps extends HTMLAttributes<HTMLDivElement> {
+    song: IAudioMetadata;
+    cb?: () => VoidFunction;
+}
+
+function QueueSongList({ song, cb = () => null, ...rest }: QuerySongListProps) {
     const {
         setNext,
         setValue: selectMusic,
@@ -94,7 +106,6 @@ export default function SongList({
     return (
         <div
             className={`ripple ${styles.song}`}
-            key={song.id}
             onClick={() => {
                 selectMusic(song);
                 cb();
@@ -104,21 +115,14 @@ export default function SongList({
             <div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
+                    className="handle"
                     src={song.picture?.["92x92"] || "../../assets/disk.png"}
                     alt={song.trackName}
                 />
                 <div className={styles["song-title"]}>{song.trackName}</div>
             </div>
-            {searching.state ? (
-                <>
-                    {searching.key}: {searching.value}
-                </>
-            ) : (
-                <>
-                    <i className={styles["song-artist"]}>{song.artist}</i>
-                    <b>{normalizeTimeFormat(song.duration)}</b>
-                </>
-            )}
+            <i className={styles["song-artist"]}>{song.artist}</i>
+            <b>{normalizeTimeFormat(song.duration)}</b>
             <MoreButton buttons={buttons} />
         </div>
     );

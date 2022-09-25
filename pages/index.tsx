@@ -6,6 +6,7 @@ import styles from "@styles/Home.module.scss";
 import Songs from "@components/Index/Songs";
 import GroupSlide from "@components/Index/GroupSlide";
 import { IAudioOptionalMetadata } from "@ts/types";
+import QueueSlide from "@components/Index/QueueSlide";
 
 export default function Home() {
     const [swiper, setSwiper] = useState(null);
@@ -29,12 +30,15 @@ export default function Home() {
         {
             name: "Genre",
         },
+        {
+            name: "Queue",
+        },
     ];
 
     return (
         <MainBody title="All Songs">
             <Swiper
-                slidesPerView={3}
+                slidesPerView={5}
                 centeredSlides
                 onSwiper={setSwiperThumb}
                 touchAngle={30}
@@ -90,7 +94,6 @@ export default function Home() {
                     <Songs />
                 </SwiperSlide>
                 <SwiperSlide>
-                    {/* <LovedSongs /> */}
                     <Songs
                         filter={e =>
                             e.loved as unknown as IAudioOptionalMetadata
@@ -105,6 +108,9 @@ export default function Home() {
                 </SwiperSlide>
                 <SwiperSlide>
                     <GroupSlide slideName="genre" />
+                </SwiperSlide>
+                <SwiperSlide>
+                    <QueueSlide />
                 </SwiperSlide>
             </Swiper>
         </MainBody>

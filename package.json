@@ -17,7 +17,7 @@
     "dependencies": {
         "@emotion/react": "^11.10.4",
         "@emotion/styled": "^11.10.4",
-        "@mui/material": "^5.10.3",
+        "@mui/material": "^5.10.6",
         "framer-motion": "^7.2.1",
         "idb": "^7.0.2",
         "jsmediatags": "^3.9.7",
@@ -27,6 +27,8 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-icons": "^4.4.0",
+        "react-sortablejs": "^6.1.4",
+        "sortablejs": "^1.15.0",
         "swiper": "^8.3.2",
         "uuid": "^8.3.2"
     },
@@ -35,6 +37,7 @@
         "@types/node": "^18.7.13",
         "@types/numeral": "^2.0.2",
         "@types/react": "^18.0.17",
+        "@types/sortablejs": "^1.15.0",
         "@types/uuid": "^8.3.4",
         "eslint": "8.22.0",
         "eslint-config-next": "12.2.5",

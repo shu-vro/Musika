@@ -21,7 +21,7 @@ export default function Playlist() {
                             .map((a, i) => (
                                 <Image
                                     src={
-                                        musicStore?.[i]?.picture?.[0] ||
+                                        musicStore?.[i]?.picture?.["92x92"] ||
                                         defaultImage
                                     }
                                     alt="playlist"

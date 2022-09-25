@@ -45,7 +45,10 @@ export default function PlayList() {
                     <div className={styles.image}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            src={queue?.[0]?.picture?.[1] || defaultImage.src}
+                            src={
+                                queue?.[0]?.picture?.["original"] ||
+                                defaultImage.src
+                            }
                             alt="song"
                         />
                         <div>

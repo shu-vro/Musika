@@ -19,8 +19,8 @@ export function removeSiteFromTitle(title: string) {
 export function imageResize(
     data: string,
     sizes = ["92x92", "original"]
-): string[] {
-    let result: string[] = [];
+): Object {
+    let result = {};
     sizes.forEach(size => {
         const image = new Image();
         image.src = data;
@@ -28,7 +28,7 @@ export function imageResize(
             let width = 0,
                 height = 0;
             if (size === "original") {
-                return result.push(data);
+                return (result[size] = data);
             } else {
                 [width, height] = size.split("x").map(e => Number(e));
             }
@@ -38,7 +38,7 @@ export function imageResize(
             canvas.height = height;
             ctx?.drawImage(image, 0, 0, canvas.width, canvas.height);
             let imageData = canvas.toDataURL();
-            result.push(imageData);
+            result[size] = imageData;
             canvas.remove();
             image.remove();
         };
@@ -46,7 +46,7 @@ export function imageResize(
     return result;
 }
 
-export function extractThumbnailFromAudio(picture: any): string[] {
+export function extractThumbnailFromAudio(picture: any): Object {
     if (!picture) return [];
     let data = picture.data;
     let format = picture.format;

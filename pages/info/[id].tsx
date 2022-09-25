@@ -79,7 +79,7 @@ export default function Id() {
                     </Alert>
                 )}
                 <DisplayImage
-                    src={song?.picture?.[1] || defaultImage.src}
+                    src={song?.picture?.["original"] || defaultImage.src}
                     alt={song?.trackName || "Track Thumbnail"}
                 />
 

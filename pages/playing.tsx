@@ -18,7 +18,10 @@ export default function Playing() {
                     <p>{selectedMusic?.artist}</p>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        src={selectedMusic?.picture?.[1] || defaultImage.src}
+                        src={
+                            selectedMusic?.picture?.["original"] ||
+                            defaultImage.src
+                        }
                         alt={selectedMusic?.trackName}
                     />
                 </div>

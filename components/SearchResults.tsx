@@ -1,14 +1,15 @@
-import { TextField, IconButton, Dialog } from "@mui/material";
+import { TextField, Dialog, Button } from "@mui/material";
 import DialogContent from "@mui/material/DialogContent";
-import { IoIosCloseCircleOutline } from "react-icons/io";
 import DialogTitle from "@mui/material/DialogTitle";
 import SongList from "./Index/SongList";
 import { useMusicStore } from "@contexts/MusicStore";
 import SongsStyles from "@styles/Songs.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ISearchFromValues } from "@ts/types";
+import { useRippleRefresh } from "@contexts/RippleRefresh";
 
 export default function AlertDialog({ open, setOpen }) {
+    const rippleRefresh = useRippleRefresh();
     const [searchValues, setSearchValues] = useState<ISearchFromValues[][]>([
         [],
     ]);
@@ -16,6 +17,12 @@ export default function AlertDialog({ open, setOpen }) {
         setOpen(false);
     };
     const { setQueue, SearchFromValues } = useMusicStore();
+
+    useEffect(() => {
+        rippleRefresh.refresh();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div>
             <Dialog
@@ -39,9 +46,14 @@ export default function AlertDialog({ open, setOpen }) {
                     }}
                 >
                     Search Music
-                    <IconButton onClick={handleClose} autoFocus>
-                        <IoIosCloseCircleOutline size="2rem" />
-                    </IconButton>
+                    <Button
+                        onClick={handleClose}
+                        style={{
+                            color: "var(--color)",
+                        }}
+                    >
+                        Close
+                    </Button>
                 </DialogTitle>
                 <DialogContent>
                     <br />
