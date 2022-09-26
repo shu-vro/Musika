@@ -61,7 +61,7 @@ export default function Navigation() {
                     reader.onload = function (e) {
                         res["src"] = e.target.result;
                         disposableAudio.src = e.target.result as string;
-                        disposableAudio.onload = function () {
+                        disposableAudio.onloadedmetadata = function () {
                             res["duration"] = Math.round(
                                 disposableAudio.duration
                             );

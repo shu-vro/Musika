@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { GiMusicalScore } from "react-icons/gi";
 import { FiVolume2, FiVolumeX } from "react-icons/fi";
 import { CgArrowsShrinkH } from "react-icons/cg";
@@ -8,8 +8,12 @@ import styles from "@styles/ControlPanel.module.scss";
 import RangeSlider from "./RangeSlider";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import MoreButton from "../Index/MoreButton";
+import QueueSlide from "@components/Control/QueueSlide";
+import { MdQueueMusic } from "react-icons/md";
+import MyTooltip from "@components/Index/MyTooltip";
 
 export default function VolumeSection({ volume, setVolume, setActivateRange }) {
+    const [openQueue, setOpenQueue] = useState(false);
     const router = useRouter();
     const { value: selectedMusic } = useSelectMusic();
 
@@ -29,6 +33,13 @@ export default function VolumeSection({ volume, setVolume, setActivateRange }) {
     }
     let buttons = [
         {
+            name: "Queue",
+            icon: <MdQueueMusic size="1.3rem" />,
+            cb: () => {
+                setOpenQueue(true);
+            },
+        },
+        {
             name: "Select Part",
             icon: <CgArrowsShrinkH size="1.3rem" />,
             cb: () => {
@@ -46,6 +57,16 @@ export default function VolumeSection({ volume, setVolume, setActivateRange }) {
 
     return (
         <div className={styles["volume-section"]}>
+            <MyTooltip title="Queue">
+                <IconButton
+                    onClick={() => {
+                        setOpenQueue(true);
+                    }}
+                    className={styles.QueueButton}
+                >
+                    <MdQueueMusic size="2rem" />
+                </IconButton>
+            </MyTooltip>
             <MoreButton buttons={buttons} />
             <div className={styles.volume}>
                 <IconButton
@@ -67,6 +88,7 @@ export default function VolumeSection({ volume, setVolume, setActivateRange }) {
                     onChange={(e, n, a) => setVolume(Number(n))}
                 />
             </div>
+            <QueueSlide open={openQueue} setOpen={setOpenQueue} />
         </div>
     );
 }

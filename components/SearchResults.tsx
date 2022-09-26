@@ -1,12 +1,23 @@
+import { forwardRef, useEffect, useState } from "react";
 import { TextField, Dialog, Button } from "@mui/material";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+import { TransitionProps } from "@mui/material/transitions";
 import SongList from "./Index/SongList";
 import { useMusicStore } from "@contexts/MusicStore";
 import SongsStyles from "@styles/Songs.module.scss";
-import { useEffect, useState } from "react";
 import { ISearchFromValues } from "@ts/types";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
+
+const Transition = forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function AlertDialog({ open, setOpen }) {
     const rippleRefresh = useRippleRefresh();
@@ -24,11 +35,12 @@ export default function AlertDialog({ open, setOpen }) {
     }, []);
 
     return (
-        <div>
+        <>
             <Dialog
                 open={open}
                 onClose={handleClose}
                 fullScreen
+                TransitionComponent={Transition}
                 sx={{
                     "& .MuiPaper-root": {
                         background: `rgba(255, 255, 255, .4)`,
@@ -61,6 +73,7 @@ export default function AlertDialog({ open, setOpen }) {
                         label="Search By Anything"
                         variant="outlined"
                         fullWidth={true}
+                        autoFocus
                         onInput={e => {
                             let value = (e.target as HTMLInputElement).value;
                             setSearchValues(SearchFromValues(value));
@@ -110,6 +123,6 @@ export default function AlertDialog({ open, setOpen }) {
                     ))}
                 </DialogContent>
             </Dialog>
-        </div>
+        </>
     );
 }

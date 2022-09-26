@@ -96,6 +96,14 @@
 .volume-section {
     @include flex-center();
 
+    .QueueButton {
+        @media screen and (max-width: 840px) {
+            & {
+                display: none;
+            }
+        }
+    }
+
     .volume {
         position: relative;
         @include flex-center();
@@ -115,7 +123,7 @@
             }
         }
 
-        @media screen and (max-width: 508px) {
+        @media screen and (max-width: 770px) {
             & {
                 display: none;
             }
@@ -136,7 +144,7 @@
 
 @media (max-width: 687px) {
     .controls {
-        bottom: 80px;
+        bottom: 60px;
     }
 
     .name-section {
