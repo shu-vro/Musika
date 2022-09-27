@@ -9,6 +9,7 @@ import { useLoading } from "@contexts/Loading";
 import TimeControlSection from "./TimeControlSection";
 import VolumeSection from "./VolumeSection";
 import MyTooltip from "@components/Index/MyTooltip";
+import { useMusicStore } from "@contexts/MusicStore";
 
 export default function ControlSection() {
     const {
@@ -16,6 +17,7 @@ export default function ControlSection() {
         playNext,
         playPrevious,
         shuffle,
+        setValue: setSelectedMusic,
     } = useSelectMusic();
     const [volume, setVolume] = useState(100);
     const audioRef = useRef<HTMLAudioElement>(null);
@@ -24,6 +26,7 @@ export default function ControlSection() {
     const [activateRange, setActivateRange] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const { setValue: setLoading } = useLoading();
+    const { setUsingId } = useMusicStore();
 
     useEffect(() => {
         let audio = audioRef.current;
@@ -55,7 +58,6 @@ export default function ControlSection() {
                         ],
                     });
                 }
-                setPaused(false);
             } catch (e) {}
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,6 +84,22 @@ export default function ControlSection() {
                     }}
                     onPause={e => {
                         setPaused((e.target as HTMLAudioElement).paused);
+                    }}
+                    onDurationChange={e => {
+                        let aud = e.target as HTMLAudioElement;
+                        if (
+                            aud.duration !== selectedMusic?.duration &&
+                            selectedMusic?.duration === Infinity
+                        ) {
+                            setUsingId(selectedMusic?.id, {
+                                duration: aud.duration,
+                            });
+                            setSelectedMusic(prev => {
+                                let temp = { ...prev };
+                                temp.duration = aud.duration;
+                                return temp;
+                            });
+                        }
                     }}
                 />
                 <div className={styles["control-buttons"]}>
@@ -145,7 +163,11 @@ export default function ControlSection() {
                 <TimeControlSection
                     audioRef={audioRef}
                     currentTime={currentTime}
-                    duration={selectedMusic?.duration}
+                    duration={
+                        selectedMusic?.duration !== Infinity
+                            ? selectedMusic?.duration
+                            : audioRef.current?.duration
+                    }
                     activateRange={activateRange}
                 />
             </div>
