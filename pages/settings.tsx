@@ -12,6 +12,7 @@ import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { MdExpandMore } from "react-icons/md";
+import MyIconButton from "@components/MyIconButton";
 
 export default function Settings() {
     const router = useRouter();
@@ -21,23 +22,23 @@ export default function Settings() {
             <div className={styles.settings}>
                 <div className={styles.topNav}>
                     <MyTooltip title="Go Back" placement="bottom">
-                        <IconButton
+                        <MyIconButton
                             onClick={() => {
                                 router.back();
                             }}
                         >
                             <RiArrowGoBackLine size="1.5rem" />
-                        </IconButton>
+                        </MyIconButton>
                     </MyTooltip>
                     <h1>Settings</h1>
                     <MyTooltip title="Search" placement="bottom">
-                        <IconButton
+                        <MyIconButton
                             onClick={() => {
                                 setOpen(true);
                             }}
                         >
                             <BsSearch size="1.5rem" />
-                        </IconButton>
+                        </MyIconButton>
                     </MyTooltip>
                 </div>
                 <Field
@@ -68,25 +69,23 @@ function Field({ checked = false, title, description, cb = newValue => null }) {
                     cb(e.target.checked);
                 }}
             />
-            <div className="info">
-                <Accordion
-                    sx={{
-                        background: "transparent",
-                        color: `var(--color)`,
-                        boxShadow: "none",
-                        width: `100%`,
-                    }}
+            <Accordion
+                sx={{
+                    background: "transparent",
+                    color: `var(--color)`,
+                    boxShadow: "none",
+                    width: `100%`,
+                }}
+            >
+                <AccordionSummary
+                    expandIcon={
+                        <MdExpandMore size="1.5rem" fill="var(--color)" />
+                    }
                 >
-                    <AccordionSummary
-                        expandIcon={
-                            <MdExpandMore size="1.5rem" fill="var(--color)" />
-                        }
-                    >
-                        {title}
-                    </AccordionSummary>
-                    <AccordionDetails>{description}</AccordionDetails>
-                </Accordion>
-            </div>
+                    {title}
+                </AccordionSummary>
+                <AccordionDetails>{description}</AccordionDetails>
+            </Accordion>
         </div>
     );
 }

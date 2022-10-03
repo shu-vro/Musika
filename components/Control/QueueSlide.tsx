@@ -8,7 +8,7 @@ import { MdOutlineQueuePlayNext } from "react-icons/md";
 import { useRouter } from "next/router";
 import { GiMusicalScore } from "react-icons/gi";
 import { FiExternalLink } from "react-icons/fi";
-import { BsFillInfoCircleFill } from "react-icons/bs";
+import { BsInfoCircle } from "react-icons/bs";
 import { ReactSortable } from "react-sortablejs";
 import { TransitionProps } from "@mui/material/transitions";
 import { normalizeTimeFormat } from "@utils/utils";
@@ -124,7 +124,7 @@ function QueueSongList({ song, cb = () => null, ...rest }: QuerySongListProps) {
         },
         {
             name: "Music Details",
-            icon: <BsFillInfoCircleFill size="1.3rem" />,
+            icon: <BsInfoCircle size="1.3rem" />,
             cb: () => {
                 router.push(`/info/song?musicId=${song?.id}`);
             },

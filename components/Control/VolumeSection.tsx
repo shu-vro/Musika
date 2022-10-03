@@ -11,6 +11,7 @@ import MoreButton from "../Index/MoreButton";
 import QueueSlide from "@components/Control/QueueSlide";
 import { MdQueueMusic } from "react-icons/md";
 import MyTooltip from "@components/Index/MyTooltip";
+import MyIconButton from "@components/MyIconButton";
 
 export default function VolumeSection({ volume, setVolume, setActivateRange }) {
     const [openQueue, setOpenQueue] = useState(false);
@@ -58,18 +59,18 @@ export default function VolumeSection({ volume, setVolume, setActivateRange }) {
     return (
         <div className={styles["volume-section"]}>
             <MyTooltip title="Queue">
-                <IconButton
+                <MyIconButton
                     onClick={() => {
                         setOpenQueue(true);
                     }}
                     className={styles.QueueButton}
                 >
                     <MdQueueMusic size="2rem" />
-                </IconButton>
+                </MyIconButton>
             </MyTooltip>
             <MoreButton buttons={buttons} />
             <div className={styles.volume}>
-                <IconButton
+                <MyIconButton
                     onClick={() => {
                         setVolume(prev => (prev !== 0 ? 0 : 100));
                     }}
@@ -79,7 +80,7 @@ export default function VolumeSection({ volume, setVolume, setActivateRange }) {
                     ) : (
                         <FiVolume2 size="1.5rem" />
                     )}
-                </IconButton>
+                </MyIconButton>
                 <RangeSlider
                     min={0}
                     max={100}

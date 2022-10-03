@@ -12,7 +12,7 @@ export interface IAudioMetadata {
     album: string;
     format: string;
     lyrics: string;
-    src: string | ArrayBuffer;
+    src: string;
     duration: number;
 }
 
@@ -28,7 +28,7 @@ export interface IAudioOptionalMetadata {
     album?: string;
     format?: string;
     lyrics?: string;
-    src?: string | ArrayBuffer;
+    src?: string;
     duration?: number;
 }
 

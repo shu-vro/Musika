@@ -8,6 +8,8 @@
     height: calc(100% - 60px);
 
     h1 {
+        position: relative;
+        width: 100%;
         font-size: max(3vw, 20px);
     }
 

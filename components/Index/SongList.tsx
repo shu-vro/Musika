@@ -3,7 +3,7 @@ import { MdOutlineQueuePlayNext } from "react-icons/md";
 import { useRouter } from "next/router";
 import { GiMusicalScore } from "react-icons/gi";
 import { FiExternalLink } from "react-icons/fi";
-import { BsFillInfoCircleFill } from "react-icons/bs";
+import { BsInfoCircle } from "react-icons/bs";
 import styles from "@styles/Songs.module.scss";
 import { normalizeTimeFormat } from "@utils/utils";
 import { IAudioMetadata } from "@ts/types";
@@ -49,7 +49,7 @@ export default function SongList({
         },
         {
             name: "Music Details",
-            icon: <BsFillInfoCircleFill size="1.3rem" />,
+            icon: <BsInfoCircle size="1.3rem" />,
             cb: () => {
                 router.push(`/info/song?musicId=${song?.id}`);
             },

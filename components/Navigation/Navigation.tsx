@@ -7,7 +7,11 @@ import styles from "@styles/Navigation.module.scss";
 import Hamburger from "./Hamburger";
 import { useShrinkNavigation } from "@contexts/shrinkNavigation";
 import type { IAudioMetadata } from "@ts/types";
-import { extractThumbnailFromAudio, removeSiteFromTitle } from "@utils/utils";
+import {
+    extractThumbnailFromAudio,
+    removeSiteFromTitle,
+    _arrayBufferToBase64,
+} from "@utils/utils";
 import { useMusicStore } from "@contexts/MusicStore";
 import { TagType } from "jsmediatags/types";
 import { useLoading } from "@contexts/Loading";
@@ -15,14 +19,14 @@ import { useLoading } from "@contexts/Loading";
 export default function Navigation() {
     const shrink = useShrinkNavigation();
     const router = useRouter();
-    const musicStore = useMusicStore();
+    const { setValue: setMusicStore } = useMusicStore();
     const { setValue: setLoading } = useLoading();
 
     const handleFiles = ({ target }) => {
         setLoading(true);
         for (let i = 0; i < target.files.length; i++) {
             const file: File = target.files[i];
-            const disposableAudio = document?.createElement("audio");
+            const disposableAudio = new Audio();
 
             /**
              * Aborts the process on specific condition
@@ -39,44 +43,41 @@ export default function Navigation() {
                 continue;
             }
             jsmediatags.read(file, {
-                onSuccess: function (media: TagType) {
-                    let res: IAudioMetadata = {
-                        id: v4(),
-                        trackName: removeSiteFromTitle(
-                            media.tags.title.trim() || file.name
-                        ),
-                        artist: media.tags.artist.trim() || "unknown",
-                        loved: false,
-                        genre: media.tags.genre.trim() || "unknown",
-                        path: "App Cache",
-                        size: file.size,
-                        picture: extractThumbnailFromAudio(media.tags.picture),
-                        album: media.tags.album.trim() || "unknown",
-                        format: file.type,
-                        lyrics: "",
-                        src: "",
-                        duration: 0,
-                    };
-                    let reader = new FileReader();
-                    reader.onload = function (e) {
-                        res["src"] = e.target.result;
-                        disposableAudio.src = e.target.result as string;
+                onSuccess: async function (media: TagType) {
+                    try {
+                        let buffer = await file.arrayBuffer();
+                        let res: IAudioMetadata = {
+                            id: v4(),
+                            trackName: removeSiteFromTitle(
+                                media.tags.title.trim() || file.name
+                            ),
+                            artist: media.tags.artist.trim() || "unknown",
+                            loved: false,
+                            genre: media.tags.genre.trim() || "unknown",
+                            path: "App Cache",
+                            size: file.size,
+                            picture: extractThumbnailFromAudio(
+                                media.tags.picture
+                            ),
+                            album: media.tags.album.trim() || "unknown",
+                            format: file.type,
+                            lyrics: "",
+                            src: _arrayBufferToBase64(buffer, file.type),
+                            duration: 0,
+                        };
+                        disposableAudio.src = res.src;
                         disposableAudio.onloadedmetadata = function () {
                             res["duration"] = Math.round(
                                 disposableAudio.duration
                             );
-                            musicStore.setValue(prev => {
+                            setMusicStore(prev => {
                                 return [...prev, res];
                             });
-                            disposableAudio.remove();
                             abort();
                         };
-                    };
-                    reader.onerror = function (e) {
-                        console.warn(e);
-                        abort();
-                    };
-                    reader.readAsDataURL(file);
+                    } catch (e) {
+                        console.log(`error while uploading ${file.name}`, e);
+                    }
                 },
                 onError: function (e) {
                     console.warn(e);

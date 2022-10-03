@@ -45,7 +45,15 @@ export function imageResize(
     });
     return result;
 }
-
+export function _arrayBufferToBase64(buffer, format) {
+    var binary = "";
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return `data:${format};base64,${window.btoa(binary)}`;
+}
 export function extractThumbnailFromAudio(picture: any): Object {
     if (!picture) return [];
     let data = picture.data;

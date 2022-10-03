@@ -88,8 +88,7 @@ export default function ControlSection() {
                     onDurationChange={e => {
                         let aud = e.target as HTMLAudioElement;
                         if (
-                            aud.duration !== selectedMusic?.duration &&
-                            selectedMusic?.duration === Infinity
+                            aud.duration !== selectedMusic?.duration
                         ) {
                             setUsingId(selectedMusic?.id, {
                                 duration: aud.duration,
