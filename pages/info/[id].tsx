@@ -23,7 +23,6 @@ import { useSelectMusic } from "@contexts/SelectMusic";
 import { normalizeTimeFormat } from "@utils/utils";
 import numeral from "numeral";
 import Head from "next/head";
-import MyIconButton from "@components/MyIconButton";
 
 function capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -114,7 +113,7 @@ export default function Id() {
                                                         </b>
                                                     </TableCell>
                                                     <TableCell>
-                                                        <MyIconButton
+                                                        <IconButton
                                                             onClick={
                                                                 handleLoved
                                                             }
@@ -124,7 +123,7 @@ export default function Id() {
                                                             ) : (
                                                                 <AiOutlineHeart size="1.5rem" />
                                                             )}
-                                                        </MyIconButton>
+                                                        </IconButton>
                                                     </TableCell>
                                                 </TableRow>
                                             );

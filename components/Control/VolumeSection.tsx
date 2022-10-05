@@ -2,7 +2,7 @@ import { useState } from "react";
 import { GiMusicalScore } from "react-icons/gi";
 import { FiVolume2, FiVolumeX } from "react-icons/fi";
 import { CgArrowsShrinkH } from "react-icons/cg";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
 import styles from "@styles/ControlPanel.module.scss";
 import RangeSlider from "./RangeSlider";
@@ -10,8 +10,6 @@ import { useSelectMusic } from "@contexts/SelectMusic";
 import MoreButton from "../Index/MoreButton";
 import QueueSlide from "@components/Control/QueueSlide";
 import { MdQueueMusic } from "react-icons/md";
-import MyTooltip from "@components/Index/MyTooltip";
-import MyIconButton from "@components/MyIconButton";
 
 export default function VolumeSection({ volume, setVolume, setActivateRange }) {
     const [openQueue, setOpenQueue] = useState(false);
@@ -58,19 +56,19 @@ export default function VolumeSection({ volume, setVolume, setActivateRange }) {
 
     return (
         <div className={styles["volume-section"]}>
-            <MyTooltip title="Queue">
-                <MyIconButton
+            <Tooltip title="Queue">
+                <IconButton
                     onClick={() => {
                         setOpenQueue(true);
                     }}
                     className={styles.QueueButton}
                 >
                     <MdQueueMusic size="2rem" />
-                </MyIconButton>
-            </MyTooltip>
+                </IconButton>
+            </Tooltip>
             <MoreButton buttons={buttons} />
             <div className={styles.volume}>
-                <MyIconButton
+                <IconButton
                     onClick={() => {
                         setVolume(prev => (prev !== 0 ? 0 : 100));
                     }}
@@ -80,7 +78,7 @@ export default function VolumeSection({ volume, setVolume, setActivateRange }) {
                     ) : (
                         <FiVolume2 size="1.5rem" />
                     )}
-                </MyIconButton>
+                </IconButton>
                 <RangeSlider
                     min={0}
                     max={100}

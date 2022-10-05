@@ -1,18 +1,17 @@
-import MyTooltip from "@components/Index/MyTooltip";
 import {
     Checkbox,
     Accordion,
     AccordionDetails,
     AccordionSummary,
     IconButton,
+    Tooltip,
 } from "@mui/material";
-import styles from "@styles/Settings.module.scss";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { MdExpandMore } from "react-icons/md";
-import MyIconButton from "@components/MyIconButton";
+import styles from "@styles/Settings.module.scss";
 
 export default function Settings() {
     const router = useRouter();
@@ -21,25 +20,25 @@ export default function Settings() {
         <>
             <div className={styles.settings}>
                 <div className={styles.topNav}>
-                    <MyTooltip title="Go Back" placement="bottom">
-                        <MyIconButton
+                    <Tooltip title="Go Back" placement="bottom">
+                        <IconButton
                             onClick={() => {
                                 router.back();
                             }}
                         >
                             <RiArrowGoBackLine size="1.5rem" />
-                        </MyIconButton>
-                    </MyTooltip>
+                        </IconButton>
+                    </Tooltip>
                     <h1>Settings</h1>
-                    <MyTooltip title="Search" placement="bottom">
-                        <MyIconButton
+                    <Tooltip title="Search" placement="bottom">
+                        <IconButton
                             onClick={() => {
                                 setOpen(true);
                             }}
                         >
                             <BsSearch size="1.5rem" />
-                        </MyIconButton>
-                    </MyTooltip>
+                        </IconButton>
+                    </Tooltip>
                 </div>
                 <Field
                     checked={true}

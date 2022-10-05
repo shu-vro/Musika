@@ -2,10 +2,8 @@ import * as React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { IconButton, ListItemIcon, ListItemText } from "@mui/material";
+import { IconButton, ListItemIcon, ListItemText, Tooltip } from "@mui/material";
 import { IArrayMoreButtons } from "@ts/types";
-import MyTooltip from "./MyTooltip";
-import MyIconButton from "@components/MyIconButton";
 
 export default function MoreControlButton({
     buttons = [],
@@ -25,8 +23,8 @@ export default function MoreControlButton({
 
     return (
         <>
-            <MyTooltip title="See more">
-                <MyIconButton
+            <Tooltip title="See more" className="ripple">
+                <IconButton
                     id="basic-button"
                     aria-controls={open ? "basic-menu" : undefined}
                     aria-haspopup="true"
@@ -40,10 +38,9 @@ export default function MoreControlButton({
                             color: "var(--color)",
                         }}
                     />
-                </MyIconButton>
-            </MyTooltip>
+                </IconButton>
+            </Tooltip>
             <Menu
-                id="more-control-button"
                 sx={{
                     "& .MuiPaper-root": {
                         background: `rgba(255, 255, 255, 0.151)`,

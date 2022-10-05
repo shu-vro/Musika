@@ -4,7 +4,6 @@ import disk from "@assets/disk.png";
 import styles from "@styles/ControlPanel.module.scss";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import { useMusicStore } from "@contexts/MusicStore";
-import MyIconButton from "@components/MyIconButton";
 
 export default function NameSection() {
     const { value: selectedMusic, setValue: setSelectedMusic } =
@@ -37,13 +36,13 @@ export default function NameSection() {
                 </marquee>
                 <p>{selectedMusic?.artist}</p>
             </div>
-            <MyIconButton onClick={handleLoved}>
+            <IconButton onClick={handleLoved}>
                 {selectedMusic?.loved ? (
                     <AiFillHeart size="1.5rem" />
                 ) : (
                     <AiOutlineHeart size="1.5rem" />
                 )}
-            </MyIconButton>
+            </IconButton>
         </div>
     );
 }

@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { IoRepeat, IoShuffle } from "react-icons/io5";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import { IconButton } from "@mui/material";
 import { FaPlay } from "react-icons/fa";
 import { IoMdPause } from "react-icons/io";
+import Tooltip from "@mui/material/Tooltip";
 import styles from "@styles/ControlPanel.module.scss";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import { useLoading } from "@contexts/Loading";
 import TimeControlSection from "./TimeControlSection";
 import VolumeSection from "./VolumeSection";
-import MyTooltip from "@components/Index/MyTooltip";
 import { useMusicStore } from "@contexts/MusicStore";
 
 export default function ControlSection() {
@@ -88,7 +89,9 @@ export default function ControlSection() {
                     onDurationChange={e => {
                         let aud = e.target as HTMLAudioElement;
                         if (
-                            aud.duration !== selectedMusic?.duration
+                            aud.duration !== selectedMusic?.duration &&
+                            (selectedMusic?.duration === Infinity ||
+                                selectedMusic?.duration === 0)
                         ) {
                             setUsingId(selectedMusic?.id, {
                                 duration: aud.duration,
@@ -102,7 +105,7 @@ export default function ControlSection() {
                     }}
                 />
                 <div className={styles["control-buttons"]}>
-                    <MyTooltip title="Repeat" className="ripple">
+                    <Tooltip title="Repeat" className="ripple">
                         <button
                             className={`repeat ${styles.button} ${
                                 loop ? styles.active : ""
@@ -114,19 +117,18 @@ export default function ControlSection() {
                         >
                             <IoRepeat size="2rem" />
                         </button>
-                    </MyTooltip>
-                    <MyTooltip title="Play Previous" className="ripple">
-                        <button
+                    </Tooltip>
+                    <Tooltip title="Play Previous" className="ripple">
+                        <IconButton
                             className={`prev ${styles.button}`}
                             onClick={playPrevious}
                         >
                             <MdSkipPrevious size="2rem" />
-                        </button>
-                    </MyTooltip>
-                    <MyTooltip title="Play/Pause" className="ripple">
-                        <button
-                            className={`play-pause ${styles.button}`}
-                            style={{ padding: "10px" }}
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Play/Pause" className="ripple">
+                        <IconButton
+                            className="play-pause"
                             onClick={async () => {
                                 try {
                                     audioRef.current.paused
@@ -140,24 +142,18 @@ export default function ControlSection() {
                             ) : (
                                 <IoMdPause size="2.0rem" />
                             )}
-                        </button>
-                    </MyTooltip>
-                    <MyTooltip title="Play Next" className="ripple">
-                        <button
-                            className={`next ${styles.button}`}
-                            onClick={playNext}
-                        >
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Play Next" className="ripple">
+                        <IconButton className="next" onClick={playNext}>
                             <MdSkipNext size="2rem" />
-                        </button>
-                    </MyTooltip>
-                    <MyTooltip title="Shuffle" className="ripple">
-                        <button
-                            className={`shuffle ${styles.button}`}
-                            onClick={shuffle}
-                        >
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Shuffle" className="ripple">
+                        <IconButton className="shuffle" onClick={shuffle}>
                             <IoShuffle size="2rem" />
-                        </button>
-                    </MyTooltip>
+                        </IconButton>
+                    </Tooltip>
                 </div>
                 <TimeControlSection
                     audioRef={audioRef}

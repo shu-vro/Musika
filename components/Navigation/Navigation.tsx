@@ -22,10 +22,10 @@ export default function Navigation() {
     const { setValue: setMusicStore } = useMusicStore();
     const { setValue: setLoading } = useLoading();
 
-    const handleFiles = ({ target }) => {
+    const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoading(true);
-        for (let i = 0; i < target.files.length; i++) {
-            const file: File = target.files[i];
+        for (let i = 0; i < e.target.files.length; i++) {
+            const file: File = e.target.files[i];
             const disposableAudio = new Audio();
 
             /**
@@ -34,7 +34,7 @@ export default function Navigation() {
              * If element is in last position, then stop loading.
              */
             const abort = () => {
-                if (i === target.files.length - 1) {
+                if (i === e.target.files.length - 1) {
                     setLoading(false);
                 }
             };
@@ -42,29 +42,51 @@ export default function Navigation() {
                 abort();
                 continue;
             }
-            jsmediatags.read(file, {
-                onSuccess: async function (media: TagType) {
-                    try {
-                        let buffer = await file.arrayBuffer();
-                        let res: IAudioMetadata = {
-                            id: v4(),
-                            trackName: removeSiteFromTitle(
+            file.arrayBuffer()
+                .then(buffer => {
+                    let res: IAudioMetadata = {
+                        id: v4(),
+                        trackName: file.name,
+                        artist: "unknown",
+                        loved: false,
+                        genre: "unknown",
+                        path: "App Cache",
+                        size: file.size,
+                        picture: {},
+                        album: "unknown",
+                        format: file.type,
+                        lyrics: "",
+                        src: _arrayBufferToBase64(buffer, file.type),
+                        duration: 0,
+                    };
+                    jsmediatags.read(file, {
+                        onSuccess: function (media: TagType) {
+                            res.trackName = removeSiteFromTitle(
                                 media.tags.title.trim() || file.name
-                            ),
-                            artist: media.tags.artist.trim() || "unknown",
-                            loved: false,
-                            genre: media.tags.genre.trim() || "unknown",
-                            path: "App Cache",
-                            size: file.size,
-                            picture: extractThumbnailFromAudio(
+                            );
+                            res.artist = media.tags.artist.trim() || "unknown";
+                            res.album = media.tags.album.trim() || "unknown";
+                            res.genre = media.tags.genre.trim() || "unknown";
+                            res.picture = extractThumbnailFromAudio(
                                 media.tags.picture
-                            ),
-                            album: media.tags.album.trim() || "unknown",
-                            format: file.type,
-                            lyrics: "",
-                            src: _arrayBufferToBase64(buffer, file.type),
-                            duration: 0,
-                        };
+                            );
+                            disposableAudio.src = res.src;
+                            disposableAudio.onloadedmetadata = function () {
+                                res["duration"] = Math.round(
+                                    disposableAudio.duration
+                                );
+                                setMusicStore(prev => {
+                                    return [...prev, res];
+                                });
+                                abort();
+                            };
+                        },
+                        onError: function (e) {
+                            console.warn(e);
+                            abort();
+                        },
+                    });
+                    setTimeout(() => {
                         disposableAudio.src = res.src;
                         disposableAudio.onloadedmetadata = function () {
                             res["duration"] = Math.round(
@@ -75,15 +97,13 @@ export default function Navigation() {
                             });
                             abort();
                         };
-                    } catch (e) {
-                        console.log(`error while uploading ${file.name}`, e);
-                    }
-                },
-                onError: function (e) {
-                    console.warn(e);
+                    }, 30000);
+                })
+                .catch(e => {
+                    alert(`failed to upload file ${file.name}`);
+                    console.log(`failed to upload file ${file.name}`, e);
                     abort();
-                },
-            });
+                });
         }
     };
 

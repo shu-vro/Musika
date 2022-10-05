@@ -40,7 +40,7 @@ export function SelectMusicContext({ children }) {
                 array[currentIndex],
             ];
         }
-        musicStore.setValue(tracks);
+        musicStore.setQueue(tracks);
     }
     function playNext() {
         const tracks = [...musicStore.queue];
@@ -61,6 +61,11 @@ export function SelectMusicContext({ children }) {
     function setNext(song: IAudioMetadata) {
         const tracks = [...musicStore.queue];
         let index = tracks.indexOf(value) + 1;
+
+        // find and remove track if it is previously there!
+        let indexPrevious = tracks.findIndex(e => e.id === song.id);
+        tracks.splice(indexPrevious, 1);
+
         tracks.splice(index, 0, song);
         musicStore.setQueue(tracks);
     }
