@@ -1,3 +1,4 @@
+import "@utils/MuiClassNameSetup";
 import Head from "next/head";
 import ControlPanel from "@components/Control/ControlPanel";
 import Navigation from "@components/Navigation/Navigation";

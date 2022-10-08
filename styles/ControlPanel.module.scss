@@ -72,9 +72,6 @@
 
         .button {
             outline: var(--theme);
-            border-radius: 50%;
-            padding: 5px;
-            margin: 2px 5px;
 
             &.active {
                 color: var(--theme) !important;

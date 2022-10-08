@@ -23,7 +23,7 @@ export default function MoreControlButton({
 
     return (
         <>
-            <Tooltip title="See more" className="ripple">
+            <Tooltip title="See more">
                 <IconButton
                     id="basic-button"
                     aria-controls={open ? "basic-menu" : undefined}

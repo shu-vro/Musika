@@ -44,6 +44,18 @@ export default function Navigation() {
             }
             file.arrayBuffer()
                 .then(buffer => {
+                    function getDuration(src: string) {
+                        disposableAudio.src = src;
+                        disposableAudio.onloadedmetadata = function () {
+                            res["duration"] = Math.round(
+                                disposableAudio.duration
+                            );
+                            setMusicStore(prev => {
+                                return [...prev, res];
+                            });
+                            abort();
+                        };
+                    }
                     let res: IAudioMetadata = {
                         id: v4(),
                         trackName: file.name,
@@ -70,33 +82,15 @@ export default function Navigation() {
                             res.picture = extractThumbnailFromAudio(
                                 media.tags.picture
                             );
-                            disposableAudio.src = res.src;
-                            disposableAudio.onloadedmetadata = function () {
-                                res["duration"] = Math.round(
-                                    disposableAudio.duration
-                                );
-                                setMusicStore(prev => {
-                                    return [...prev, res];
-                                });
-                                abort();
-                            };
+                            getDuration(res.src);
                         },
                         onError: function (e) {
                             console.warn(e);
-                            abort();
+                            getDuration(res.src);
                         },
                     });
                     setTimeout(() => {
-                        disposableAudio.src = res.src;
-                        disposableAudio.onloadedmetadata = function () {
-                            res["duration"] = Math.round(
-                                disposableAudio.duration
-                            );
-                            setMusicStore(prev => {
-                                return [...prev, res];
-                            });
-                            abort();
-                        };
+                        getDuration(res.src);
                     }, 30000);
                 })
                 .catch(e => {

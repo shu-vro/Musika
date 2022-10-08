@@ -23,7 +23,7 @@ export default function Settings() {
                     <Tooltip title="Go Back" placement="bottom">
                         <IconButton
                             onClick={() => {
-                                router.back();
+                                router.push("/");
                             }}
                         >
                             <RiArrowGoBackLine size="1.5rem" />
@@ -40,34 +40,59 @@ export default function Settings() {
                         </IconButton>
                     </Tooltip>
                 </div>
-                <Field
-                    checked={true}
-                    title="Set in cache storage"
-                    description="If checked, your songs will be saved into cache storage.
+                <div className={styles.settingSection}>
+                    <ul className={styles.sideNav}>
+                        <li>
+                            <a href="#">Just for the meme</a>
+                        </li>
+                        <li>
+                            <a href="#">Just for the meme</a>
+                        </li>
+                        <li>
+                            <a href="#">Just for the meme</a>
+                        </li>
+                        <li>
+                            <a href="#">Just for the meme</a>
+                        </li>
+                    </ul>
+                    <div className={styles.fields}>
+                        <Field
+                            checked={true}
+                            title="Set in cache storage"
+                            description="If checked, your songs will be saved into cache storage.
                         Or else you have to upload them each and every time.
                         Will consume disk space. For better performance, check
                         this."
-                />
+                        />
+                    </div>
+                </div>
             </div>
         </>
     );
 }
 
-function Field({ checked = false, title, description, cb = newValue => null }) {
+function normalizeId(title: string) {
+    return title.toLowerCase().replaceAll(" ", "_");
+}
+
+function Field({ checked, title, description, cb = newValue => null }) {
     return (
-        <div className={styles.field}>
-            <Checkbox
-                sx={{
-                    color: `var(--color)`,
-                    "&.MuiCheckbox-root.Mui-checked": {
-                        color: `var(--theme)`,
-                    },
-                }}
-                defaultChecked={checked}
-                onChange={e => {
-                    cb(e.target.checked);
-                }}
-            />
+        <div className={styles.field} id={normalizeId(title)}>
+            {checked !== undefined && (
+                <Checkbox
+                    sx={{
+                        color: `var(--color)`,
+                        "&.MuiCheckbox-root.Mui-checked": {
+                            color: `var(--theme)`,
+                        },
+                    }}
+                    defaultChecked={checked}
+                    onChange={e => {
+                        cb(e.target.checked);
+                    }}
+                    centerRipple={false}
+                />
+            )}
             <Accordion
                 sx={{
                     background: "transparent",

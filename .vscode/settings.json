@@ -3,6 +3,7 @@
         "jsmediatags",
         "MUSIKA",
         "sortablejs",
+        "Swipeable",
         "Swiper"
     ],
     "typescript.tsdk": "node_modules/typescript/lib"

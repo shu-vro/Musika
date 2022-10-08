@@ -1,9 +1,7 @@
 import { forwardRef } from "react";
 import Slide from "@mui/material/Slide";
-import { Dialog, Button } from "@mui/material";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { HTMLAttributes } from "react";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Box from "@mui/material/Box";
 import { MdOutlineQueuePlayNext } from "react-icons/md";
 import { useRouter } from "next/router";
 import { GiMusicalScore } from "react-icons/gi";
@@ -33,51 +31,40 @@ export default function QueueSlide({ open, setOpen }) {
     const handleClose = () => {
         setOpen(false);
     };
+    const handleOpen = () => {
+        setOpen(false);
+    };
 
     return (
         <>
-            <Dialog
+            <SwipeableDrawer
+                anchor="bottom"
                 open={open}
                 onClose={handleClose}
-                fullScreen
-                TransitionComponent={Transition}
+                onOpen={handleOpen}
+                swipeAreaWidth={50}
+                disableSwipeToOpen={false}
+                ModalProps={{
+                    keepMounted: true,
+                }}
                 sx={{
-                    marginBottom:
-                        typeof window !== undefined &&
-                        globalThis?.innerWidth > 687
-                            ? "100px"
-                            : `160px`,
-                    zIndex: "3",
-                    "& .MuiBackdrop-root": {
-                        background: "none",
-                    },
-                    "& .MuiPaper-root": {
-                        background: `rgba(255, 255, 255, 0.151)`,
+                    "&.MuiDrawer-root > .MuiPaper-root": {
+                        height: `75%`,
+                        overflow: "visible",
+                        borderTopLeftRadius: 25,
+                        borderTopRightRadius: 25,
+                        background: `rgba(255, 255, 255, 0.2)`,
                         backdropFilter: `blur(10px)`,
-                        borderRadius: `25px 25px 0 0`,
-                        color: `var(--color) !important`,
-                        boxShadow: "none",
                     },
                 }}
             >
-                <DialogTitle
+                <Box
                     sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
+                        pb: 2,
+                        height: "100%",
+                        overflow: "auto",
                     }}
                 >
-                    Queue
-                    <Button
-                        onClick={handleClose}
-                        style={{
-                            color: "var(--color)",
-                        }}
-                    >
-                        Close
-                    </Button>
-                </DialogTitle>
-                <DialogContent>
                     <ReactSortable
                         className={styles.songs}
                         list={queue}
@@ -92,13 +79,13 @@ export default function QueueSlide({ open, setOpen }) {
                             </div>
                         ))}
                     </ReactSortable>
-                </DialogContent>
-            </Dialog>
+                </Box>
+            </SwipeableDrawer>
         </>
     );
 }
 
-interface QuerySongListProps extends HTMLAttributes<HTMLDivElement> {
+interface QuerySongListProps extends React.HTMLAttributes<HTMLDivElement> {
     song: IAudioMetadata;
     cb?: () => VoidFunction;
 }

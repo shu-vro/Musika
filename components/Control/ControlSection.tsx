@@ -105,8 +105,8 @@ export default function ControlSection() {
                     }}
                 />
                 <div className={styles["control-buttons"]}>
-                    <Tooltip title="Repeat" className="ripple">
-                        <button
+                    <Tooltip title="Repeat">
+                        <IconButton
                             className={`repeat ${styles.button} ${
                                 loop ? styles.active : ""
                             }`}
@@ -116,9 +116,9 @@ export default function ControlSection() {
                             }}
                         >
                             <IoRepeat size="2rem" />
-                        </button>
+                        </IconButton>
                     </Tooltip>
-                    <Tooltip title="Play Previous" className="ripple">
+                    <Tooltip title="Play Previous">
                         <IconButton
                             className={`prev ${styles.button}`}
                             onClick={playPrevious}
@@ -126,7 +126,7 @@ export default function ControlSection() {
                             <MdSkipPrevious size="2rem" />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Play/Pause" className="ripple">
+                    <Tooltip title="Play/Pause">
                         <IconButton
                             className="play-pause"
                             onClick={async () => {
@@ -144,12 +144,12 @@ export default function ControlSection() {
                             )}
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Play Next" className="ripple">
+                    <Tooltip title="Play Next">
                         <IconButton className="next" onClick={playNext}>
                             <MdSkipNext size="2rem" />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Shuffle" className="ripple">
+                    <Tooltip title="Shuffle">
                         <IconButton className="shuffle" onClick={shuffle}>
                             <IoShuffle size="2rem" />
                         </IconButton>
