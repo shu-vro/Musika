@@ -17,7 +17,7 @@ import { useSelectMusic } from "@contexts/SelectMusic";
 import MoreButton from "../Index/MoreButton";
 import { useMusicStore } from "@contexts/MusicStore";
 import styles from "@styles/Songs.module.scss";
-import defaultImage from '@assets/disk.png'
+import defaultImage from "@assets/disk.png";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -45,8 +45,7 @@ export default function QueueSlide({ open, setOpen }) {
                 open={open}
                 onClose={handleClose}
                 onOpen={handleOpen}
-                swipeAreaWidth={50}
-                disableSwipeToOpen={false}
+                disableSwipeToOpen={true}
                 ModalProps={{
                     keepMounted: true,
                 }}
