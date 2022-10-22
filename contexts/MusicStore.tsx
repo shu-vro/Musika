@@ -7,6 +7,7 @@ import type {
     TAudioMetadataField,
 } from "@ts/types";
 import { stringToRegex } from "@utils/utils";
+import { openDB } from "idb";
 
 const Context = createContext({});
 
@@ -62,6 +63,13 @@ export function useMusicStore(): {
      * @returns [ISearchFromValues[]](../types/types.ts)
      */
     SearchFromValues?: (search: string) => ISearchFromValues[][];
+
+    /**
+     * Takes a song as argument and deletes it from queue.
+     * @param {IAudioMetadata} song - to delete
+     * @param {boolean} fromTrack - if to delete it from musicStore also. (optional)
+     */
+    deleteTrack?: (song: IAudioMetadata, fromTrack?: boolean) => void;
 } {
     return useContext(Context);
 }
@@ -133,6 +141,7 @@ export function MusicStoreContext({ children }) {
         setNewObject(value, setValue);
         setNewObject(queue, setQueue);
     }
+
     function SearchFromValues(search: string): ISearchFromValues[][] {
         if (search === "") return [[]];
         let s = stringToRegex(search);
@@ -168,6 +177,47 @@ export function MusicStoreContext({ children }) {
         });
         return arrayResult;
     }
+
+    function deleteTrack(song: IAudioMetadata, fromTrack = false) {
+        (async () => {
+            const db = await openDB("MUSIC_STORE_DB", 1, {
+                upgrade(database, oldVersion, newVersion, transaction) {
+                    database.createObjectStore("music_store", {
+                        keyPath: "id",
+                        autoIncrement: true,
+                    });
+                    database.createObjectStore("queue_store", {
+                        keyPath: "id",
+                        autoIncrement: true,
+                    });
+                    database.createObjectStore("selected_music_store", {
+                        keyPath: "id",
+                        autoIncrement: true,
+                    });
+                },
+            });
+            setQueue(prev => {
+                if (prev.length === 0) {
+                    let temp = prev.filter(e => e.id !== song.id);
+                    if (temp.length === 0) {
+                        db.clear("queue_store");
+                    }
+                    return temp;
+                }
+                return prev.filter(e => e.id !== song.id);
+            });
+
+            if (fromTrack) {
+                setValue(prev => {
+                    let temp = prev.filter(e => e.id !== song.id);
+                    if (temp.length === 0) {
+                        db.clear("music_store");
+                    }
+                    return temp;
+                });
+            }
+        })();
+    }
     return (
         <>
             <Context.Provider
@@ -181,6 +231,7 @@ export function MusicStoreContext({ children }) {
                     getFromField,
                     SearchFromValues,
                     getFromMultipleIds,
+                    deleteTrack,
                 }}
             >
                 {children}

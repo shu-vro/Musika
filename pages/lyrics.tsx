@@ -20,7 +20,7 @@ export default function Lyrics() {
         if (
             // if they do not exist, return
             !song ||
-            !artist ||
+            typeof artist !== "string" ||
             !id ||
             lyrics
         )
@@ -28,7 +28,9 @@ export default function Lyrics() {
 
         setLoading(true);
 
-        fetch(`/api/lyrics?song=${song}&artist=${artist}`)
+        fetch(
+            `/api/lyrics?song=${song}&artist=${artist.replace("unknown", "")}`
+        )
             .then(r => r.json())
             .then((r: any) => {
                 setRes(r.lyrics);

@@ -68,6 +68,7 @@
         cursor: pointer;
 
         div {
+            flex-grow: 1;
             display: flex;
             justify-content: flex-start;
             align-items: center;
@@ -82,13 +83,21 @@
             }
 
             .song-title {
+                display: inline-block;
                 font-weight: 600;
                 width: 100%;
+                // white-space: nowrap;
+                // overflow: hidden;
+                // text-overflow: ellipsis;
             }
         }
 
         .song-artist {
             display: inline-block;
+            margin: 0 15px 0 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         @media screen and (max-width: 425px) {

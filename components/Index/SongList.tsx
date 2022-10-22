@@ -4,11 +4,14 @@ import { useRouter } from "next/router";
 import { GiMusicalScore } from "react-icons/gi";
 import { FiExternalLink } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
+import { AiOutlineDelete } from "react-icons/ai";
 import styles from "@styles/Songs.module.scss";
 import { normalizeTimeFormat } from "@utils/utils";
 import { IAudioMetadata } from "@ts/types";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import MoreButton from "./MoreButton";
+import { useMusicStore } from "@contexts/MusicStore";
+import defaultImage from "@assets/disk.png";
 
 interface SongListProps extends HTMLAttributes<HTMLDivElement> {
     song: IAudioMetadata;
@@ -35,6 +38,7 @@ export default function SongList({
         value: selectedMusic,
     } = useSelectMusic();
     const router = useRouter();
+    const { deleteTrack } = useMusicStore();
 
     const buttons = [
         {
@@ -90,6 +94,13 @@ export default function SongList({
                 router.push(`/playlist/genre?name=${song.genre}`);
             },
         },
+        {
+            name: "Delete",
+            icon: <AiOutlineDelete size="1.3rem" />,
+            cb: () => {
+                deleteTrack(song, true);
+            },
+        },
     ];
     return (
         <div
@@ -104,7 +115,7 @@ export default function SongList({
             <div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                    src={song.picture?.["92x92"] || "../../assets/disk.png"}
+                    src={song.picture?.["92x92"] || defaultImage.src}
                     alt={song.trackName}
                 />
                 <div className={styles["song-title"]}>{song.trackName}</div>

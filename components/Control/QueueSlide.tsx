@@ -9,12 +9,15 @@ import { FiExternalLink } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
 import { ReactSortable } from "react-sortablejs";
 import { TransitionProps } from "@mui/material/transitions";
+import { AiOutlineDelete } from "react-icons/ai";
+import { MdOutlineDragIndicator } from "react-icons/md";
 import { normalizeTimeFormat } from "@utils/utils";
 import { IAudioMetadata } from "@ts/types";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import MoreButton from "../Index/MoreButton";
 import { useMusicStore } from "@contexts/MusicStore";
 import styles from "@styles/Songs.module.scss";
+import defaultImage from '@assets/disk.png'
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -60,6 +63,25 @@ export default function QueueSlide({ open, setOpen }) {
             >
                 <Box
                     sx={{
+                        width: `100%`,
+                        height: `25px`,
+                        position: "sticky",
+                        top: "0",
+                        display: `grid`,
+                        placeItems: "center",
+                    }}
+                >
+                    <div
+                        style={{
+                            width: 75,
+                            height: 5,
+                            background: `rgba(255, 255, 255, .5)`,
+                            borderRadius: "100px",
+                        }}
+                    ></div>
+                </Box>
+                <Box
+                    sx={{
                         pb: 2,
                         height: "100%",
                         overflow: "auto",
@@ -97,6 +119,7 @@ function QueueSongList({ song, cb = () => null, ...rest }: QuerySongListProps) {
         value: selectedMusic,
     } = useSelectMusic();
     const router = useRouter();
+    const { deleteTrack } = useMusicStore();
 
     const buttons = [
         {
@@ -152,6 +175,13 @@ function QueueSongList({ song, cb = () => null, ...rest }: QuerySongListProps) {
                 router.push(`/playlist/genre?name=${song.genre}`);
             },
         },
+        {
+            name: "Delete",
+            icon: <AiOutlineDelete size="1.3rem" />,
+            cb: () => {
+                deleteTrack(song);
+            },
+        },
     ];
     return (
         <div
@@ -162,11 +192,11 @@ function QueueSongList({ song, cb = () => null, ...rest }: QuerySongListProps) {
             }}
             {...rest}
         >
+            <MdOutlineDragIndicator className="handle" size="2rem" />
             <div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                    className="handle"
-                    src={song.picture?.["92x92"] || "../../assets/disk.png"}
+                    src={song.picture?.["92x92"] || defaultImage.src}
                     alt={song.trackName}
                 />
                 <div className={styles["song-title"]}>{song.trackName}</div>

@@ -4,7 +4,6 @@ import { useMusicStore } from "@contexts/MusicStore";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
 import { arraysEqual, object_equals } from "@utils/utils";
 import { useSelectMusic } from "@contexts/SelectMusic";
-import { useLoading } from "@contexts/Loading";
 
 export default function ConfigHelperComponent() {
     const {
@@ -16,7 +15,6 @@ export default function ConfigHelperComponent() {
     } = useMusicStore();
     const { value: selectedMusic, setValue: setSelectedMusic } =
         useSelectMusic();
-    const { setValue: setLoading } = useLoading();
 
     // RIPPLE REFRESH
     let rippleRefresh = useRippleRefresh();

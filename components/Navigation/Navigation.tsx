@@ -74,13 +74,21 @@ export default function Navigation() {
                     jsmediatags.read(file, {
                         onSuccess: function (media: TagType) {
                             res.trackName = removeSiteFromTitle(
-                                media.tags.title.trim() || file.name
+                                media.tags?.title
+                                    ? media.tags.title.trim()
+                                    : file.name
                             );
-                            res.artist = media.tags.artist.trim() || "unknown";
-                            res.album = media.tags.album.trim() || "unknown";
-                            res.genre = media.tags.genre.trim() || "unknown";
+                            res.artist = media.tags?.title
+                                ? media.tags.artist.trim()
+                                : "unknown";
+                            res.album = media.tags?.title
+                                ? media.tags.album.trim()
+                                : "unknown";
+                            res.genre = media.tags?.title
+                                ? media.tags.genre.trim()
+                                : "unknown";
                             res.picture = extractThumbnailFromAudio(
-                                media.tags.picture
+                                media.tags?.title || media.tags.picture
                             );
                             getDuration(res.src);
                         },
@@ -89,9 +97,6 @@ export default function Navigation() {
                             getDuration(res.src);
                         },
                     });
-                    setTimeout(() => {
-                        getDuration(res.src);
-                    }, 30000);
                 })
                 .catch(e => {
                     alert(`failed to upload file ${file.name}`);
