@@ -15,6 +15,7 @@ import {
 import { useMusicStore } from "@contexts/MusicStore";
 import { TagType } from "jsmediatags/types";
 import { useLoading } from "@contexts/Loading";
+import Link from "next/link";
 
 export default function Navigation() {
     const shrink = useShrinkNavigation();
@@ -88,7 +89,7 @@ export default function Navigation() {
                                 ? media.tags.genre.trim()
                                 : "unknown";
                             res.picture = extractThumbnailFromAudio(
-                                media.tags?.title || media.tags.picture
+                                media.tags.picture
                             );
                             getDuration(res.src);
                         },
@@ -111,9 +112,9 @@ export default function Navigation() {
             <div
                 className={`${styles.nav} ${shrink.value ? styles.shrink : ""}`}
             >
-                <a href="./" className={styles.logo}>
-                    MUSIKA
-                </a>
+                <Link href="/" passHref>
+                    <a className={styles.logo}>MUSIKA</a>
+                </Link>
                 <input
                     type="file"
                     id="input_file"

@@ -1,3 +1,4 @@
+import { PictureType } from "jsmediatags/types";
 import numeral from "numeral";
 
 export function normalizeTimeFormat(number: number) {
@@ -54,8 +55,8 @@ export function _arrayBufferToBase64(buffer, format) {
     }
     return `data:${format};base64,${window.btoa(binary)}`;
 }
-export function extractThumbnailFromAudio(picture: any): Object {
-    if (!picture) return [];
+export function extractThumbnailFromAudio(picture: PictureType): object {
+    if (!picture) return {};
     let data = picture.data;
     let format = picture.format;
     let base64String = "";

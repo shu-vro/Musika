@@ -121,7 +121,13 @@ export default function ControlSection() {
                     <Tooltip title="Play Previous">
                         <IconButton
                             className={`prev ${styles.button}`}
-                            onClick={playPrevious}
+                            onClick={() => {
+                                if (audioRef.current?.currentTime > 10) {
+                                    audioRef.current.currentTime = 0;
+                                } else {
+                                    playPrevious();
+                                }
+                            }}
                         >
                             <MdSkipPrevious size="2rem" />
                         </IconButton>

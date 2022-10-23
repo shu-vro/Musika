@@ -46,7 +46,7 @@ export default function TimeControlSection({
                     valueLabelFormat={a => {
                         return normalizeTimeFormat(a);
                     }}
-                    onChange={(e, n, a) => {
+                    onChange={(_e, n, _a) => {
                         audioRef.current.currentTime = Number(n[1]);
                         setValue([n[0], audioRef.current.currentTime, n[2]]);
                     }}
@@ -56,7 +56,7 @@ export default function TimeControlSection({
                     min={0}
                     max={duration || 0}
                     value={currentTime}
-                    onChange={(e, n, a) => {
+                    onChange={(_e, n, _a) => {
                         audioRef.current.currentTime = Number(n);
                     }}
                 />

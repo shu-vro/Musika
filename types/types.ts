@@ -66,3 +66,17 @@ export type TAudioMetadataField =
     | "lyrics"
     | "src"
     | "duration";
+
+export type TSettingsArray = {
+    title: string;
+    settings: ISetting[];
+}[];
+
+export interface ISetting {
+    title: string;
+    description: string;
+    operation: {
+        [x: string]: any;
+    };
+    callback: () => void;
+}

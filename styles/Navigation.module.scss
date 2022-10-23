@@ -45,7 +45,7 @@
         font-size: 2rem;
         font-weight: bold;
         font-family: "Zen Dots", cursive;
-        background: linear-gradient(90deg, #ec2f4b, #009fff);
+        background: var(--text-gradient);
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
