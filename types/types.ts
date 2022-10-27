@@ -69,14 +69,12 @@ export type TAudioMetadataField =
 
 export type TSettingsArray = {
     title: string;
-    settings: ISetting[];
+    settings: {
+        title: string;
+        description: string;
+        operation: {
+            [x: string]: any;
+        };
+        callback: (newValue: unknown) => void;
+    }[];
 }[];
-
-export interface ISetting {
-    title: string;
-    description: string;
-    operation: {
-        [x: string]: any;
-    };
-    callback: () => void;
-}

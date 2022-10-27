@@ -15,11 +15,20 @@ const darkTheme = createTheme({
         MuiIconButton: {
             defaultProps: {
                 centerRipple: false,
-                className: "ripple",
                 sx: () => ({
                     "&.MuiIconButton-root:hover": {
                         background: "none",
                     },
+                    "& .MuiTouchRipple-child": {
+                        backgroundColor: `white !important`,
+                    },
+                }),
+            },
+        },
+        MuiButton: {
+            defaultProps: {
+                sx: () => ({
+                    color: "brown",
                     "& .MuiTouchRipple-child": {
                         backgroundColor: `white !important`,
                     },
