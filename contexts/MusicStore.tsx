@@ -67,7 +67,7 @@ export function useMusicStore(): {
     /**
      * Takes a song as argument and deletes it from queue.
      * @param {IAudioMetadata} song - to delete
-     * @param {boolean} fromTrack - if to delete it from musicStore also. (optional)
+     * @param {boolean} fromTrack - whether to delete it from musicStore also. Defaults to false. (optional)
      */
     deleteTrack?: (song: IAudioMetadata, fromTrack?: boolean) => void;
 } {

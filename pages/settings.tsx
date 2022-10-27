@@ -21,7 +21,7 @@ import TreeItem, { TreeItemContentProps, useTreeItem } from "@mui/lab/TreeItem";
 import { FaBars } from "react-icons/fa";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
 import Link from "next/link";
-import { ISetting, TSettingsArray } from "@ts/types";
+import { TSettingsArray } from "@ts/types";
 
 const drawerWidth = 240;
 

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useState } from "react";
 import { MdOutlineQueuePlayNext } from "react-icons/md";
 import { useRouter } from "next/router";
 import { GiMusicalScore } from "react-icons/gi";
@@ -10,8 +10,8 @@ import { normalizeTimeFormat } from "@utils/utils";
 import { IAudioMetadata } from "@ts/types";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import MoreButton from "./MoreButton";
-import { useMusicStore } from "@contexts/MusicStore";
 import defaultImage from "@assets/disk.png";
+import ConfirmDelete from "./ConfirmDelete";
 
 interface SongListProps extends HTMLAttributes<HTMLDivElement> {
     song: IAudioMetadata;
@@ -38,7 +38,7 @@ export default function SongList({
         value: selectedMusic,
     } = useSelectMusic();
     const router = useRouter();
-    const { deleteTrack } = useMusicStore();
+    const [open, setOpen] = useState(false);
 
     const buttons = [
         {
@@ -98,7 +98,7 @@ export default function SongList({
             name: "Delete",
             icon: <AiOutlineDelete size="1.3rem" />,
             cb: () => {
-                deleteTrack(song, true);
+                setOpen(true);
             },
         },
     ];
@@ -131,6 +131,7 @@ export default function SongList({
                 </>
             )}
             <MoreButton buttons={buttons} />
+            <ConfirmDelete song={song} open={open} setOpen={setOpen} />
         </div>
     );
 }

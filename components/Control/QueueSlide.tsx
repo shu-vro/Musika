@@ -19,15 +19,6 @@ import { useMusicStore } from "@contexts/MusicStore";
 import styles from "@styles/Songs.module.scss";
 import defaultImage from "@assets/disk.png";
 
-const Transition = forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>
-) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
 export default function QueueSlide({ open, setOpen }) {
     const { queue, setQueue } = useMusicStore();
 
