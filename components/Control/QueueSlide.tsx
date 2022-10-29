@@ -18,6 +18,7 @@ import MoreButton from "../Index/MoreButton";
 import { useMusicStore } from "@contexts/MusicStore";
 import styles from "@styles/Songs.module.scss";
 import defaultImage from "@assets/disk.png";
+import Image from "next/image";
 
 export default function QueueSlide({ open, setOpen }) {
     const { queue, setQueue } = useMusicStore();
@@ -184,10 +185,11 @@ function QueueSongList({ song, cb = () => null, ...rest }: QuerySongListProps) {
         >
             <MdOutlineDragIndicator className="handle" size="2rem" />
             <div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                    src={song.picture?.["92x92"] || defaultImage.src}
+                <Image
+                    src={song.thumbnail?.["92x92"] || defaultImage}
                     alt={song.trackName}
+                    width={70}
+                    height={70}
                 />
                 <div className={styles["song-title"]}>{song.trackName}</div>
             </div>

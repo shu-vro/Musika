@@ -7,6 +7,7 @@ import { useMusicStore } from "@contexts/MusicStore";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
 import SongList from "@components/Index/SongList";
 import Head from "next/head";
+import Image from "next/image";
 
 export default function PlayList() {
     const router = useRouter();
@@ -37,19 +38,20 @@ export default function PlayList() {
         <>
             <Head>
                 <title>
-                    {pid} - {name} - MUSIKA
+                    {pid ? pid : ""} - {name ? pid : ""} - MUSIKA
                 </title>
             </Head>
             <MainBody title="Songs">
                 <div className={styles.songs}>
                     <div className={styles.image}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image
                             src={
-                                queue?.[0]?.picture?.["original"] ||
-                                defaultImage.src
+                                queue?.[0]?.thumbnail?.["original"] ||
+                                defaultImage
                             }
                             alt="song"
+                            width={300}
+                            height={300}
                         />
                         <div>
                             <p>{pid}</p>

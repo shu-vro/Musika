@@ -8,6 +8,7 @@ import { FiExternalLink } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
 import { useRouter } from "next/router";
 import MoreButton from "@components/Index/MoreButton";
+import Image from "next/image";
 
 export default function Playing() {
     const selectedMusic = useSelectMusic().value;
@@ -62,7 +63,7 @@ export default function Playing() {
     return (
         <>
             <Head>
-                <title>Playing - {selectedMusic?.trackName}</title>
+                <title>Playing - {selectedMusic?.trackName ? selectedMusic.trackName : ""}</title>
             </Head>
             <MainBody title="Playing">
                 <div className={styles.playing}>
@@ -78,12 +79,13 @@ export default function Playing() {
                         </span>
                     </h1>
                     <p>{selectedMusic?.artist}</p>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                         src={
-                            selectedMusic?.picture?.["original"] ||
+                            selectedMusic?.thumbnail?.["original"] ||
                             defaultImage.src
                         }
+                        width={100}
+                        height={100}
                         alt={selectedMusic?.trackName}
                     />
                 </div>

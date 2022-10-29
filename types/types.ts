@@ -8,7 +8,7 @@ export interface IAudioMetadata {
     genre: string;
     path: string;
     size: number;
-    picture: Object;
+    thumbnail: Object;
     album: string;
     format: string;
     lyrics: string;
@@ -24,7 +24,7 @@ export interface IAudioOptionalMetadata {
     genre?: string;
     path?: string;
     size?: number;
-    picture?: Object;
+    thumbnail?: Object;
     album?: string;
     format?: string;
     lyrics?: string;
@@ -60,7 +60,7 @@ export type TAudioMetadataField =
     | "genre"
     | "path"
     | "size"
-    | "picture"
+    | "thumbnail"
     | "album"
     | "format"
     | "lyrics"

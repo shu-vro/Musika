@@ -6,6 +6,7 @@ import styles from "@styles/Home.module.scss";
 import { useMusicStore } from "@contexts/MusicStore";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import { useLoading } from "@contexts/Loading";
+import axios from "axios";
 
 export default function Lyrics() {
     const route = useRouter();
@@ -28,18 +29,21 @@ export default function Lyrics() {
 
         setLoading(true);
 
-        fetch(
-            `/api/lyrics?song=${song}&artist=${artist.replace("unknown", "")}`
-        )
-            .then(r => r.json())
-            .then((r: any) => {
-                setRes(r.lyrics);
+        axios
+            .get(
+                `/api/lyrics?song=${song}&artist=${artist.replace(
+                    "unknown",
+                    ""
+                )}`
+            )
+            .then(({ data }) => {
+                setRes(data.lyrics);
                 musicStore.setUsingId(id as string, {
-                    lyrics: r.lyrics,
+                    lyrics: data.lyrics,
                 });
                 selectedMusic.setValue(prev => {
                     let temp = { ...prev };
-                    temp.lyrics = r.lyrics;
+                    temp.lyrics = data.lyrics;
                     return temp;
                 });
                 setLoading(false);
@@ -55,7 +59,7 @@ export default function Lyrics() {
         <>
             <Head>
                 <title>
-                    Lyrics - {route.query?.song} by {route.query?.artist}
+                    Lyrics - {route.query?.song ? route.query.song : ""} by {route.query?.artist ? route.query.artist : ""}
                 </title>
             </Head>
             <MainBody title="Lyrics">

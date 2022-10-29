@@ -82,8 +82,8 @@ export function object_equals(x, y) {
         if (!x.hasOwnProperty(p)) continue;
         // other properties were tested using x.constructor === y.constructor
 
-        if (p === "picture") continue;
-        // Picture is a constant array. This will never change. So omitting it
+        if (p === "thumbnail") continue;
+        // thumbnail is a constant array. This will never change. So omitting it
 
         if (!y.hasOwnProperty(p)) return false;
         // allows to compare x[ p ] and y[ p ] when set to undefined

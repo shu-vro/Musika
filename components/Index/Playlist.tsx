@@ -21,11 +21,10 @@ export default function Playlist() {
                             .map((a, i) => (
                                 <Image
                                     src={
-                                        musicStore?.[i]?.picture?.["92x92"] ||
+                                        musicStore?.[i]?.thumbnail?.["92x92"] ||
                                         defaultImage
                                     }
                                     alt="playlist"
-                                    objectFit="contain"
                                     width={65}
                                     height={65}
                                     key={i}

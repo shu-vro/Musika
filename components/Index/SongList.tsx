@@ -5,6 +5,7 @@ import { GiMusicalScore } from "react-icons/gi";
 import { FiExternalLink } from "react-icons/fi";
 import { BsInfoCircle } from "react-icons/bs";
 import { AiOutlineDelete } from "react-icons/ai";
+import Image from "next/image";
 import styles from "@styles/Songs.module.scss";
 import { normalizeTimeFormat } from "@utils/utils";
 import { IAudioMetadata } from "@ts/types";
@@ -113,10 +114,11 @@ export default function SongList({
             {...rest}
         >
             <div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                    src={song.picture?.["92x92"] || defaultImage.src}
+                <Image
+                    src={song.thumbnail?.["92x92"] || defaultImage}
                     alt={song.trackName}
+                    width={70}
+                    height={70}
                 />
                 <div className={styles["song-title"]}>{song.trackName}</div>
             </div>

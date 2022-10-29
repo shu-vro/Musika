@@ -54,7 +54,7 @@ export default function ControlSection() {
                         album: selectedMusic?.album,
                         artwork: [
                             {
-                                src: selectedMusic?.picture?.["92x92"],
+                                src: selectedMusic?.thumbnail?.["92x92"],
                             },
                         ],
                     });

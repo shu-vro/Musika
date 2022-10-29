@@ -4,6 +4,7 @@ import disk from "@assets/disk.png";
 import styles from "@styles/ControlPanel.module.scss";
 import { useSelectMusic } from "@contexts/SelectMusic";
 import { useMusicStore } from "@contexts/MusicStore";
+import Image from "next/image";
 
 export default function NameSection() {
     const { value: selectedMusic, setValue: setSelectedMusic } =
@@ -23,10 +24,11 @@ export default function NameSection() {
     }
     return (
         <div className={styles["name-section"]}>
-            {/*eslint-disable-next-line @next/next/no-img-element*/}
-            <img
-                src={selectedMusic?.picture?.["92x92"] || disk.src}
+            <Image
+                src={selectedMusic?.thumbnail?.["92x92"] || disk.src}
                 alt={selectedMusic?.trackName || "track thumbnail"}
+                width={80}
+                height={80}
             />
             <div className={styles.details}>
                 {/* @ts-ignore */}

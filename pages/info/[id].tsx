@@ -23,6 +23,7 @@ import { useSelectMusic } from "@contexts/SelectMusic";
 import { normalizeTimeFormat } from "@utils/utils";
 import numeral from "numeral";
 import Head from "next/head";
+import Image from "next/image";
 
 function capitalizeFirstLetter(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -62,7 +63,10 @@ export default function Id() {
     return (
         <>
             <Head>
-                <title>Music Details - {song?.trackName} - MUSIKA</title>
+                <title>
+                    Music Details - {song?.trackName ? song.trackName : ""} -
+                    MUSIKA
+                </title>
             </Head>
             <MainBody title="Music Details">
                 {message && (
@@ -79,7 +83,7 @@ export default function Id() {
                     </Alert>
                 )}
                 <DisplayImage
-                    src={song?.picture?.["original"] || defaultImage.src}
+                    src={song?.thumbnail?.["original"] || defaultImage}
                     alt={song?.trackName || "Track Thumbnail"}
                 />
 
@@ -130,7 +134,7 @@ export default function Id() {
                                         }
                                         if (
                                             key.match(
-                                                /^picture$|^src$|^loved$|^lyrics$|^id$/
+                                                /^thumbnail$|^src$|^loved$|^lyrics$|^id$/
                                             )
                                         )
                                             return;
@@ -207,8 +211,7 @@ export default function Id() {
 function DisplayImage({ src, alt }) {
     return (
         <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
                 src={src}
                 alt={alt}
                 style={{
@@ -216,6 +219,8 @@ function DisplayImage({ src, alt }) {
                     display: "block",
                     margin: `0 auto`,
                 }}
+                width={300}
+                height={300}
             />
         </>
     );

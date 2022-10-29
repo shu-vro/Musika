@@ -88,8 +88,8 @@ export default function Settings() {
 
     const drawer = (
         <div>
-            <Link href="/" passHref>
-                <a className={styles.logo}>MUSIKA</a>
+            <Link href="/" className={styles.logo}>
+                MUSIKA
             </Link>
             <Divider />
             <TreeView

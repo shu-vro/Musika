@@ -20,7 +20,7 @@ import Link from "next/link";
 export default function Navigation() {
     const shrink = useShrinkNavigation();
     const router = useRouter();
-    const { setValue: setMusicStore } = useMusicStore();
+    const { setValue: setMusicStore, value: musicStore } = useMusicStore();
     const { setValue: setLoading } = useLoading();
 
     const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +65,7 @@ export default function Navigation() {
                         genre: "unknown",
                         path: "App Cache",
                         size: file.size,
-                        picture: {},
+                        thumbnail: {},
                         album: "unknown",
                         format: file.type,
                         lyrics: "",
@@ -88,7 +88,7 @@ export default function Navigation() {
                             res.genre = media.tags?.title
                                 ? media.tags.genre.trim()
                                 : "unknown";
-                            res.picture = extractThumbnailFromAudio(
+                            res.thumbnail = extractThumbnailFromAudio(
                                 media.tags.picture
                             );
                             getDuration(res.src);
@@ -98,6 +98,14 @@ export default function Navigation() {
                             getDuration(res.src);
                         },
                     });
+                    
+                    setTimeout(() => {
+                        if (musicStore.findIndex(e=> {
+                            e.id === res.id
+                        }) === -1) {
+                            getDuration(res.src)
+                        }
+                    }, 30000);
                 })
                 .catch(e => {
                     alert(`failed to upload file ${file.name}`);
@@ -112,8 +120,8 @@ export default function Navigation() {
             <div
                 className={`${styles.nav} ${shrink.value ? styles.shrink : ""}`}
             >
-                <Link href="/" passHref>
-                    <a className={styles.logo}>MUSIKA</a>
+                <Link href="/" className={styles.logo}>
+                    MUSIKA
                 </Link>
                 <input
                     type="file"

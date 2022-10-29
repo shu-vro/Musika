@@ -25,7 +25,7 @@ export function useMusicStore(): {
     /**
      * Set new [IArrayAudioMetaData](../types/types.ts) from given id of an individual [IAudioMetaData.id](../types/types.ts)
      * @param {string} id of the track
-     * @param {IAudioOptionalMetadata} setters object. the values that should be changed to that Id. Should not change `id`, `picture`, `src`
+     * @param {IAudioOptionalMetadata} setters object. the values that should be changed to that Id. Should not change `id`, `thumbnail`, `src`
      * @return void
      */
     setUsingId?: (id: string, setters: IAudioOptionalMetadata) => void;
@@ -42,7 +42,7 @@ export function useMusicStore(): {
     getFromMultipleIds?: (array: Array<IDBValidKey>) => IArrayAudioMetaData;
     /** Find Value from any object inside the music store
      *
-     * It does not match `picture`, `src`, `loved`, `lyrics`, `id`, `format`, `duration` fields
+     * It does not match `thumbnail`, `src`, `loved`, `lyrics`, `id`, `format`, `duration` fields
      * @param {String} search - a value in `IAudioMetadata` that might exist in `IArrayAudioMetaData`
      * @example
      * ```
@@ -124,7 +124,7 @@ export function MusicStoreContext({ children }) {
                 if (Object.prototype.hasOwnProperty.call(setters, key)) {
                     const value = setters[key];
 
-                    if (key.match(/^id$|^picture$|^src$/))
+                    if (key.match(/^id$|^thumbnail$|^src$/))
                         return console.log(
                             "Attempt to change immutable data. Skipping: " + key
                         );
