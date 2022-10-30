@@ -40,6 +40,36 @@ export default function Playlist() {
                     </div>
                 </div>
             </Link>
+            <Link href="/playlist/store">
+                <div
+                    className={`ripple ${styles.playlist}`}
+                    onClick={() => setQueue(musicStore)}
+                >
+                    <div className={styles.image}>
+                        {Array(4)
+                            .fill("")
+                            .map((a, i) => (
+                                <Image
+                                    src={
+                                        musicStore?.[i]?.thumbnail?.["92x92"] ||
+                                        defaultImage
+                                    }
+                                    alt="playlist"
+                                    width={65}
+                                    height={65}
+                                    key={i}
+                                />
+                            ))}
+                    </div>
+                    <div className={styles["playlist-title"]}>All</div>
+                    <div className={styles["playlist-description"]}>
+                        All of your musics
+                    </div>
+                    <div className={styles["playCursor"]}>
+                        <BsPlayCircle size="4rem" />
+                    </div>
+                </div>
+            </Link>
             <div className={`ripple ${styles.playlist}`}>
                 <div className={styles["playCursor"]}>
                     <IoIosAddCircleOutline size="4rem" color="#aaa" />

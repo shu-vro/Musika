@@ -41,7 +41,7 @@ export default async function handler(
                             trackName: item.title,
                             artist: item.author.name,
                             thumbnail: {
-                                "96x96": item.thumbnails[1]?.url
+                                "92x92": item.thumbnails[1]?.url
                                     ? item.thumbnails[1].url
                                     : item.thumbnails[0]?.url,
                                 original: item.bestThumbnail?.url,
