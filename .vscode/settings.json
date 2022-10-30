@@ -4,7 +4,8 @@
         "MUSIKA",
         "sortablejs",
         "Swipeable",
-        "Swiper"
+        "Swiper",
+        "ytsr"
     ],
     "typescript.tsdk": "node_modules/typescript/lib"
 }

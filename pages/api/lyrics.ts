@@ -4,11 +4,11 @@ import { NextApiRequest } from "next";
 
 export default async function handler(req: NextApiRequest, res) {
     const { song, artist } = req.query;
-    let lyrics = "No lyrics found";
+    let lyrics = "No lyrics found in database";
     if (typeof song !== "string" || typeof artist !== "string")
         res.status(200).json({ lyrics });
     try {
-        lyrics = await lf(song, artist) || "No lyrics found";
+        lyrics = await lf(song, artist) || "No lyrics found in database";
     } catch (e) {
         console.log(e);
     }
