@@ -82,11 +82,18 @@ export default function Id() {
                         {message}
                     </Alert>
                 )}
-                <DisplayImage
+                <Image
                     src={song?.thumbnail?.["original"] || defaultImage}
                     alt={song?.trackName || "Track Thumbnail"}
+                    style={{
+                        width: `auto`,
+                        height: "300px",
+                        display: "block",
+                        margin: `0 auto`,
+                    }}
+                    width={300}
+                    height={300}
                 />
-
                 {Object.keys(song).length && (
                     <TableContainer
                         sx={{
@@ -101,6 +108,7 @@ export default function Id() {
                             <TableBody>
                                 {Object.entries(song).map(
                                     ([key, value]: [string, string]) => {
+                                        // JUST FOR LOVED PARAMETER
                                         if (key === "loved") {
                                             return (
                                                 <TableRow key={key}>
@@ -162,7 +170,7 @@ export default function Id() {
                                                         ? numeral(value).format(
                                                               "0.00b"
                                                           )
-                                                        : value}
+                                                        : String(value)}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -204,24 +212,6 @@ export default function Id() {
                     </TableContainer>
                 )}
             </MainBody>
-        </>
-    );
-}
-
-function DisplayImage({ src, alt }) {
-    return (
-        <>
-            <Image
-                src={src}
-                alt={alt}
-                style={{
-                    width: `300px`,
-                    display: "block",
-                    margin: `0 auto`,
-                }}
-                width={300}
-                height={300}
-            />
         </>
     );
 }

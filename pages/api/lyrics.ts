@@ -4,13 +4,19 @@ import { NextApiRequest } from "next";
 
 export default async function handler(req: NextApiRequest, res) {
     const { song, artist } = req.query;
-    let lyrics = "No lyrics found in database";
     if (typeof song !== "string" || typeof artist !== "string")
-        res.status(200).json({ lyrics });
+        res.status(422).json({ lyrics: "Invalid Parameters", fetched: false });
     try {
-        lyrics = await lf(song, artist) || "No lyrics found in database";
+        let lyrics = await lf(song, artist);
+        if (lyrics != "") {
+            res.status(200).json({ lyrics, fetched: true });
+            return;
+        }
+        return res
+            .status(200)
+            .json({ lyrics: "No lyrics found in database", fetched: false });
     } catch (e) {
         console.log(e);
+        res.status(404).json({ lyrics: "error ocurred" });
     }
-    res.status(200).json({ lyrics });
 }

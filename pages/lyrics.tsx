@@ -27,30 +27,47 @@ export default function Lyrics() {
         )
             return;
 
-        setLoading(true);
-
-        axios
-            .get(
-                `/api/lyrics?song=${song}&artist=${artist.replace(
-                    "unknown",
-                    ""
-                )}`
-            )
-            .then(({ data }) => {
-                setRes(data.lyrics);
-                musicStore.setUsingId(id as string, {
-                    lyrics: data.lyrics,
+        (async () => {
+            setLoading(true);
+            try {
+                let { data } = await axios.get(`/api/lyrics`, {
+                    params: {
+                        song,
+                        artist: "",
+                    },
                 });
-                selectedMusic.setValue(prev => {
-                    let temp = { ...prev };
-                    temp.lyrics = data.lyrics;
-                    return temp;
-                });
+                if (data.fetched) {
+                    setRes(data.lyrics);
+                    musicStore.setUsingId(id as string, {
+                        lyrics: data.lyrics,
+                    });
+                    selectedMusic.setValue(prev => {
+                        let temp = { ...prev };
+                        temp.lyrics = data.lyrics;
+                        return temp;
+                    });
+                } else {
+                    let { data } = await axios.get(`/api/lyrics`, {
+                        params: {
+                            song,
+                            artist: artist.replace("unknown", ""),
+                        },
+                    });
+                    setRes(data.lyrics);
+                    musicStore.setUsingId(id as string, {
+                        lyrics: data.lyrics,
+                    });
+                    selectedMusic.setValue(prev => {
+                        let temp = { ...prev };
+                        temp.lyrics = data.lyrics;
+                        return temp;
+                    });
+                }
                 setLoading(false);
-            })
-            .catch(() => {
+            } catch (e) {
                 setLoading(false);
-            });
+            }
+        })();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [route]);
@@ -59,7 +76,8 @@ export default function Lyrics() {
         <>
             <Head>
                 <title>
-                    Lyrics - {route.query?.song ? route.query.song : ""} by {route.query?.artist ? route.query.artist : ""}
+                    Lyrics - {route.query?.song ? route.query.song : ""} by{" "}
+                    {route.query?.artist ? route.query.artist : ""}
                 </title>
             </Head>
             <MainBody title="Lyrics">

@@ -1,21 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MainBody from "@components/MainBody";
 import defaultImage from "../../assets/photo.jpg";
 import styles from "@styles/Songs.module.scss";
 import { useRippleRefresh } from "@contexts/RippleRefresh";
 import Head from "next/head";
 import Image from "next/image";
-import { BsInfoCircle, BsCloudDownload } from "react-icons/bs";
-import { useRouter } from "next/router";
-import { normalizeTimeFormat } from "@utils/utils";
-import MoreButton from "@components/Index/MoreButton";
-import { GiMusicalScore } from "react-icons/gi";
-import { IconButton } from "@mui/material";
 import ytsr from "ytsr";
-import { IAudioMetadata } from "@ts/types";
+import { IArrayAudioMetaData, IAudioMetadata } from "@ts/types";
 import numeral from "numeral";
-import axios from "axios";
-import { _arrayBufferToBase64 } from "@utils/utils";
+import StoreSongList from "@components/Store/StoreSongList";
 import { useMusicStore } from "@contexts/MusicStore";
 
 export async function getStaticProps() {
@@ -52,13 +45,14 @@ export async function getStaticProps() {
                         },
                         duration: numeral(item.duration).value(),
                         loved: false,
-                        path: "youtube",
+                        path: item.url,
                         lyrics: "",
                         format: "audio/mp3",
                         size: 10000,
                         src: "",
-                        album: "unknown",
+                        album: "youtube",
                         genre: "unknown",
+                        downloaded: false,
                     } as IAudioMetadata;
                 }
             });
@@ -73,8 +67,9 @@ export async function getStaticProps() {
     };
 }
 
-export default function PlayList({ data }) {
+export default function PlayList({ data }: { data: IArrayAudioMetaData }) {
     const rippleRefresh = useRippleRefresh();
+    const { value: musicStore } = useMusicStore();
 
     useEffect(() => {
         rippleRefresh.refresh();
@@ -113,98 +108,22 @@ export default function PlayList({ data }) {
                             <h1>Online Store</h1>
                         </div>
                     </div>
-                    {data.map(song => (
-                        <StoreSongList
-                            key={song.id}
-                            song={song}
-                            cb={() => {}}
-                        />
-                    ))}
+                    {data
+                        .filter(
+                            // exclude downloaded
+                            e =>
+                                musicStore.findIndex(e2 => e2.id === e.id) ===
+                                -1
+                        )
+                        .map(song => (
+                            <StoreSongList
+                                key={song.id}
+                                song={song}
+                                cb={() => {}}
+                            />
+                        ))}
                 </div>
             </MainBody>
         </>
-    );
-}
-
-export function StoreSongList({ song, cb = () => null, ...rest }) {
-    const router = useRouter();
-    const { setValue: setMusicStore } = useMusicStore();
-
-    const buttons = [
-        {
-            name: "Music Details",
-            icon: <BsInfoCircle size="1.3rem" />,
-            cb: () => {
-                router.push(`/info/song?musicId=${song?.id}`);
-            },
-        },
-        {
-            name: "Lyrics",
-            icon: <GiMusicalScore size="1.3rem" />,
-            cb: () => {
-                router.push({
-                    pathname: "/lyrics",
-                    query: {
-                        song: song?.trackName ?? "",
-                        artist: "",
-                        id: song?.id ?? "",
-                        lyrics: song?.lyrics ?? "",
-                    },
-                });
-            },
-        },
-    ];
-    return (
-        <div
-            className={`ripple ${styles.song}`}
-            key={song.id}
-            onClick={() => {
-                cb();
-            }}
-            {...rest}
-        >
-            <div>
-                <Image
-                    src={song.thumbnail?.["92x92"] || defaultImage}
-                    alt={song.trackName}
-                    width={70}
-                    height={70}
-                />
-                <div className={styles["song-title"]}>{song.trackName}</div>
-            </div>
-            <i className={styles["song-artist"]}>{song.artist}</i>
-            <b>{normalizeTimeFormat(song.duration)}</b>
-            <IconButton
-                sx={{ ml: 2 }}
-                onClick={async () => {
-                    try {
-                        const res = await axios.get(
-                            `/api/loadSongs?id=${song.id}`,
-                            { responseType: "arraybuffer" }
-                        );
-                        const src = _arrayBufferToBase64(
-                            res.data,
-                            "audio/mpeg"
-                        );
-                        let newSong = { ...song, src };
-                        setMusicStore(prev => {
-                            let idExists = prev.findIndex(
-                                e => e.id === song.id
-                            );
-                            console.log(idExists, newSong);
-                            if (idExists !== -1) {
-                                return prev;
-                            }
-                            return [...prev, newSong];
-                        });
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }}
-            >
-                <BsCloudDownload size="2rem" />
-            </IconButton>
-            <MoreButton buttons={buttons} />
-        </div>
     );
 }
