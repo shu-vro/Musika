@@ -61,9 +61,9 @@ export default function Playlist() {
                                 />
                             ))}
                     </div>
-                    <div className={styles["playlist-title"]}>All</div>
+                    <div className={styles["playlist-title"]}>Store</div>
                     <div className={styles["playlist-description"]}>
-                        All of your musics
+                        Find music from online
                     </div>
                     <div className={styles["playCursor"]}>
                         <BsPlayCircle size="4rem" />
@@ -72,7 +72,7 @@ export default function Playlist() {
             </Link>
             <div className={`ripple ${styles.playlist}`}>
                 <div className={styles["playCursor"]}>
-                    <IoIosAddCircleOutline size="4rem" color="#aaa" />
+                    <IoIosAddCircleOutline size="4rem" />
                 </div>
                 <div className={styles["playlist-title"]}>Add</div>
             </div>

@@ -38,21 +38,33 @@ export default function PlayList() {
         <>
             <Head>
                 <title>
-                    {pid ? pid : ""} - {name ? pid : ""} - MUSIKA
+                    {router.query?.pid ? pid : ""} -{" "}
+                    {router.query?.name ? name : ""} - MUSIKA
                 </title>
             </Head>
             <MainBody title="Songs">
-                <div className={styles.songs}>
+                <div
+                    className={styles.songs}
+                    style={{
+                        height: `calc(100% - 75px)`,
+                    }}
+                >
                     <div className={styles.image}>
-                        <Image
-                            src={
-                                queue?.[0]?.thumbnail?.["original"] ||
-                                defaultImage
-                            }
-                            alt="song"
-                            width={800}
-                            height={800}
-                        />
+
+                        {Array(4)
+                            .fill("")
+                            .map((a, i) => (
+                                <Image
+                                    src={
+                                        queue?.[i]?.thumbnail?.["original"] ||
+                                        defaultImage
+                                    }
+                                    alt="playlist"
+                                    width={800}
+                                    height={800}
+                                    key={i}
+                                />
+                            ))}
                         <div>
                             <p>{pid}</p>
                             <h1>{name}</h1>

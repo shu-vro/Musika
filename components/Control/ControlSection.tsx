@@ -35,13 +35,7 @@ export default function ControlSection() {
 
         audio.volume = volume / 100;
     }, [volume]);
-
-    useEffect(() => {
-        setInterval(() => {
-            setCurrentTime(Math.floor(audioRef.current?.currentTime || 0));
-        }, 1000);
-    }, []);
-
+    
     useEffect(() => {
         (async () => {
             try {
@@ -102,6 +96,9 @@ export default function ControlSection() {
                                 return temp;
                             });
                         }
+                    }}
+                    onTimeUpdate={e => {
+                        setCurrentTime(Math.floor(e.currentTarget.currentTime || 0));
                     }}
                 />
                 <div className={styles["control-buttons"]}>
