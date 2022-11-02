@@ -98,14 +98,6 @@ export default function Navigation() {
                             getDuration(res.src);
                         },
                     });
-                    
-                    setTimeout(() => {
-                        if (musicStore.findIndex(e=> {
-                            e.id === res.id
-                        }) === -1) {
-                            getDuration(res.src)
-                        }
-                    }, 30000);
                 })
                 .catch(e => {
                     alert(`failed to upload file ${file.name}`);

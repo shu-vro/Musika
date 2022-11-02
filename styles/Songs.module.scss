@@ -99,9 +99,15 @@
                 display: inline-block;
                 font-weight: 600;
                 width: 100%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+
+                @media screen and (max-width: 386px) {
+                    & {
+                        font-size: 14px;
+                    }
+                }
+                // white-space: nowrap;
+                // overflow: hidden;
+                // text-overflow: ellipsis;
             }
         }
 
