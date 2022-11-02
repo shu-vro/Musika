@@ -15,7 +15,6 @@ export default async function handler(
         const url = `https://www.youtube.com/watch?v=${id}`
         res.setHeader('content-type', "audio/mpeg");
         await ytdl(url, {
-            format: 'mp3',
             filter: 'audioonly',
         }).pipe(res);
       } catch(err){
