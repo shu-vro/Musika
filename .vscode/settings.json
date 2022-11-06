@@ -5,6 +5,7 @@
         "sortablejs",
         "Swipeable",
         "Swiper",
+        "ytdl",
         "ytsr"
     ],
     "typescript.tsdk": "node_modules/typescript/lib"

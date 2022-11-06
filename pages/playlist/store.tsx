@@ -14,7 +14,7 @@ import { useMusicStore } from "@contexts/MusicStore";
 export async function getStaticProps() {
     let searchResults = [];
     try {
-        let searched = await ytsr("music", {
+        let searched = await ytsr("new music", {
             limit: 100,
         });
         const uniqueIds = new Set();
@@ -65,6 +65,35 @@ export async function getStaticProps() {
         },
         revalidate: 86400, // In seconds -> 1 day
     };
+}
+
+export async function getStaticPaths() {
+    let searched = await ytsr("new music", {
+        limit: 100,
+    });
+    const uniqueIds = new Set();
+    let paths = searched.items
+        .filter(item => {
+            if (item.type === "video") {
+                const isDuplicate = uniqueIds.has(item.id);
+                uniqueIds.add(item.id);
+                return (
+                    item.duration &&
+                    numeral(item.duration).value()! < 600 &&
+                    !item.isLive &&
+                    !isDuplicate
+                );
+            }
+        })
+        .map(item => {
+            if (item.type === "video") {
+                return {
+                    params: { id: item.id },
+                };
+            }
+        });
+
+    return { paths, fallback: "blocking" };
 }
 
 export default function PlayList({ data }: { data: IArrayAudioMetaData }) {

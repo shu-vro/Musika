@@ -11,12 +11,15 @@ import Image from "next/image";
 import defaultImage from "../../assets/photo.jpg";
 import { _arrayBufferToBase64 } from "@utils/utils";
 import { useEffect, useState } from "react";
+import { useSnackbar } from "notistack";
+import { IAudioMetadata } from "@ts/types";
 
 export default function StoreSongList({ song, cb = () => null, ...rest }) {
     const router = useRouter();
     const { value: musicStore, setValue: setMusicStore } = useMusicStore();
     const [downloading, setDownloading] = useState(false);
     const [downloadProgress, setDownloadProgress] = useState(0);
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         if (downloading) {
@@ -107,14 +110,31 @@ export default function StoreSongList({ song, cb = () => null, ...rest }) {
                                 res.data,
                                 "audio/mpeg"
                             );
-                            let newSong = { ...song, src, downloaded: true };
+                            let newSong: IAudioMetadata = {
+                                ...song,
+                                src,
+                                downloaded: true,
+                                size: src.length,
+                            };
                             setMusicStore(prev => {
                                 return [...prev, newSong];
                             });
                             setDownloading(false);
+                            enqueueSnackbar(
+                                `${newSong.trackName} Downloaded Successfully!`,
+                                {
+                                    variant: "success",
+                                }
+                            );
                         } catch (e) {
                             console.log(e);
                             setDownloading(false);
+                            enqueueSnackbar(
+                                `There was a problem while downloading ${song.trackName}`,
+                                {
+                                    variant: "error",
+                                }
+                            );
                         }
                     }}
                 >

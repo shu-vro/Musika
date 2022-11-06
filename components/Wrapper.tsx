@@ -4,6 +4,7 @@ import { MusicStoreContext } from "@contexts/MusicStore";
 import { SelectMusicContext } from "@contexts/SelectMusic";
 import { LoadingContext } from "@contexts/Loading";
 import ThemeContext from "@contexts/ThemeProvider";
+import { SnackbarProvider } from "notistack";
 
 export default function Wrapper({ children }) {
     return (
@@ -12,7 +13,9 @@ export default function Wrapper({ children }) {
                 <ShrinkNavigationContext>
                     <RippleRefreshContext>
                         <MusicStoreContext>
-                            <SelectMusicContext>{children}</SelectMusicContext>
+                            <SelectMusicContext>
+                                <SnackbarProvider>{children}</SnackbarProvider>
+                            </SelectMusicContext>
                         </MusicStoreContext>
                     </RippleRefreshContext>
                 </ShrinkNavigationContext>

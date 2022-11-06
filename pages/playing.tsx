@@ -63,7 +63,10 @@ export default function Playing() {
     return (
         <>
             <Head>
-                <title>Playing - {selectedMusic?.trackName ? selectedMusic.trackName : ""}</title>
+                <title>
+                    Playing -{" "}
+                    {selectedMusic?.trackName ? selectedMusic.trackName : ""}
+                </title>
             </Head>
             <MainBody title="Playing">
                 <div className={styles.playing}>
@@ -84,8 +87,8 @@ export default function Playing() {
                             selectedMusic?.thumbnail?.["original"] ||
                             defaultImage.src
                         }
-                        width={100}
-                        height={100}
+                        width={1000}
+                        height={1000}
                         alt={selectedMusic?.trackName}
                     />
                 </div>
