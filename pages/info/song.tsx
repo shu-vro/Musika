@@ -15,7 +15,7 @@ import {
     IconButton,
     TableBody,
 } from "@mui/material";
-import { IAudioMetadata } from "@ts/types";
+import { IAudioMetadata, IAudioOptionalMetadata } from "@ts/types";
 import defaultImage from "../../assets/disk.png";
 import MainBody from "@components/MainBody";
 import { useMusicStore } from "@contexts/MusicStore";
@@ -33,17 +33,26 @@ export default function Id() {
     const router = useRouter();
     const musicStore = useMusicStore();
     const selectedMusic = useSelectMusic();
-    const { musicId } = router.query;
+    const { musicId, payload } = router.query;
     const [message, setMessage] = useState("");
-    let song =
-        musicStore.value.find(value => value.id === musicId) ||
-        ({} as IAudioMetadata);
+    let song: IAudioOptionalMetadata = {};
+    if (!!payload) {
+        let a = new URLSearchParams(payload);
+        console.log(a);
+        // song = JSON.parse(payload as string) || ({} as IAudioOptionalMetadata);
+    } else {
+        song =
+            musicStore.value.find(value => value.id === musicId) ||
+            ({} as IAudioOptionalMetadata);
+    }
 
     useEffect(() => {
-        if (!musicId) setMessage("MusicId Not Provided");
+        if (!musicId && !payload) setMessage("MusicId Not Provided");
+        else setMessage("");
         if (!song) setMessage("Not a valid MusicId");
+        else setMessage("");
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [musicId]);
 
     function handleLoved() {
         if (song?.loved === null || !musicId || !Object.keys(song).length)

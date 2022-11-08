@@ -10,7 +10,7 @@ import styles from "@styles/Songs.module.scss";
 import Image from "next/image";
 import defaultImage from "../../assets/photo.jpg";
 import { _arrayBufferToBase64 } from "@utils/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSnackbar } from "notistack";
 import { IAudioMetadata } from "@ts/types";
 
@@ -18,27 +18,17 @@ export default function StoreSongList({ song, cb = () => null, ...rest }) {
     const router = useRouter();
     const { value: musicStore, setValue: setMusicStore } = useMusicStore();
     const [downloading, setDownloading] = useState(false);
-    const [downloadProgress, setDownloadProgress] = useState(0);
     const { enqueueSnackbar } = useSnackbar();
-
-    useEffect(() => {
-        if (downloading) {
-            let interval = setInterval(() => {
-                setDownloadProgress(prev => prev + 5);
-            }, 500);
-            if (downloadProgress >= 90) {
-                clearInterval(interval);
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [downloading]);
 
     const buttons = [
         {
             name: "Music Details",
             icon: <BsInfoCircle size="1.3rem" />,
             cb: () => {
-                router.push(`/info/song?musicId=${song?.id}`);
+                let sp = new URLSearchParams({
+                    query: JSON.stringify(song),
+                });
+                router.push(`/info/song?payload=${sp.toString()}`);
             },
         },
         {
@@ -80,8 +70,7 @@ export default function StoreSongList({ song, cb = () => null, ...rest }) {
             <b>{normalizeTimeFormat(song.duration)}</b>
             {downloading ? (
                 <CircularProgress
-                    variant="determinate"
-                    value={downloadProgress}
+                    variant="indeterminate"
                     aria-describedby="downloading music"
                     aria-busy={true}
                     size={30}

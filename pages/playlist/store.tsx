@@ -67,36 +67,11 @@ export async function getStaticProps() {
     };
 }
 
-export async function getStaticPaths() {
-    let searched = await ytsr("new music", {
-        limit: 100,
-    });
-    const uniqueIds = new Set();
-    let paths = searched.items
-        .filter(item => {
-            if (item.type === "video") {
-                const isDuplicate = uniqueIds.has(item.id);
-                uniqueIds.add(item.id);
-                return (
-                    item.duration &&
-                    numeral(item.duration).value()! < 600 &&
-                    !item.isLive &&
-                    !isDuplicate
-                );
-            }
-        })
-        .map(item => {
-            if (item.type === "video") {
-                return {
-                    params: { id: item.id },
-                };
-            }
-        });
-
-    return { paths, fallback: "blocking" };
+interface IStoreAudioMetadata extends IAudioMetadata {
+    downloaded: boolean;
 }
 
-export default function PlayList({ data }: { data: IArrayAudioMetaData }) {
+export default function PlayList({ data }: { data: IStoreAudioMetadata[] }) {
     const rippleRefresh = useRippleRefresh();
     const { value: musicStore } = useMusicStore();
 

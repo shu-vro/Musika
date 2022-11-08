@@ -25,7 +25,6 @@ export default function MoreControlButton({
         <>
             <Tooltip title="See more">
                 <IconButton
-                    id="basic-button"
                     aria-controls={open ? "basic-menu" : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
