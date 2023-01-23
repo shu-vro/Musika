@@ -67,7 +67,7 @@ export async function getStaticProps() {
     };
 }
 
-export async function getStaticPaths() {
+/*export async function getStaticPaths() {
     let searched = await ytsr("new music", {
         limit: 100,
     });
@@ -94,7 +94,7 @@ export async function getStaticPaths() {
         });
 
     return { paths, fallback: "blocking" };
-}
+}*/
 
 export default function PlayList({ data }: { data: IArrayAudioMetaData }) {
     const rippleRefresh = useRippleRefresh();
